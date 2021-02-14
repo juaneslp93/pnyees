@@ -1,0 +1,42 @@
+Options +FollowSymLinks
+RewriteEngine On
+Options All -Indexes
+RewriteBase /pnyees/
+
+#RewriteCond %{HTTP_HOST} ^www.midominio.com [NC]
+#RewriteRule ^(.*)$ http://midominio.com/$1 [L,R=301]
+
+#RewriteCond %{HTTP_REFERER} !^http://(.+\.)?midominio\.com/ [NC]
+#RewriteCond %{HTTP_REFERER} !^$
+#RewriteRule .*\.(jpg|gif|bmp|png)$ http://hotlink.midominio.com/no_se_permite_hotlinking.jpg [L]
+
+
+ErrorDocument 404 view/404.php
+
+# Registro
+RewriteRule ^registro$ view/register.php [L]
+
+# Admin
+RewriteRule ^admin/inicio$ view/admin/inicio.php [L]
+
+
+
+
+
+
+RewriteRule ^user/category/(.+)$ /user/contacto.html?id=1 [R=301,L]
+
+# Restricted access to files
+<FilesMatch "((\.(lock|cache|db))|CHANGELOG.md|README.md|^(.*\.config|.*\.example)(.*?))$">
+	# Apache < 2.3
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+		Satisfy All
+	</IfModule>
+
+	# Apache ≥ 2.3
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+</FilesMatch>
