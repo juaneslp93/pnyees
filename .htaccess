@@ -10,14 +10,14 @@ RewriteBase /pnyees/
 #RewriteCond %{HTTP_REFERER} !^$
 #RewriteRule .*\.(jpg|gif|bmp|png)$ http://hotlink.midominio.com/no_se_permite_hotlinking.jpg [L]
 
-
-ErrorDocument 404 view/404.php
+ErrorDocument 404 http://localhost/pnyees/404.php
 
 # Registro
 RewriteRule ^registro$ view/register.php [L]
 
 # Admin
 RewriteRule ^admin/inicio$ view/admin/inicio.php [L]
+RewriteRule ^admin/cerrar$ view/admin/logout.php [L]
 
 
 
