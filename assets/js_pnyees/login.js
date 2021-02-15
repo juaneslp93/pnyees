@@ -13,7 +13,19 @@ procesoEntrada = {
 				data: $("#FormLogin").serialize(),
 			})
 			.done(function(result) {			
-				$("#mensaje").html(result.mensaje);
+				if (result.continue) {
+					Swal.fire({
+					  icon: 'success',
+					  title: '¡Proceso exitoso!',
+					  html: result.mensaje
+					})
+				}else{
+					Swal.fire({
+					  icon: 'error',
+					  title: '¡Ups...!',
+					  html: result.mensaje
+					})
+				}	
 				if (result.url) {
 					window.location = result.url;
 				}				

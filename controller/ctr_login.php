@@ -4,8 +4,7 @@ require '../model/conexion.php';
 require '../model/mdl_login.php';
 #Definición de entradas
 $casos = array(
-	"ingresoSistema",
-	"registroSistema"
+	"ingresoSistema"
 );
 // entrada
 

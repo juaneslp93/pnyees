@@ -14,11 +14,11 @@ class Validaciones
 
 	public static function validar_sesion($value='')
 	{
-		if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER") {
+		if (@$_SESSION["SYSTEM"]["TIPO"]==="MASTER") {
 			header("Location: ".$_SESSION["SYSTEM"]["URL"]);
-		}else if ($_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
+		}else if (@$_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
 			header("Location: ".$_SESSION["SYSTEM"]["URL"]);
-		}else if ($_SESSION["SYSTEM"]["TIPO"]==="USER") {
+		}else if (@$_SESSION["SYSTEM"]["TIPO"]==="USER") {
 			header("Location: ".$_SESSION["SYSTEM"]["URL"]);
 		}else{
 			include "view/login.php";

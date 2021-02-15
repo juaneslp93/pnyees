@@ -21,4 +21,6 @@ class Conexion
 		return $conexion;
 	}
 }
+
+require "setup.php";
 ?>
