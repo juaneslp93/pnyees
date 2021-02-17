@@ -16,13 +16,13 @@ procesoEntrada = {
 				if (result.continue) {
 					Swal.fire({
 					  icon: 'success',
-					  title: '¡Proceso exitoso!',
+					  title: '¡Sesión iniciada!',
 					  html: result.mensaje
 					})
 				}else{
 					Swal.fire({
 					  icon: 'error',
-					  title: '¡Ups...!',
+					  title: '¡Sesión Fallida!',
 					  html: result.mensaje
 					})
 				}	

@@ -9,7 +9,7 @@ $casos = array(
 // entrada
 
 $caso = '';
-if (isset($_POST)) {
+if (!empty($_POST)) {
 	if (in_array($_POST["entrada"], $casos)) {
 		$caso = $_POST["entrada"];
 	}

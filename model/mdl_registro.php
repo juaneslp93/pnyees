@@ -10,7 +10,7 @@ class Registro Extends Conexion
 	}
 
 	public static function registrar_usuario($usuario='', $clave='', $correo='', $telefono=0){
-		$conexion = Conexion::iniciar();
+		$conexion = self::iniciar();
 		$sql = "INSERT INTO usuarios (usuario, clave, correo, telefono, estado) VALUES (?,?,?,?,?)";
 		$sentencia = $conexion->prepare($sql);
 		$sentencia->bind_param('sssis', $usuario, $clave, $correo, $telefono, $estado);
@@ -21,7 +21,7 @@ class Registro Extends Conexion
 		$estado = '1';
 
 		$result = true;
-
+		$mensaje = '';
 		if (!$sentencia->execute()) {
 			$restult = false;
 			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
@@ -98,7 +98,7 @@ class Registro Extends Conexion
 	}
 
 	public static function validar_usuario_registro($usuario=''){
-		$conexion = Conexion::iniciar();
+		$conexion = self::iniciar();
 		$conexion->escape_string($usuario);
 		$sql = "SELECT id, usuario, clave FROM admin WHERE usuario = '$usuario' AND estado = '1'";
 		$consu = $conexion->query($sql);
@@ -113,7 +113,8 @@ class Registro Extends Conexion
 				$tipo = "ADMIN";
 			}
 		}else{
-			$sql = "SELECT id, usuario, clave FROM user WHERE usuario = '$usuario' AND estado = '1'";
+			$sql = "SELECT id, usuario, clave FROM usuarios WHERE usuario = '$usuario' AND estado = '1'";
+			$consu = $conexion->query($sql);
 			if ($consu->num_rows>0) {
 				$row = $consu->fetch_array();
 				$existe = true;

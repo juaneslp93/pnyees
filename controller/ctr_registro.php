@@ -10,7 +10,7 @@ $casos = array(
 // entrada
 
 $caso = '';
-if (isset($_POST)) {
+if (!empty($_POST)) {
 	if (in_array($_POST["entrada"], $casos)) {
 		$caso = $_POST["entrada"];
 	}
@@ -52,6 +52,7 @@ switch ($caso) {
 		if ($continue) {
 			$clave_hash = password_hash($clave, PASSWORD_DEFAULT);
 			$reg = Registro::registrar_usuario($usuario, $clave_hash, $correo, $telefono);
+			
 			if ($reg["estado"]) {
 				$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span>';
 			}else{

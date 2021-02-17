@@ -14,7 +14,8 @@ class Scripts
 		$elementos = array(
 			"fontAwesome"=>'<link href="'.$ruta.'assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">',
 			"fonts.googleapis"=>'<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">',
-			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css" rel="stylesheet">'
+			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css" rel="stylesheet">',
+			"dataTables"=>'<link href="'.$ruta.'assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">'
 		);
 
 		$contenido = '
@@ -45,6 +46,9 @@ class Scripts
 			"chart"=>'<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js"></script>
 					<script src="'.$ruta.'assets/js/demo/chart-area-demo.js"></script>
     				<script src="'.$ruta.'assets/js/demo/chart-pie-demo.js"></script>',
+    		"dataTables"=>'<!-- Page level plugins -->
+				    <script src="'.$ruta.'assets/vendor/datatables/jquery.dataTables.min.js"></script>
+				    <script src="'.$ruta.'assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>'
 		);
 
 		$contenido = '
