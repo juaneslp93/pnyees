@@ -403,7 +403,7 @@ include "../../controller/ctr_scripts.php";
         </div>
     </div>
 
-    <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2")); ?> 
+    <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2","system-user")); ?> 
 </body>
 
 </html>

@@ -71,28 +71,8 @@ include "../../controller/ctr_scripts.php";
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro de cerrar la sesión actual?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Seleccione "Cerrar" si está seguro de continuar.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="cerrar">Cerrar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </body>
-<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables")); ?> 
+<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system")); ?> 
 <script src="../assets/js_pnyees/lista_usuarios.js" type="text/javascript" ></script>  
 <script>
     jQuery(document).ready(function($) {

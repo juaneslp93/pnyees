@@ -44,7 +44,7 @@ include "controller/ctr_scripts.php";
     </div>
     <!-- End of Page Wrapper -->
 
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2")); ?> 
+    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system")); ?> 
     
 </body>
 

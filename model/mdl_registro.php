@@ -9,16 +9,18 @@ class Registro Extends Conexion
 		# code...
 	}
 
-	public static function registrar_usuario($usuario='', $clave='', $correo='', $telefono=0){
+	public static function registrar_usuario($usuario='', $clave='', $correo='', $telefono=0, $nombre='', $apellido=''){
 		$conexion = self::iniciar();
-		$sql = "INSERT INTO usuarios (usuario, clave, correo, telefono, estado) VALUES (?,?,?,?,?)";
+		$sql = "INSERT INTO usuarios (usuario, clave, correo, telefono, estado, nombre, apellido) VALUES (?,?,?,?,?,?,?)";
 		$sentencia = $conexion->prepare($sql);
-		$sentencia->bind_param('sssis', $usuario, $clave, $correo, $telefono, $estado);
+		$sentencia->bind_param('sssisss', $usuario, $clave, $correo, $telefono, $estado, $nombre, $apellido);
 		$usuario = $usuario;
 		$clave = $clave;
 		$correo = $correo;
 		$telefono = $telefono;
 		$estado = '1';
+		$nombre = $nombre;
+		$apellido = $apellido;
 
 		$result = true;
 		$mensaje = '';

@@ -21,6 +21,8 @@ switch ($caso) {
 		$usuario = $_POST["usuario"];
 		$clave = $_POST["clave"];
 		$repita_clave = $_POST["repita_clave"];
+		$nombre = $_POST["nombre"];
+		$apellido = $_POST["apellido"];
 		$correo = $_POST["correo"];
 		$telefono = $_POST["telefono"];
 
@@ -51,7 +53,7 @@ switch ($caso) {
 
 		if ($continue) {
 			$clave_hash = password_hash($clave, PASSWORD_DEFAULT);
-			$reg = Registro::registrar_usuario($usuario, $clave_hash, $correo, $telefono);
+			$reg = Registro::registrar_usuario($usuario, $clave_hash, $correo, $telefono, $nombre, $apellido);
 			
 			if ($reg["estado"]) {
 				$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span>';

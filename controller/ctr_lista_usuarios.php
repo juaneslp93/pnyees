@@ -1,7 +1,7 @@
 <?php 
 session_start();
 require "../model/conexion.php";
-require "../model/ssp.class.pgsql.php";
+require "../model/ssp.php";
 require '../model/mdl_usuarios.php';
 
 $casos = array(
@@ -32,7 +32,13 @@ switch ($caso) {
 			array('db' => 'correo', 'dt'=>1),
 			array('db' => 'telefono', 'dt'=>2),
 			array('db' => 'estado', 'dt'=>3, 'formatter'=>function($val, $row){
-				return (($val)?'<span class="btn btn-success" pull-right> Activo </span>':'<span class="btn btn-danger" pull-right> Inactivo </span>');
+				return (($val)?'
+					<i class="btn btn-success btn-circle btn-lg">
+                        <i class="fa fa-check"></i>
+                    </i>':'
+                    <i class="btn btn-danger btn-circle btn-lg">
+                    	<i class="fa fa-close"></i>
+                    </i>');
 			}),
 			array('db' => 'id', 'dt'=>4, 'formatter'=>function($val, $row){
 				return '
@@ -44,10 +50,10 @@ switch ($caso) {
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript:">Ver detalles</a>
+                            <a class="dropdown-item" href="detalles-usuarios-'.Conexion::encriptar($val, 'Tbl1').'">Ver detalles</a>
                             <a class="dropdown-item" href="javascript:">Editar</a>
                             <hr>
-                            <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.$val.'">Eliminar</a>
+                            <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptar($val, 'Tbl1').'">Eliminar</a>
                         </div>
                     </div>
 				';

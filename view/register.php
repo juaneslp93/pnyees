@@ -40,6 +40,16 @@ include "../controller/ctr_scripts.php";
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user"
+                                            id="nombre" name="nombre" placeholder="Nombre" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" id="apellido" name="apellido"
+                                        placeholder="Apellido" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
                                         <input type="number" class="form-control form-control-user"
                                             id="telefono" name="telefono" placeholder="Teléfono / Celular" required>
                                     </div>
@@ -68,7 +78,7 @@ include "../controller/ctr_scripts.php";
         </div>
 
     </div>
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2")); ?> 
+    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system")); ?> 
     <script src="assets/js_pnyees/registro.js" type="text/javascript" charset="utf-8"></script>
     <script>
         jQuery(document).ready(function($) {

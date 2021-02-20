@@ -65,7 +65,7 @@ include "controller/ctr_scripts.php";
 
     </div>
 
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2")); ?> 
+    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system")); ?> 
 
     <script src="assets/js_pnyees/login.js"></script>
     <script> 

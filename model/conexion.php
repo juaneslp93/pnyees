@@ -78,6 +78,13 @@ class Conexion
 			'host'=>str_replace(".-n", '', self::desencriptar($datosConexion[0], $key))
 		);
 	}
+
+	public static function formato_nro_compra($nro_compra='')	{
+		$number = $nro_compra;
+		$length = 10;
+		$string = substr(str_repeat(0, $length).$number, - $length);
+		return $string;
+	}
 }
 
 ?>
