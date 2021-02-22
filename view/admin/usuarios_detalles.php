@@ -42,10 +42,16 @@ include "../../controller/ctr_scripts.php";
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Datos Usuario</h6>
                                 </div>
-                                <img src="https://source.unsplash.com/1600x900/?water" alt="">
-                                <div class="card-body" id="info-usuario" data-control="<?= $_GET["id"] ?>">
-                                    
+                                <div class="container">
+                                    <div class="row">
+                                        <div class=" col-lg-12">
+                                            <!-- <img src="https://source.unsplash.com/1200x300/?water" class="img-fluid"  alt=""> -->
+                                            <img src="../assets/img/stone.jfif" class="img-fluid"  alt="">
+                                        </div>
+                                    </div>
                                 </div>
+                                
+                                <div class="card-body" id="info-usuario" data-control="<?= $_GET["id"] ?>"></div>
                             </div>
 
                         </div>

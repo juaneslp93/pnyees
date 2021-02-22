@@ -44,6 +44,7 @@ switch ($caso) {
 		$correo = $datos["correo"];
 		$total_comprado = number_format($datos["total_comprado"],0,'',',');
 		$total_cantidad = $datos["total_cantidad"];
+		$fecha_registro = ProcesosAdmin::validar_fecha($datos["fecha_registro"]);
 		$estado = (($datos["estado"]=='1')?'
 					<i class="btn btn-success btn-circle btn-lg">
                         <i class="fa fa-check"></i> Activo
@@ -54,17 +55,17 @@ switch ($caso) {
 		$html = '
 				<div class="row">
 			        <div class="col-sm-2 col-md-2">
-			            <img src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg"
-			            alt="" class="img-rounded img-responsive" />
+			            <img src="../assets/img/profile.jfif"
+			            alt="" class="img-rounded img-responsive img-thumbnail" />
 			        </div>
 			        <div class="col-sm-4 col-md-4">
 			            <blockquote>
-			                <p>Bruce Wayne</p> <small><cite title="Source Title">Gotham, United Kingdom  <i class="glyphicon glyphicon-map-marker"></i></cite></small>
+			                <h1>'.$usuario.'</h1> <cite title="Source Title"><i class="fa fa-user"></i>'.$nommbre_completo.' </cite>
 			            </blockquote>
-			            <p> <i class="glyphicon glyphicon-envelope"></i> masterwayne@batman.com
-			                <br
-			                /> <i class="glyphicon glyphicon-globe"></i> www.bootsnipp.com
-			                <br /> <i class="glyphicon glyphicon-gift"></i> January 30, 1974</p>
+			            <p> <i class="fa fa-envelope"></i> '.$correo.'
+			                <br /> <i class="fa fa-shopping-cart"></i> Total comprado: $'.$total_comprado.'
+			                <br /> <i class="fa fa-tachometer"></i> Total Metros<sup>2</sup>: '.$total_cantidad.'
+			                <br /> <i class="fa fa-calendar"></i> '.$fecha_registro.'</p>
 			        </div>
 			    </div>';
 		$result = array("continue" => true, "html"=>$html);

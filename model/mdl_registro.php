@@ -11,9 +11,9 @@ class Registro Extends Conexion
 
 	public static function registrar_usuario($usuario='', $clave='', $correo='', $telefono=0, $nombre='', $apellido=''){
 		$conexion = self::iniciar();
-		$sql = "INSERT INTO usuarios (usuario, clave, correo, telefono, estado, nombre, apellido) VALUES (?,?,?,?,?,?,?)";
+		$sql = "INSERT INTO usuarios (usuario, clave, correo, telefono, estado, nombre, apellido, fecha_registro) VALUES (?,?,?,?,?,?,?,?)";
 		$sentencia = $conexion->prepare($sql);
-		$sentencia->bind_param('sssisss', $usuario, $clave, $correo, $telefono, $estado, $nombre, $apellido);
+		$sentencia->bind_param('sssissss', $usuario, $clave, $correo, $telefono, $estado, $nombre, $apellido, $fecha_registro);
 		$usuario = $usuario;
 		$clave = $clave;
 		$correo = $correo;
@@ -21,6 +21,7 @@ class Registro Extends Conexion
 		$estado = '1';
 		$nombre = $nombre;
 		$apellido = $apellido;
+		$fecha_registro = date('Y-m-d H:m:s');
 
 		$result = true;
 		$mensaje = '';

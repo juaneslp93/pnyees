@@ -179,7 +179,7 @@ class ProcesosAdmin Extends Conexion
 		$conexion = Conexion::iniciar();
 		$vista = self::crear_vistas('vista_detalles_usuarios');
 		if ($vista["existe"]) {
-			$sql = "SELECT usuario, nommbre_completo, correo, total_comprado, total_cantidad, estado FROM ".$vista["vista"]." WHERE id_usuario = $idUsuario";
+			$sql = "SELECT usuario, nommbre_completo, correo, total_comprado, total_cantidad, estado, fecha_registro FROM ".$vista["vista"]." WHERE id_usuario = $idUsuario";
 			$consu = $conexion->query($sql);
 			$datos = $consu->fetch_array();
 			$datos["existe"] = true;
@@ -191,6 +191,7 @@ class ProcesosAdmin Extends Conexion
 				"total_comprado"=> 0, 
 				"total_cantidad"=> 0, 
 				"estado"=> '',
+				"fecha_registro"=> '',
 				"existe"=>false
 			);
 		}		
@@ -232,6 +233,7 @@ class ProcesosAdmin Extends Conexion
 						u.usuario, 
 						u.correo, 
 						u.estado, 
+						u.fecha_registro,
 						(SELECT SUM((precio*cantidad)+((impuesto*precio)/100)*(cantidad)-((descuento*precio+(((impuesto*precio)/100)))/100)*(cantidad)) FROM compras_detalles as cd LEFT JOIN compras as c ON c.id = id_compra WHERE u.id = c.id_usuario) as total_comprado, 
 						(SELECT sum(cantidad) FROM compras_detalles as cd LEFT JOIN compras as c ON c.id = id_compra WHERE u.id = c.id_usuario) as  total_cantidad
 						 FROM usuarios as u  ";
@@ -251,6 +253,15 @@ class ProcesosAdmin Extends Conexion
 				break;
 		}
 		return $elemento;
+	}
+
+	public static function validar_fecha($cadena='0000-00-00 00:00:00')	{
+		if (($timestamp = strtotime($cadena)) === false) {
+		    $fecha =  "0000/00/00 00:00:00";
+		} else {
+		    $fecha = date("Y/m/d H:m:s", $fecha);
+		}
+		return $fecha;
 	}
 }
 ?>

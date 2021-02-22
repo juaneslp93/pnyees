@@ -85,6 +85,44 @@ class Conexion
 		$string = substr(str_repeat(0, $length).$number, - $length);
 		return $string;
 	}
+
+	private static function encrypt_decrypt($action, $string) {
+	     /* =================================================
+	      * ENCRYPTION-DECRYPTION
+	      * =================================================
+	      * ENCRYPTION: encrypt_decrypt('encrypt', $string);
+	      * DECRYPTION: encrypt_decrypt('decrypt', $string) ;
+	      */
+	     $output = false;
+	     $encrypt_method = "AES-256-CBC";
+	     $secret_key = 'PNYEES-SERVICE-KEY';
+	     $secret_iv = 'PNYEES-SERVICE-VALUE';
+	     // hash
+	     $key = hash('sha256', $secret_key);
+	     // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+	     $iv = substr(hash('sha256', $secret_iv), 0, 16);
+	     if ($action == 'encrypt') {
+	         $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
+	     } else {
+	         if ($action == 'decrypt') {
+	             $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+	         }
+	     }
+	     return $output;
+	 }
+
+    public static function encriptTable($cadena){
+		$encrypt = self::encrypt_decrypt('encrypt', $cadena);
+		$encrypt_compuesto = str_replace(array('/','+'), array('_','-'), $encrypt);
+		$encrypt_compuesto = substr($encrypt_compuesto, 0, -1);
+		return $encrypt_compuesto;
+	}
+
+	public static function decriptTable($cadena){
+		$var_original = str_replace(array('_','-'), array('/','+'), $cadena);
+		$desencriptar = self::encrypt_decrypt('decrypt', $var_original);
+		return $desencriptar;
+	}
 }
 
 ?>

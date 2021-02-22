@@ -7,9 +7,14 @@ include "../controller/ctr_scripts.php";
 
 <head>
     <?= Scripts::headers('', array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+    <style type="text/css" media="screen">
+        .bg-register-image{
+            background: url('assets/img/register.jfif');
+        }
+    </style>
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-default">
 
     <div class="container">
         

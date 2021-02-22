@@ -7,6 +7,18 @@ include "../../controller/ctr_scripts.php";
 
 <head>
     <?= Scripts::headers('../', array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
+    <style type="text/css" media="screen">
+        div::selection {
+        background: #fff;
+        color: black;
+    }
+
+    /* Firefox */
+    div::-moz-selection {
+        background: #fff;
+        color: black;
+    }
+    </style>
 </head>
 
 <body id="page-top">
@@ -44,6 +56,8 @@ include "../../controller/ctr_scripts.php";
                                     <thead>
                                         <tr>
                                             <th>Ususario</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
                                             <th>Correo</th>
                                             <th>Telefono</th>
                                             <th>Estado</th>
@@ -74,9 +88,4 @@ include "../../controller/ctr_scripts.php";
 </body>
 <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system")); ?> 
 <script src="../assets/js_pnyees/lista_usuarios.js" type="text/javascript" ></script>  
-<script>
-    jQuery(document).ready(function($) {
-        procesosListaUsuarios.iniciarLista();
-    });
-</script>
 </html>

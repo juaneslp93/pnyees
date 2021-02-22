@@ -6,7 +6,8 @@ require '../model/mdl_usuarios.php';
 
 $casos = array(
 	"lista_usuarios",
-	"eliminar_usuario"
+	"eliminar_usuario",
+	"editar_usuario"
 );
 // entrada
 $caso = '';
@@ -28,10 +29,47 @@ switch ($caso) {
 		$table = "usuarios";
 		$primaryKey = "id";
 		$columns  = array(
-			array('db' => 'usuario', 'dt'=>0),
-			array('db' => 'correo', 'dt'=>1),
-			array('db' => 'telefono', 'dt'=>2),
-			array('db' => 'estado', 'dt'=>3, 'formatter'=>function($val, $row){
+			array('db' => 'usuario', 'dt'=>0, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				return '<div class="usuarioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+					 '.((!empty($val))?$val:'------').'
+				</div>
+				<div id="U'.$idEncrip.'"></div>';
+			}),
+			array('db' => 'nombre', 'dt'=>1, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				return '<div class="nombreEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+					 '.((!empty($val))?$val:'------').'
+				</div>
+				<div id="N'.$idEncrip.'"></div>';
+			}),
+			array('db' => 'apellido', 'dt'=>2, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				return '<div class="apellidoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+					 '.((!empty($val))?$val:'------').'
+				</div>
+				<div id="A'.$idEncrip.'"></div>';
+			}),
+			array('db' => 'correo', 'dt'=>3, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				return '<div class="correoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+					 '.((!empty($val))?$val:'------').'
+				</div>
+				<div id="C'.$idEncrip.'"></div>';
+			}),
+			array('db' => 'telefono', 'dt'=>4, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				return '<div class="telefonoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+					 '.((!empty($val))?$val:'------').'
+				</div>
+				<div id="T'.$idEncrip.'"></div>';
+			}),
+			array('db' => 'estado', 'dt'=>5, 'formatter'=>function($val, $fila){
 				return (($val)?'
 					<i class="btn btn-success btn-circle btn-lg">
                         <i class="fa fa-check"></i>
@@ -40,7 +78,7 @@ switch ($caso) {
                     	<i class="fa fa-close"></i>
                     </i>');
 			}),
-			array('db' => 'id', 'dt'=>4, 'formatter'=>function($val, $row){
+			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
 				return '
 					<div class="dropdown mb-4">
                         <button class="btn btn-primary dropdown-toggle" type="button"
@@ -50,10 +88,9 @@ switch ($caso) {
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="detalles-usuarios-'.Conexion::encriptar($val, 'Tbl1').'">Ver detalles</a>
-                            <a class="dropdown-item" href="javascript:">Editar</a>
+                            <a class="dropdown-item" href="detalles-usuarios-'.Conexion::encriptTable($val).'">Ver detalles</a>
                             <hr>
-                            <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptar($val, 'Tbl1').'">Eliminar</a>
+                            <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptTable($val).'">Eliminar</a>
                         </div>
                     </div>
 				';
@@ -68,8 +105,8 @@ switch ($caso) {
 	case 'eliminar_usuario':
 		$pemitido = array("MASTER","ADMIN");
 		$continue = true;
-		if (in_array($_SESSION["SYSTEM"]["TIPO"], $pemitido)) {
-			$id = $_POST["id"];
+		if (in_array($_SESSION["SYSTEM"]["TIPO"], $pemitido)) {//permisos de usuario
+			$id = Conexion::desencriptar($_POST["id"]);
 			$datos = Usuarios::eliminar_usuario($id);
 			$continue = $datos["proceso"];
 			$mensaje = $datos["mensaje"];
@@ -80,7 +117,32 @@ switch ($caso) {
 		$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
 
 		break;
-	
+	case 'editar_usuario':
+		$pemitido = array("MASTER","ADMIN");
+		$continue = true;
+		if (in_array($_SESSION["SYSTEM"]["TIPO"], $pemitido)) {//permisos de usuario
+			$idEncrip = preg_replace('~-~', '=', $_POST["id"]);
+			$id = Conexion::decriptTable($idEncrip);
+			$caso = $_POST["caso"];
+			$valor = $_POST["valor"];
+			$casos = array("usuario","nombre","apellido","correo","telefono");
+			if (in_array($caso, $casos)) {
+				// echo "$id $caso $valor";
+				$datos = Usuarios::editar_usuario($id, $caso, $valor);
+				$continue = $datos["proceso"];
+				$mensaje = $datos["mensaje"];
+					
+			}else{
+				$continue = false;
+				$mensaje = "Campo inválido";
+			}
+		}else{
+			$continue = false;
+			$mensaje = "No tiene permisos para realizar esta acción";
+		}
+		$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
+
+		break;
 	default:
 		# code...
 		break;
