@@ -26,7 +26,7 @@ class Registro Extends Conexion
 		$result = true;
 		$mensaje = '';
 		if (!$sentencia->execute()) {
-			$restult = false;
+			$result = false;
 			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
 		}
 		$conexion->close();

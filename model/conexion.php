@@ -123,6 +123,73 @@ class Conexion
 		$desencriptar = self::encrypt_decrypt('decrypt', $var_original);
 		return $desencriptar;
 	}
+
+	public static function validar_archivo($FILES){
+		header('Content-Type: text/plain; charset=utf-8');
+
+		try {
+		   
+		    // Undefined | Multiple Files | $FILES Corruption Attack
+		    // If this request falls under any of them, treat it invalid.
+		    if (
+		        !isset($FILES['upfile']['error']) ||
+		        is_array($FILES['upfile']['error'])
+		    ) {
+		        throw new RuntimeException('Invalid parameters.');
+		    }
+
+		    // Check $FILES['upfile']['error'] value.
+		    switch ($FILES['upfile']['error']) {
+		        case UPLOAD_ERR_OK:
+		            break;
+		        case UPLOAD_ERR_NO_FILE:
+		            throw new RuntimeException('El archivo no fue cargado.');
+		        case UPLOAD_ERR_INI_SIZE:
+		        case UPLOAD_ERR_FORM_SIZE:
+		            throw new RuntimeException('Límite de carga ha sido excedido.');
+		        default:
+		            throw new RuntimeException('Error desconocido.');
+		    }
+
+		    // You should also check filesize here.
+		    if ($FILES['upfile']['size'] > 1000000) {
+		        throw new RuntimeException('El tamaño del archivo no es permitido.');
+		    }
+
+		    // DO NOT TRUST $FILES['upfile']['mime'] VALUE !!
+		    // Check MIME Type by yourself.
+		    $finfo = new finfo(FILEINFO_MIME_TYPE);
+		    if (false === $ext = array_search(
+		        $finfo->file($FILES['upfile']['tmp_name']),
+		        array(
+		            'jpg' => 'image/jpeg',
+		            'png' => 'image/png',
+		            'gif' => 'image/gif',
+		        ),
+		        true
+		    )) {
+		        throw new RuntimeException('Formato inválido.');
+		    }
+
+		    // You should name it uniquely.
+		    // DO NOT USE $FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
+		    // On this example, obtain safe unique name from its binary data.
+		    $destino = sprintf(
+		    	'../uploads/%s.%s',
+		        sha1_file($FILES['upfile']['tmp_name']),
+		        $ext
+		        );
+		    if (!move_uploaded_file($FILES['upfile']['tmp_name'], $destino)) {
+		        throw new RuntimeException('Falla al mover el archivo.');
+		    }
+
+		    return 'El archivo fue cargado exitosamente. //~'.$destino;
+
+		} catch (RuntimeException $e) {
+
+		    return $e->getMessage();
+		}
+	}
 }
 
 ?>

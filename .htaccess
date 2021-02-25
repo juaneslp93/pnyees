@@ -21,6 +21,7 @@ RewriteRule ^admin/cerrar$ view/admin/logout.php [L]
 RewriteRule ^admin/lista-usuarios$ view/admin/usuarios_lista.php [L]
 RewriteRule ^admin/detalles-usuarios-(.+)$ view/admin/usuarios_detalles.php?id=$1 [L]
 RewriteRule ^admin/importar$ view/admin/config_importar.php [L]
+RewriteRule ^admin/lista-productos$ view/admin/productos_lista.php [L]
 
 #User
 RewriteRule ^user/inicio$ view/user/inicio.php [L]

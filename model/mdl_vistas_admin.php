@@ -43,7 +43,7 @@ class Vistas
 		                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1"
 		                    aria-expanded="true" aria-controls="collapse1">
 		                    <i class="fas fa-fw fa-user"></i>
-		                    <span>Gestionar Usuarios</span>
+		                    <span>Usuarios</span>
 		                </a>
 		                <div id="collapse1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 		                    <div class="bg-white py-2 collapse-inner rounded">
@@ -59,13 +59,28 @@ class Vistas
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2"
                             aria-expanded="true" aria-controls="collapse2">
                             <i class="fas fa-fw fa-shopping-cart"></i>
-                            <span>Gestionar Compras</span>
+                            <span>Compras</span>
                         </a>
                         <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Gestión de compras:</h6>
                                 <a class="collapse-item" href="lista-compras">Listar Compras</a>
                                 <a class="collapse-item" href="reporte-compras">Reporte de compras</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3"
+                            aria-expanded="true" aria-controls="collapse3">
+                            <i class="fas fa-fw fa-shopping-cart"></i>
+                            <span>Productos y servicios</span>
+                        </a>
+                        <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Productos y servicios:</h6>
+                                <a class="collapse-item" href="lista-productos">Listar Productos</a>
+                                <a class="collapse-item" href="servicios">Servicios</a>
                             </div>
                         </div>
                     </li>

@@ -1,13 +1,15 @@
-procesosListaUsuarios = {
+procesosListaProductos = {
 	iniciarLista: function(){
-		this.lista();
+		var tableC = this.lista();
+      	this.crearProducto(tableC);
+      	
 	},
 	lista: function(){
 		var self = this;
-      	var table = $('#lista-usuarios').DataTable({
+      	var table = $('#lista-productos').DataTable({
       	"processing":true,
       	"serverside":true,
-      	"ajax":'../controller/ctr_lista_usuarios.php?entrada=lista_usuarios',
+      	"ajax":'../controller/ctr_lista_productos.php?entrada=lista_productos',
       	"orden":[[0,'asc']],
       	"pageLength":25,
       	"dom":"lBfrtip",
@@ -26,34 +28,72 @@ procesosListaUsuarios = {
       	"select":!0
       });
 
-      table.on('draw', function(){
-      	$(".eliminar_usuario").on('click', function(){
+      return table.on('draw', function(){      	
+      	$(".eliminar_producto").on('click', function(){
       		var el = $(this).attr('data-control');
-      		self.eliminar_usuario(table, el, this);      		
+      		self.eliminar_Producto(table, el, this);      		
       	})
-      	$(".usuarioEditar").on('dblclick', function(){
+      	$(".productoEditar").on('dblclick', function(){
       		var el = $(this).attr('data-control');
-      		self.editarUsuario(table, el, this);      		
+      		self.editarProducto(table, el, this);      		
       	})
-      	$(".nombreEditar").on('dblclick', function(){
+      	$(".descripcionEditar").on('dblclick', function(){
       		var el = $(this).attr('data-control');
-      		self.editarNombre(table, el, this);      		
+      		self.editarDescripcion(table, el, this);      		
       	})
-      	$(".apellidoEditar").on('dblclick', function(){
+      	$(".precioEditar").on('dblclick', function(){
       		var el = $(this).attr('data-control');
-      		self.editarApellido(table, el, this);      		
+      		self.editarPrecio(table, el, this);      		
       	})
-      	$(".correoEditar").on('dblclick', function(){
+      	$(".impuestoEditar").on('dblclick', function(){
       		var el = $(this).attr('data-control');
-      		self.editarCorreo(table, el, this);      		
-      	})
-      	$(".telefonoEditar").on('dblclick', function(){
-      		var el = $(this).attr('data-control');
-      		self.editarTelefono(table, el, this);      		
+      		self.editarImpuesto(table, el, this);      		
       	})
       })
 	},
-	eliminar_usuario: function(table, el, ele){
+	crearProducto: function(table){	
+		$("#FormRegistroProducto").submit(function(event) {	
+			event.preventDefault();
+			var formData = new FormData(document.getElementById("FormRegistroProducto"));
+			formData.append("dato", "valor");
+
+			$.ajax({
+				url: '../controller/ctr_lista_Productos.php',
+				type: 'POST',
+				dataType: 'json',
+				data: formData,
+				cache:false,
+				contentType: false,
+				processData:false
+			})
+			.done(function(result) {
+				if (result.continue) {
+					Swal.fire({
+					  icon: 'success',
+					  title: '¡Proceso exitoso!',
+					  html: result.mensaje
+					})
+				}else{
+					Swal.fire({
+					  icon: 'warning',
+					  title: '¡Proceso detenido!',
+					  html: result.mensaje
+					})
+				}
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				$("#newProductoModal").modal('hide');//cerramos el modal
+				$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+					$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+				table.ajax.reload();
+				document.getElementById("FormRegistroProducto").reset();
+			});
+		})
+	},
+	eliminar_Producto: function(table, el, ele){
 		Swal.fire({
 			title: '¿Desea modificar este campo?',
 		  	showDenyButton: true,
@@ -63,10 +103,10 @@ procesosListaUsuarios = {
 		}).then((promised)=> {
 			if (promised.isConfirmed) {
 				$.ajax({
-					url: '../controller/ctr_lista_usuarios.php',
+					url: '../controller/ctr_lista_productos.php',
 					type: 'POST',
 					dataType: 'json',
-					data: {'entrada': 'eliminar_usuario', 'id': el},
+					data: {'entrada': 'eliminar_producto', 'id': el},
 				})
 				.done(function(result) {
 					if (result.continue) {
@@ -94,7 +134,7 @@ procesosListaUsuarios = {
 			}
 		})		
 	},
-	editarUsuario: function(table, el, ele){
+	editarProducto: function(table, el, ele){
 		Swal.fire({
 			title: '¿Desea modificar este campo?',
 		  	showDenyButton: true,
@@ -104,16 +144,16 @@ procesosListaUsuarios = {
 		}).then((promised)=> {
 			
 			if (promised.isConfirmed) {
-				$("#U"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
+				$("#P"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
 				$(ele).html('');
 				$('input[name='+el+']').on('change',function(event){
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_usuarios.php',
+						url: '../controller/ctr_lista_Productos.php',
 						type: 'POST',
 						dataType: 'json',
-						data: {'entrada': 'editar_usuario', 'valor':newVal, "caso":'usuario', 'id':el},
+						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'nombre', 'id':el},
 					})
 					.done(function(result) {
 						if (result.continue) {
@@ -143,7 +183,7 @@ procesosListaUsuarios = {
 			}
 		})			
 	},
-	editarNombre: function(table, el, ele){
+	editarDescripcion: function(table, el, ele){
 		Swal.fire({
 			title: '¿Desea modificar este campo?',
 		  	showDenyButton: true,
@@ -153,16 +193,16 @@ procesosListaUsuarios = {
 		}).then((promised)=> {
 			
 			if (promised.isConfirmed) {
-				$("#N"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
+				$("#D"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
 				$(ele).html('');
 				$('input[name='+el+']').on('change',function(event){
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_usuarios.php',
+						url: '../controller/ctr_lista_Productos.php',
 						type: 'POST',
 						dataType: 'json',
-						data: {'entrada': 'editar_usuario', 'valor':newVal, "caso":'nombre', 'id':el},
+						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'descripcion', 'id':el},
 					})
 					.done(function(result) {
 						if (result.continue) {
@@ -191,7 +231,7 @@ procesosListaUsuarios = {
 			}
 		})
 	},
-	editarApellido: function(table, el, ele){
+	editarPrecio: function(table, el, ele){
 		Swal.fire({
 			title: '¿Desea modificar este campo?',
 		  	showDenyButton: true,
@@ -201,16 +241,16 @@ procesosListaUsuarios = {
 		}).then((promised)=> {
 			
 			if (promised.isConfirmed) {
-				$("#A"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
+				$("#Pr"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
 				$(ele).html('');
 				$('input[name='+el+']').on('change',function(event){
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_usuarios.php',
+						url: '../controller/ctr_lista_Productos.php',
 						type: 'POST',
 						dataType: 'json',
-						data: {'entrada': 'editar_usuario', 'valor':newVal, "caso":'apellido', 'id':el},
+						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'precio', 'id':el},
 					})
 					.done(function(result) {
 						if (result.continue) {
@@ -239,7 +279,7 @@ procesosListaUsuarios = {
 			}
 		})
 	},
-	editarCorreo: function(table, el, ele){
+	editarImpuesto: function(table, el, ele){
 		Swal.fire({
 			title: '¿Desea modificar este campo?',
 		  	showDenyButton: true,
@@ -249,64 +289,16 @@ procesosListaUsuarios = {
 		}).then((promised)=> {
 			
 			if (promised.isConfirmed) {
-				$("#C"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
+				$("#I"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
 				$(ele).html('');
 				$('input[name='+el+']').on('change',function(event){
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_usuarios.php',
+						url: '../controller/ctr_lista_Productos.php',
 						type: 'POST',
 						dataType: 'json',
-						data: {'entrada': 'editar_usuario', 'valor':newVal, "caso":'correo', 'id':el},
-					})
-					.done(function(result) {
-						if (result.continue) {
-							Swal.fire({
-							  icon: 'success',
-							  title: '¡Proceso exitoso!',
-							  text: result.mensaje
-							})
-						}else{
-							Swal.fire({
-							  icon: 'warning',
-							  title: '¡Proceso detenido!',
-							  text: result.mensaje
-							})
-						}
-					})
-					.fail(function() {
-						console.log("error");
-					})
-					.always(function() {
-						table.ajax.reload();
-					});			
-				})	
-			}else if(promised.isDenied){
-				table.ajax.reload();
-			}
-		})
-	},
-	editarTelefono: function(table, el, ele){
-		Swal.fire({
-			title: '¿Desea modificar este campo?',
-		  	showDenyButton: true,
-		  	showCancelButton: false,
-		  	confirmButtonText: 'Si, deseo hacerlo',
-		  	denyButtonText: 'No, cancela esta acción',
-		}).then((promised)=> {
-			
-			if (promised.isConfirmed) {
-				$("#T"+el).html('<input name="'+el+'" class="form-control" value="'+$(ele).html().trim()+'"/>')
-				$(ele).html('');
-				$('input[name='+el+']').on('change',function(event){
-					event.preventDefault();
-					var newVal = $(this).val();
-					$.ajax({
-						url: '../controller/ctr_lista_usuarios.php',
-						type: 'POST',
-						dataType: 'json',
-						data: {'entrada': 'editar_usuario', 'valor':newVal, "caso":'telefono', 'id':el},
+						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'impuesto', 'id':el},
 					})
 					.done(function(result) {
 						if (result.continue) {
@@ -338,5 +330,5 @@ procesosListaUsuarios = {
 }
 
 jQuery(document).ready(function($) {
-    procesosListaUsuarios.iniciarLista();
+    procesosListaProductos.iniciarLista();
 });

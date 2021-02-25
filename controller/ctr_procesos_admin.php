@@ -43,7 +43,7 @@ switch ($caso) {
 		$nommbre_completo = $datos["nommbre_completo"];
 		$correo = $datos["correo"];
 		$total_comprado = number_format($datos["total_comprado"],0,'',',');
-		$total_cantidad = $datos["total_cantidad"];
+		$total_cantidad = (($datos["total_cantidad"]>0)?$datos["total_cantidad"]:0);
 		$fecha_registro = ProcesosAdmin::validar_fecha($datos["fecha_registro"]);
 		$estado = (($datos["estado"]=='1')?'
 					<i class="btn btn-success btn-circle btn-lg">
@@ -60,7 +60,7 @@ switch ($caso) {
 			        </div>
 			        <div class="col-sm-4 col-md-4">
 			            <blockquote>
-			                <h1>'.$usuario.'</h1> <cite title="Source Title"><i class="fa fa-user"></i>'.$nommbre_completo.' </cite>
+			                <h1> '.$usuario.'</h1> <cite title="Source Title"><i class="fa fa-user"></i> '.$nommbre_completo.' </cite>
 			            </blockquote>
 			            <p> <i class="fa fa-envelope"></i> '.$correo.'
 			                <br /> <i class="fa fa-shopping-cart"></i> Total comprado: $'.$total_comprado.'
