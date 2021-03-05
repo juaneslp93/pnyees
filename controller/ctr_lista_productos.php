@@ -8,7 +8,9 @@ $casos = array(
 	"lista_productos",
 	"eliminar_producto",
 	"editar_producto",
-	"crear_producto"
+	"crear_producto",
+	"cargarDescuentos",
+	"crear_descuento"
 );
 // entrada
 $caso = '';
@@ -76,6 +78,8 @@ switch ($caso) {
                     </i>');
 			}),
 			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptar($val, "Pro1");
+				$idEncrip = preg_replace('~=~', '-', $idEncrip);
 				return '
 					<div class="dropdown mb-4">
                         <button class="btn btn-primary dropdown-toggle" type="button"
@@ -85,9 +89,9 @@ switch ($caso) {
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="detalles-producto-'.Conexion::encriptar($val, "Pro1").'">Ver detalles</a>
+                            <a class="dropdown-item" href="javascript:procesosListaProductos.cargarElementosAgregados(\''.$idEncrip.'\')">Descuentos</a>
                             <hr>
-                            <a class="dropdown-item eliminar_producto" href="javascript:" data-control="'.Conexion::encriptar($val, "Pro1").'">Eliminar</a>
+                            <a class="dropdown-item eliminar_producto" href="javascript:" data-control="'.$idEncrip.'">Eliminar</a>
                         </div>
                     </div>
 				';
@@ -149,22 +153,22 @@ switch ($caso) {
   			$impuesto = $_POST["impuesto"];
   			$descripcion = $_POST["descripcion"];
   			$ruta = '';
-  			$continuar = true;
+  			$continue = true;
   			$imagen = array('existe' => false );
 
   			if (empty($nombre) || empty($precio) || empty($impuesto) ) {
-  					$continuar = false;
+  					$continue = false;
   					$mensaje = "El nombre, el precio y el impuesto son obligatorios";
   			}
 
-  			if ($continuar) {
+  			if ($continue) {
 	  			if (!empty($_FILES["imagenProducto"]["tmp_name"])) {
 	  				#proceso de imagen
 	  				$imagen = Productos::procesar_imagen($_FILES);
 	  			}  				
   			}
 
-  			if ($continuar) {
+  			if ($continue) {
   				$reg = Productos::registrar_producto($nombre, $precio, $impuesto, $descripcion, (($imagen["existe"])?$imagen["url"]:''));
   				$continue = $reg["estado"];
   				if ($reg["estado"]) {
@@ -174,9 +178,7 @@ switch ($caso) {
   				}
   			}
 
-  			$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
-
-			
+  			$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');			
 		}else{
 			$continue = false;
 			$mensaje = "No tiene permisos para realizar esta acción";
@@ -184,8 +186,54 @@ switch ($caso) {
 		$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
 
 		break;
+	case 'cargarDescuentos':
+		$id =  Conexion::desencriptar($_POST["id"], "Pro1");
+		$datos = Productos::cargar_descuentos($id);
+		$result = array("continue" => true, "mensaje"=> 'consulta realizada', "elementos_agregados"=>$datos);
+		break;
+	case 'crear_descuento':
+		$idEncrip = preg_replace('~-~', '=', @$_POST["id"]);
+		$id = Conexion::desencriptar($idEncrip, "Pro1");		
+		$min = @$_POST["min"];
+		$max = @$_POST["max"];
+		$descuento = @$_POST["descuento"];
+		$continue = true;
+		
+		Productos::eliminar_descuentos($id);	
+
+		if (count($descuento)>0) {
+			foreach ($descuento as $key => $value) {
+
+				if (empty($descuento[$key]) || empty($min[$key]) || empty($max[$key])) {
+					$continue = false;
+					$mensaje = "No se permiten valores vacíos ";
+					break;
+				}
+
+				if ($continue) {
+					if ($min>$max) {
+						$continue = false;
+						$mensaje = " El rango menor debe cumplir con dicha especificación ";
+						break;
+					}
+				}
+
+				if ($continue) {
+					$reg = Productos::registrar_descuentos($id, $min[$key], $max[$key], $descuento[$key]);
+					$continue = $reg["estado"];
+					if ($reg["estado"]) {
+						$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span> ';
+					}else{
+						$mensaje = $reg["mensaje"];
+					}
+				}
+			}
+		}		
+
+		$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
+		break;
 	default:
-		# code...
+		$result = array("continue" => false, "mensaje"=> 'Método erróneo');
 		break;
 }
 

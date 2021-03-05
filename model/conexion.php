@@ -37,7 +37,7 @@ class Conexion
 			));
 			return $conexion;
 		} catch (PDOException $e) {
-		    print "¡Error en la conexión!: " . $e->getMessage() . "<br/>";
+		    echo  "¡Error en la conexión!: " . $e->getMessage() . "<br/>";
 		    die();
 		}
 

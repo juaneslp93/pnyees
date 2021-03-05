@@ -77,5 +77,66 @@ class Productos extends Conexion
 		$conexion->close();
 		return array("estado"=>$result, "mensaje"=>$mensaje);
 	}
+
+	public static function cargar_descuentos($idProducto='')	{
+		$conexion = Conexion::iniciar();
+		$sql = "SELECT maximo, minimo, descuento FROM productos_descuento WHERE id_producto= $idProducto ";
+		$consu = $conexion->query($sql);
+		$x = 0;
+		$html = '';
+		if ($consu->num_rows>0) {
+			while ($rConsu = $consu->fetch_assoc()) {
+				$maximo = $rConsu["maximo"];
+				$minimo = $rConsu["minimo"];
+				$descuento = $rConsu["descuento"];
+
+				$html .= '<div id="'.$x.'" class="row col-lg-12">';
+				$html .= '<div class="col-sm-3 mb-3 mb-sm-0">
+                        <input type="number" class="form-control form-control-user" name="min[]" placeholder="Mínimo" value="'.$minimo.'">
+	                    </div>
+	                    <div class="col-sm-3 mb-3 mb-sm-0">
+	                        <input type="number" class="form-control form-control-user" name="max[]" placeholder="Máximo" value="'.$maximo.'">
+	                    </div>
+	                    <div class="col-sm-3 mb-3 mb-sm-0">
+	                        <input type="number" step="any" class="form-control form-control-user" name="descuento[]" placeholder="Descuento" value="'.$descuento.'">
+	                    </div>
+	                    <div class="col-sm-3 mb-3 mb-sm-0">
+	                        <a class="eliminarItem btn btn-danger" data-control="'.$x.'"><i class="fa fa-trash"></i></a>
+	                    </div>';
+        		$html .= '</div>';
+                $x++;
+			}
+		}
+		$conexion->close();
+
+		return $html;
+	}
+
+	public static function registrar_descuentos($idProducto=0, $min=0, $max=0, $descuento=0){
+		$conexion = Conexion::iniciar();
+		$sql = "INSERT INTO productos_descuento (id_producto, minimo, maximo, descuento) VALUES (?,?,?,?)";
+		$sentencia = $conexion->prepare($sql);
+		$sentencia->bind_param("iiid", $idProducto, $min, $max, $descuento);
+		$idProducto = $idProducto;
+		$min = $min;
+		$max = $max;
+		$descuento = $descuento;
+
+		$result = true;
+		$mensaje = '';
+		if (!$sentencia->execute()) {
+			$result = false;
+			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
+		}
+		$conexion->close();
+		return array("estado"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function eliminar_descuentos($idProducto=0){
+		$conexion = Conexion::iniciar();
+		$sql = "DELETE FROM productos_descuento WHERE id_producto= $idProducto ";
+		$conexion->query($sql);
+		$conexion->close();
+	}
 }
  ?>
