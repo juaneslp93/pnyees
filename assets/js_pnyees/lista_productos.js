@@ -48,6 +48,10 @@ procesosListaProductos = {
       		var el = $(this).attr('data-control');
       		self.editarImpuesto(table, el, this);      		
       	})
+      	$(".imagenEditar").on('dblclick', function(){
+      		var el = $(this).attr('data-control');
+      		self.editarImagen(table, el, this);      		
+      	})
       })
 	},
 	crearProducto: function(table){	
@@ -298,6 +302,67 @@ procesosListaProductos = {
 						type: 'POST',
 						dataType: 'json',
 						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'impuesto', 'id':el},
+					})
+					.done(function(result) {
+						if (result.continue) {
+							Swal.fire({
+							  icon: 'success',
+							  title: '¡Proceso exitoso!',
+							  text: result.mensaje
+							})
+						}else{
+							Swal.fire({
+							  icon: 'warning',
+							  title: '¡Proceso detenido!',
+							  text: result.mensaje
+							})
+						}
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						table.ajax.reload();
+					});			
+				})	
+			}else if(promised.isDenied){
+				table.ajax.reload();
+			}
+		})
+	},
+	editarImagen: function(table, el, ele){
+		Swal.fire({
+			title: '¿Desea modificar este campo?',
+		  	showDenyButton: true,
+		  	showCancelButton: false,
+		  	confirmButtonText: 'Si, deseo hacerlo',
+		  	denyButtonText: 'No, cancela esta acción',
+		}).then((promised)=> {
+			
+			if (promised.isConfirmed) {			
+				$(ele).html('');
+				$("#M"+el).html('<form id="MForm'+el+'" enctype="multipart/form-data" method="post">\
+					<input type="hidden" value="editar_producto" name="entrada"/>\
+					<input type="hidden" value="url_imagen" name="caso"/>\
+					<input type="hidden" value="'+el+'" name="id"/>\
+					<input name="'+el+'" type="file" class="form-control" value="'+$(ele).html().trim()+'" accept="image/*"/>\
+					</form>');
+				$('input[name='+el+']').on('change',function(event){
+					var newVal = $(this).val();
+					$("#MForm"+el).append('<input type="hidden" value="'+newVal+'" name="valor"/>')
+					event.preventDefault();
+					console.log(document.getElementById("M"+el));
+					console.log($("#M"+el));
+					var formData = new FormData(document.getElementById("MForm"+el));
+					formData.append("dato", "valor");
+					$.ajax({
+						url: '../controller/ctr_lista_Productos.php',
+						type: 'POST',
+						dataType: 'json',
+						data: formData,
+						cache:false,
+						contentType: false,
+						processData:false
 					})
 					.done(function(result) {
 						if (result.continue) {

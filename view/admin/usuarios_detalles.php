@@ -1,4 +1,5 @@
 <?php 
+include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
 ?>
@@ -69,8 +70,7 @@ include "../../controller/ctr_scripts.php";
     </div>
     <!-- End of Page Wrapper -->
 
-    <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2","system")); ?> 
-    <script src="../assets/js_pnyees/usuarios_detalles.js" type="text/javascript" charset="utf-8"></script>
+    <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2","system", "usuarios_detalles")); ?> 
 </body>
 
 </html>

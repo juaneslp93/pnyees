@@ -1,4 +1,5 @@
 <?php 
+include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
 ?>
@@ -86,6 +87,6 @@ include "../../controller/ctr_scripts.php";
     </a>
 
 </body>
-<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system")); ?> 
-<script src="../assets/js_pnyees/lista_usuarios.js" type="text/javascript" ></script>  
+<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system","usuarios_lista")); ?> 
+  
 </html>

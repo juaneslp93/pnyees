@@ -1,5 +1,5 @@
 <?php 
-session_start();
+@session_start();
 require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_productos.php';
@@ -34,7 +34,7 @@ switch ($caso) {
 		$columns  = array(
 			array('db' => 'nombre', 'dt'=>0, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="productoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -42,7 +42,7 @@ switch ($caso) {
 			}),
 			array('db' => 'descripcion', 'dt'=>1, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="descripcionEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -50,7 +50,7 @@ switch ($caso) {
 			}),
 			array('db' => 'precio', 'dt'=>2, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="precioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -58,15 +58,19 @@ switch ($caso) {
 			}),
 			array('db' => 'impuesto', 'dt'=>3, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="impuestoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
 				<div id="I'.$idEncrip.'"></div>';
 			}),
 			array('db' => 'url_imagen', 'dt'=>4, 'formatter'=>function($val, $fila){
-				$valor = str_replace("../uploads/", "", $val);
-				return((!empty($valor))?$valor:'------');
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
+				return'<div class="imagenEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+					 '.((!empty($val))?$val:'------').'
+				</div>
+				<div id="M'.$idEncrip.'"></div>';
 			}),
 			array('db' => 'estado', 'dt'=>5, 'formatter'=>function($val, $fila){
 				return (($val)?'
@@ -79,7 +83,7 @@ switch ($caso) {
 			}),
 			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptar($val, "Pro1");
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '
 					<div class="dropdown mb-4">
                         <button class="btn btn-primary dropdown-toggle" type="button"
@@ -122,13 +126,20 @@ switch ($caso) {
 		$pemitido = array("MASTER","ADMIN");
 		$continue = true;
 		if (in_array($_SESSION["SYSTEM"]["TIPO"], $pemitido)) {//permisos de usuario
-			$idEncrip = preg_replace('~-~', '=', $_POST["id"]);
+			$idEncrip = Conexion::formato_encript($_POST["id"], "des");
 			$id = Conexion::decriptTable($idEncrip);
 			$caso = $_POST["caso"];
 			$valor = $_POST["valor"];
-			$casos = array("nombre","descripcion","impuesto","precio");
+			$casos = array("nombre","descripcion","impuesto","precio","url_imagen");
+
 			if (in_array($caso, $casos)) {
-				// echo "$id $caso $valor";
+				if ($caso==="url_imagen") {
+					if (!empty($_FILES[$idEncrip]["tmp_name"])) {
+		  				#proceso de imagen
+		  				$imagen = Productos::procesar_imagen($_FILES, $idEncrip);
+		  				$valor = (($imagen["existe"])?$imagen["url"]:'');
+		  			}  
+				}
 				$datos = Productos::editar_producto($id, $caso, $valor);
 				$continue = $datos["proceso"];
 				$mensaje = $datos["mensaje"];
@@ -164,7 +175,7 @@ switch ($caso) {
   			if ($continue) {
 	  			if (!empty($_FILES["imagenProducto"]["tmp_name"])) {
 	  				#proceso de imagen
-	  				$imagen = Productos::procesar_imagen($_FILES);
+	  				$imagen = Productos::procesar_imagen($_FILES, 'imagenProducto');
 	  			}  				
   			}
 
@@ -192,7 +203,7 @@ switch ($caso) {
 		$result = array("continue" => true, "mensaje"=> 'consulta realizada', "elementos_agregados"=>$datos);
 		break;
 	case 'crear_descuento':
-		$idEncrip = preg_replace('~-~', '=', @$_POST["id"]);
+		$idEncrip = Conexion::formato_encript(@$_POST["id"], "des");
 		$id = Conexion::desencriptar($idEncrip, "Pro1");		
 		$min = @$_POST["min"];
 		$max = @$_POST["max"];

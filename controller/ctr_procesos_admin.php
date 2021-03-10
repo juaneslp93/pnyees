@@ -1,5 +1,5 @@
 <?php 
-session_start();
+@session_start();
 require '../model/conexion.php';
 require '../model/mdl_procesos_admin.php';
 #Definición de entradas

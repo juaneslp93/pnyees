@@ -39,16 +39,18 @@ class Productos extends Conexion
 		return array("proceso"=>$result, "mensaje"=>$mensaje);
 	}
 
-	public static function procesar_imagen($FILES='')	{
-		$FILES['upfile'] = $FILES['imagenProducto'];
-		unset($FILES['imagenProducto']);
-		$data = explode("//~",self::validar_archivo($FILES));
+	public static function procesar_imagen($FILES='', $nombreFile='imagenProducto')	{
+		$FILES['upfile'] = $FILES[''.$nombreFile];
+		unset($FILES[''.$nombreFile]);
+		$po = self::validar_archivo($FILES);
+		$data = explode("//~",$po);
 		$continue = false;
 		$url = '';
 		$mensaje = $data[0];
 		if ($data[1]) {
 			$continue = true;
-			$url = @$data[1];
+			$exp = explode("/",@$data[1]);
+			$url = end($exp);
 			$mensaje = @$data[0];
 		}
 		$result = array("existe"=>$continue, 'url' => $url, "mensaje"=>$mensaje);			

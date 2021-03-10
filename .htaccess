@@ -27,6 +27,12 @@ RewriteRule ^admin/lista-productos$ view/admin/productos_lista.php [L]
 RewriteRule ^user/inicio$ view/user/inicio.php [L]
 RewriteRule ^user/cerrar$ view/user/logout.php [L]
 
+#tienda
+RewriteRule ^tienda-(.+)$ view/tienda/catalogo.php?id=$1 [L]
+RewriteRule ^detalle-(.+)$ view/tienda/detalle_producto.php?id=$1 [L]
+RewriteRule ^cerrar$ view/tienda/logout.php [L]
+
+
 
 
 

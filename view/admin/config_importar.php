@@ -1,4 +1,5 @@
 <?php 
+include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
  ?>

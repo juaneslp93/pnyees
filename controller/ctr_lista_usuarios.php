@@ -1,5 +1,5 @@
 <?php 
-session_start();
+@session_start();
 require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_usuarios.php';
@@ -31,7 +31,7 @@ switch ($caso) {
 		$columns  = array(
 			array('db' => 'usuario', 'dt'=>0, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="usuarioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -39,7 +39,7 @@ switch ($caso) {
 			}),
 			array('db' => 'nombre', 'dt'=>1, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="nombreEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -47,7 +47,7 @@ switch ($caso) {
 			}),
 			array('db' => 'apellido', 'dt'=>2, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="apellidoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -55,7 +55,7 @@ switch ($caso) {
 			}),
 			array('db' => 'correo', 'dt'=>3, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="correoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -63,7 +63,7 @@ switch ($caso) {
 			}),
 			array('db' => 'telefono', 'dt'=>4, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = preg_replace('~=~', '-', $idEncrip);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '<div class="telefonoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
 					 '.((!empty($val))?$val:'------').'
 				</div>
@@ -89,6 +89,7 @@ switch ($caso) {
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="detalles-usuarios-'.Conexion::encriptar($val, "Tbl1").'">Ver detalles</a>
+                            <a class="dropdown-item" href="../tienda-'.Conexion::encriptar($val, "Tbl1").'">Ir a la tienda</a>
                             <hr>
                             <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptar($val, "Tbl1").'">Eliminar</a>
                         </div>
@@ -121,7 +122,7 @@ switch ($caso) {
 		$pemitido = array("MASTER","ADMIN");
 		$continue = true;
 		if (in_array($_SESSION["SYSTEM"]["TIPO"], $pemitido)) {//permisos de usuario
-			$idEncrip = preg_replace('~-~', '=', $_POST["id"]);
+			$idEncrip = Conexion::formato_encript($_POST["id"], "des");
 			$id = Conexion::decriptTable($idEncrip);
 			$caso = $_POST["caso"];
 			$valor = $_POST["valor"];

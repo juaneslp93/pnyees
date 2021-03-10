@@ -68,3 +68,7 @@ procesoRegistro = {
 		});
 	}
 }
+
+jQuery(document).ready(function($) {
+    procesoRegistro.prepararRegistro();
+});

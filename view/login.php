@@ -46,9 +46,10 @@ include "controller/ctr_scripts.php";
                                         
                                         <input type="hidden" name="entrada" value="ingresoSistema">
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Ingresar
+                                            <i class="fa fa-sign-in fa-lg"></i> Ingresar
                                         </button>
                                         <hr>
+                                        <a href="tienda-Yg==" class="btn btn-secondary btn-user btn-block"><i class="fa fa-shopping-cart fa-lg"></i> Ir directo a la tienda</a>
                                        
                                     </form>
                                     <hr>
@@ -70,14 +71,8 @@ include "controller/ctr_scripts.php";
 
     </div>
 
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system")); ?> 
+    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2", "login")); ?> 
 
-    <script src="assets/js_pnyees/login.js"></script>
-    <script> 
-        jQuery(document).ready(function($) {
-            procesoEntrada.preparar();
-        });
-</script>
 </body>
 
 </html>

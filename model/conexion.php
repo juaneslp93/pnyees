@@ -190,6 +190,14 @@ class Conexion
 		    return $e->getMessage();
 		}
 	}
+
+	public static function formato_encript($variable='', $preg='conv'){
+		if ($preg=="des") {
+			return preg_replace('~-~', '=', $variable);
+		}else if($preg=="con"){
+			return preg_replace('~=~', '-', $variable);
+		}
+	}
 }
 
 ?>

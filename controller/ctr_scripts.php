@@ -54,7 +54,15 @@ class Scripts
 			"system-user"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_user.js" type="text/javascript"></script>',
 			"charts"=>'<!-- Page level plugins -->
     				<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js"></script>,
-    				<script src="'.$ruta.'assets/js_pnyees/chart.js"></script>'
+    				<script src="'.$ruta.'assets/js_pnyees/chart.js"></script>',
+    		"productos_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_productos.js" type="text/javascript" ></script>',
+    		"usuarios_detalles"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles.js" type="text/javascript" charset="utf-8"></script>',
+    		"usuarios_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_usuarios.js" type="text/javascript" ></script>',
+    		"login"=>'<script src="'.$ruta.'assets/js_pnyees/login.js"></script>',
+    		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js" type="text/javascript" charset="utf-8"></script>',
+    		"catalogo"=>'<script src="'.$ruta.'assets/js_pnyees/catalogo.js" type="text/javascript" charset="utf-8"></script>',
+    		"detalle_producto"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_producto.js" type="text/javascript" charset="utf-8"></script>',
+    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" type="text/javascript" charset="utf-8"></script>'
 		);
 
 		$contenido = '

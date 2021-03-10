@@ -36,3 +36,7 @@ procesoEntrada = {
 		});
 	}
 }
+
+jQuery(document).ready(function($) {
+    procesoEntrada.preparar();
+});

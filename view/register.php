@@ -83,13 +83,7 @@ include "../controller/ctr_scripts.php";
         </div>
 
     </div>
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system")); ?> 
-    <script src="assets/js_pnyees/registro.js" type="text/javascript" charset="utf-8"></script>
-    <script>
-        jQuery(document).ready(function($) {
-            procesoRegistro.prepararRegistro();
-        });
-    </script>
+    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system", "registro")); ?> 
 </body>
 
 </html>
