@@ -169,31 +169,15 @@ class Vistas Extends Conexion
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                    aria-labelledby="cotizado">
-                                    <a class="dropdown-item" href="#">
-                                       <i class="fa fa-box" aria-hidden="true"></i>
-                                        Producto 1 : $20000
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                       <i class="fa fa-box" aria-hidden="true"></i>
-                                        Producto 2 : $10000
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                       <i class="fa fa-box" aria-hidden="true"></i>
-                                        Producto 3 : $10000
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fa fa-money "></i>
-                                        Total : $40000
-                                    </a>
+                                    aria-labelledby="cotizado" id="contentCotizado">
+                                    
                                 </div>
                             </li>
                             <div class="topbar-divider d-none d-sm-block"></div>
                         </ul>
                         <ul class="navbar-nav ml-left">
                             <li class="nav-item dropdown no-arrow">
-                                <a class="btn btn-link text-white rounded-circle mr-3" href="#">
+                                <a class="btn btn-link text-white rounded-circle mr-3" href="resumen">
                                     <i class="fa fa-shopping-cart"></i> Resumen de compra
                                 </a>
                             </li>

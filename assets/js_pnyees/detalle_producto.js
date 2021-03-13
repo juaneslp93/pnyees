@@ -13,6 +13,7 @@ procesoDetalle = {
 		.done(function(result) {
 			if (result.continue) {
 				$("#catalogo").html(result.html);
+				procesoTienda.cargar_forms();
 			}
 		})
 		.fail(function() {
