@@ -45,7 +45,7 @@ class Catalogo extends Conexion
 			                            		$'.$precio.'<br>
 			                            		<div class="form-group has-feedback">
 												  <i class="fa form-control-feedback">M² </i>
-												  <input type="number" name="cantidad" class="form-control" value="0">
+												  <input type="number" name="cantidad" class="form-control" value="0" min="1" pattern="^[0-9]+">
 												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
 												  <input type="hidden" name="entrada" value="agregarProducto" >
 												</div>
@@ -112,7 +112,7 @@ class Catalogo extends Conexion
 			                            		$'.$precio.'<br>
 			                            		<div class="form-group has-feedback row col-lg-3">
 												  <i class="fa form-control-feedback">M² </i>
-												  <input type="number" name="cantidad" class="form-control" value="0">
+												  <input type="number" name="cantidad" class="form-control" value="0" min="1" pattern="^[0-9]+">
 												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
 												  <input type="hidden" name="entrada" value="agregarProducto" >
 												</div>
@@ -148,12 +148,14 @@ class Catalogo extends Conexion
 		$result = array("result"=>false, "mensaje"=>"Error al cargar los datos");
 		$existe = false;
 	
-		for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) { 
-			if ($_SESSION["CARRITO"][$i]["id_producto"] === $idProductoEncrip) {
-				$_SESSION["CARRITO"][$i]["cantidad"] += $cantidad;
-				$existe = true;
-				$result = array("result"=>true, "mensaje"=>"producto actualizado");
-				break;
+		if (!empty($_SESSION["CARRITO"])) {
+			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) { 
+				if ($_SESSION["CARRITO"][$i]["id_producto"] === $idProductoEncrip) {
+					$_SESSION["CARRITO"][$i]["cantidad"] += $cantidad;
+					$existe = true;
+					$result = array("result"=>true, "mensaje"=>"producto actualizado");
+					break;
+				}
 			}
 		}
 		
@@ -166,9 +168,9 @@ class Catalogo extends Conexion
 			}
 			if ($consu->num_rows>0) {
 				$rConsu = $consu->fetch_assoc();
-				$descuento = self::obtener_decuento($cantidad, $idProducto);
+				$descuento = self::obtenerDecuento($cantidad, $idProducto);
 				$result = array("result"=>true, "mensaje"=>"producto agregado");
-				$precio_calculado = self::calcular_precio($cantidad, $rConsu["precio"], $descuento, $rConsu["impuesto"]);
+				$precio_calculado = self::calcularPrecio($cantidad, $rConsu["precio"], $descuento, $rConsu["impuesto"]);
 
 				array_push($_SESSION["CARRITO"], 
 					array("id_producto" => $idProductoEncrip,
@@ -188,7 +190,7 @@ class Catalogo extends Conexion
 		return $result;
 	}
 
-	public static function obtener_decuento($cantidad=0, $idProducto=0)	{
+	public static function obtenerDecuento($cantidad=0, $idProducto=0)	{
 		$conexion = self::iniciar();
 		$sql = "SELECT descuento, maximo, minimo FROM productos_descuento WHERE id_producto = $idProducto ";
 		$consu = $conexion->query($sql);
@@ -209,7 +211,7 @@ class Catalogo extends Conexion
 		return $descuento;
 	}
 
-	public static function calcular_precio($cantidad, $precio, $descuento, $impuesto)	{
+	public static function calcularPrecio($cantidad, $precio, $descuento, $impuesto)	{
 		$precioImpuesto = ($precio*$impuesto)/100;
 		$precioImpuesto = $precioImpuesto+$precio;
 		$precioImpuesto = $precioImpuesto*$cantidad;
@@ -220,6 +222,48 @@ class Catalogo extends Conexion
 		$precioTotal = $precioDescuento;
 
 		return $precioTotal;
+	}
+
+	public static function InfoCotActualizada($value='')	{
+		$html = '';
+		$totalCompra = 0;
+		if (!empty($_SESSION["CARRITO"])) {
+			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) { 
+				
+				$html .= '<a class="dropdown-item" href="#">
+                           <img src="uploads/'.$_SESSION["CARRITO"][$i]["imagen"].'" alt="" style="width:50px;"> 
+                            <b>'.$_SESSION["CARRITO"][$i]["cantidad"].'</b> M<sup>2</sup> <b>'.$_SESSION["CARRITO"][$i]["nombre"].'</b> : $'.number_format($_SESSION["CARRITO"][$i]["precio_calculado"],2,".",",").'
+                        </a>';
+                $totalCompra += $_SESSION["CARRITO"][$i]["precio_calculado"];
+			}
+			$html .= '<hr><a class="dropdown-item" href="resumen">
+	                   <div class="row">
+	                   		<div class="col-lg-6">
+	                   			<i class="fa fa-shopping-cart"></i> Ir al resumen 
+	                   		</div>	
+	                   		<div class="col-lg-6">
+	                   			<b>$'.number_format($totalCompra,2,'.',',').'</b>
+	                   		</div>
+	                   </div>
+	                </a>';
+		}
+
+		return $html;
+	}
+
+	public static function procesarEliminacion($idProducto='')	{
+		if (!empty($_SESSION["CARRITO"])) {
+			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) {
+				if (($clave = array_search($idProducto,  $_SESSION["CARRITO"][$i])) !== false && $clave==="id_producto") {
+					
+				    unset($_SESSION["CARRITO"][$i]);
+				}
+			}
+		}
+	}
+
+	public static function procesarVaciarCarrito()	{
+		unset($_SESSION["CARRITO"]);
 	}
 }
  ?>

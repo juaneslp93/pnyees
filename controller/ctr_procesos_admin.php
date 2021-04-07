@@ -42,7 +42,7 @@ switch ($caso) {
 		$usuario = $datos["usuario"];
 		$nommbre_completo = $datos["nommbre_completo"];
 		$correo = $datos["correo"];
-		$total_comprado = number_format($datos["total_comprado"],0,'',',');
+		$total_comprado = number_format($datos["total_comprado"],2,'',',');
 		$total_cantidad = (($datos["total_cantidad"]>0)?$datos["total_cantidad"]:0);
 		$fecha_registro = ProcesosAdmin::validar_fecha($datos["fecha_registro"]);
 		$estado = (($datos["estado"]=='1')?'

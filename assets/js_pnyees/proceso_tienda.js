@@ -1,6 +1,7 @@
 procesoTienda = {
 	iniciarTienda: function(){
 		this.actualizarInfo();
+		/*this.cargarInfoResumen()*/
 	},
 	agregarCarrito: function(element){
 		var self = this;
@@ -53,11 +54,16 @@ procesoTienda = {
 		})
 		.fail(function() {
 			console.log("error");
-		})
-		.always(function() {
-			console.log("complete");
 		});
-	}
+	},
+	/*cargarInfoResumen: function(){
+		var path = window.location.pathname;
+		let array = path.split(`/`);
+		if (array[2]=='resumen') {
+			//codigo para resumen
+			$("#resumen").html(array[2])
+		}		
+	}*/
 }
 
 jQuery(document).ready(function($) {

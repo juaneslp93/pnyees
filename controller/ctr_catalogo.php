@@ -7,7 +7,9 @@ $casos = array(
 	"cargarCatalogo",
 	"cargarDetalle",
 	"agregarProducto",
-	"actualizarCot"
+	"actualizarCot",
+	"eliminarProducto",
+	"vaciarCarrito"
 );
 // entrada
 
@@ -46,20 +48,17 @@ switch ($caso) {
 		$result = array("continue" => $continue, "mensaje"=> $mensaje, ""=>'');
 		break;
 	case 'actualizarCot':
-		$html = '';
-		if (!empty($_SESSION["CARRITO"])) {
-			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) { 
-				
-				$html .= '<a class="dropdown-item" href="#">
-                           <img src="uploads/'.$_SESSION["CARRITO"][$i]["imagen"].'" alt="" style="width:50px;"> 
-                            <b>'.$_SESSION["CARRITO"][$i]["cantidad"].'</b> M<sup>2</sup> <b>'.$_SESSION["CARRITO"][$i]["nombre"].'</b> : $'.number_format($_SESSION["CARRITO"][$i]["precio_calculado"],0,".",",").'
-                        </a>';
-			}
-		}
-		$html .= '<hr><a class="dropdown-item" href="resumen">
-                   <i class="fa fa-shopping-cart"></i> Ir al resumen
-                </a>';
+		$html = Catalogo::InfoCotActualizada();
+		
 		$result = array("continue" => true, "html"=> $html, ""=>'');
+		break;
+	case 'eliminarProducto':
+		$datos = Catalogo::procesarEliminacion($_POST["id"]);
+		$result = array("continue" => true, "html"=> $datos, ""=>'');
+		break;
+	case 'vaciarCarrito':
+		Catalogo::procesarVaciarCarrito();
+		$result = array("continue" => true, "html"=> '', ""=>'');
 		break;
 	default:
 		$result = array("continue" => false, "mensaje"=> 'No existe dicho metodo '.$caso);

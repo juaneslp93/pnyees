@@ -62,7 +62,8 @@ class Scripts
     		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js" type="text/javascript" charset="utf-8"></script>',
     		"catalogo"=>'<script src="'.$ruta.'assets/js_pnyees/catalogo.js" type="text/javascript" charset="utf-8"></script>',
     		"detalle_producto"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_producto.js" type="text/javascript" charset="utf-8"></script>',
-    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" type="text/javascript" charset="utf-8"></script>'
+    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" type="text/javascript" charset="utf-8"></script>',
+    		"proceso_resumen"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_resumen.js" type="text/javascript" charset="utf-8"></script>'
 		);
 
 		$contenido = '

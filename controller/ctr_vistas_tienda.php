@@ -3,7 +3,7 @@
 require "../../model/conexion.php";
 require "../../model/mdl_vistas_tienda.php";
 
-if ("tienda-".$_GET["id"]===$_SERVER["REDIRECT_URL"]) {
+if ("tienda-".@$_GET["id"]===$_SERVER["REDIRECT_URL"]) {
 	$_SESSION["TIENDA"]["ID"] = $_GET["id"];
 	$_SESSION["TIENDA"]["COMPRADOR"] = Vistas::reconocer_comprador($_GET["id"]);
 }else if(!$_SESSION["TIENDA"]){
@@ -12,5 +12,6 @@ if ("tienda-".$_GET["id"]===$_SERVER["REDIRECT_URL"]) {
 # nabvar
 $navbar = Vistas::navBar();
 $navbarTienda = Vistas::navBarTienda($_SESSION["TIENDA"]["ID"]);
+$resumenCarrito = Vistas::resumenCarrito($_SESSION["TIENDA"]["ID"], @$_GET["id"]);
 
 ?>
