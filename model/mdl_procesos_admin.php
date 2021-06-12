@@ -263,5 +263,186 @@ class ProcesosAdmin Extends Conexion
 		}
 		return $fecha;
 	}
+
+	public static function registrar_banco($nombre='', $cuenta='', $tipo=''){
+		$conexion = self::iniciar();
+		$sql = "INSERT INTO bancos (nombre, cuenta, tipo, estado, fecha) VALUES (?,?,?,?,?)";
+		$sentencia = $conexion->prepare($sql);
+		$sentencia->bind_param('sssss', $nombre, $cuenta, $tipo, $estado, $fecha_registro);
+		$nombre = $nombre;
+		$cuenta = $cuenta;
+		$tipo = $tipo;
+		$estado = '1';
+		$fecha_registro = date('Y-m-d H:m:s');
+
+		$result = true;
+		$mensaje = '';
+		if (!$sentencia->execute()) {
+			$result = false;
+			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
+		}
+		echo $sentencia->error;
+		$conexion->close();
+		return array("estado"=>$result, "mensaje"=>$mensaje);
+	}
+
+	private static function cargar_vista_bancos(){
+		#bancos
+		$conexion = self::iniciar();
+		$sql = "SELECT id, nombre, cuenta, tipo, estado FROM bancos";
+		$consu = $conexion->query($sql);
+		$val = 0;
+		$row =  '';
+
+		if ($consu->num_rows>0) {
+			$Drop=0;
+			while ($rConsu = $consu->fetch_assoc()) {
+				// BANCOS
+				$Drop++;
+				$row .= '	<tr>
+								<td>'.$rConsu["nombre"].'</td>
+								<td>'.$rConsu["cuenta"].'</td>
+								<td>'.(($rConsu["tipo"]=='1')?'Ahorros':'Corriente').'</td>
+								<td>
+									<div class="dropdown">
+									  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton'.$Drop.'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									   Acciones
+									  </button>
+									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton'.$Drop.'">
+									   <a class="dropdown-item" href="#"><i class="fa fa-edit"></i> Editar</a>
+									   <a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Eliminar</a>
+									  </div>
+									</div>
+								</td>
+							</t>
+				';
+			}
+		}else{
+			$row .= '
+							<tr><td colspan="4" class="text-center">Sin registros</td></tr>
+				';
+		}
+		$pasarela = self::consultaSystem("id", "102");//Activación pagos por Deposito Bancario
+		$estado = (($pasarela["estado"])?'checked':'');
+		$param = 'check'.self::encriptTable("102");
+		$contenido = '
+                    		<div class="card">
+							    <div class="card-header">
+							         	
+
+							        <a class="float-center btn btn-success btn-small" href="#" data-toggle="modal" data-target="#newBancoModal">
+			                                <i class="fas fa-plus-square  fa-sm fa-fw mr-2 text-white-400"></i>
+			                                Nuevo Banco
+			                        </a>
+
+									<label class="switch float-right">
+									  <input type="checkbox" '.$estado.' name="'.$param.'" onchange="javascript:procesoMediosPagos.actDesBtn(\''.$param.'\', this)">
+									  <span class="slider round"></span>
+									</label>
+							    </div>
+
+							    <div  class="collapse show" >
+ 									<div class="card-body">
+			                        	<div class="table-responsive">
+			                            <table class="table table-bordered" width="100%" cellspacing="0">
+			                            	Lista de bancos registrados
+											<thead>
+												<tr>
+													<th>Nombre</th>
+													<th>Cuenta</th>
+													<th>Tipo</th>
+													<th>Estado</th>											
+												</tr>
+											</thead>
+								
+											<tbody>
+											'.$row.'
+										</tbody>
+									</table>
+								</div>
+		';
+		$conexion->close();
+
+		return $contenido;
+	}
+
+	public static function cargar_medios_pago()	{
+		$contenido = self::cargar_vista_bancos();
+
+		# integraciones
+		$pasarela = self::consultaSystem("relacion", "metodo_pago");
+		$contenido .= '<div class="card shadow mb-4">
+                        
+                        <div class="card-body">
+                        	<div id="accordion">
+                        	<h5> Botones de pago</h5>';
+		if ($pasarela["estado"]) {
+			// echo serialize(array("nombre"=>"payulatam","IdAcount"=>87287237283,"ApiKey"=>"Kolip8932uj2"));
+			$val = 0;
+			for ($i=0; $i <count($pasarela["datos"]) ; $i++) { 
+				// echo $pasarela["datos"][$i]["nombre"].' - ';
+				$table = $col = $fila = '';
+				$datosPasarela = unserialize($pasarela["datos"][$i]["valor"]);
+				foreach ($datosPasarela as $key => $valu) {
+					$col .= '<th>'.$key.'</th>';
+					if (!is_array($valu)) {
+						$fila .= '<td>'.$valu.'</td>';
+					}else{
+						foreach ($valu as $key2 => $valu2) {
+							# code...
+						}
+					}
+				}
+				$table .='
+							<table>
+						  		Datos '.$pasarela["datos"][$i]["nombre"].'
+							  	<thead>
+							  		<tr>
+							  			'.$col.'
+							  		</tr>
+							  	</thead>
+							  	<tbody>
+							  		<tr>
+							  			'.$fila.'
+							  		</tr>
+							  	</tbody>
+						  	</table>
+				';
+				$val++;
+				$param = 'check'.self::encriptTable($pasarela["datos"][$i]["id"]);
+				$contenido .= '
+					<div class="card">
+					    <div class="card-header" id="heading'.$val.'">
+					      <h5 class="mb-0">
+					        <button class="btn btn-light" data-toggle="collapse" data-target="#collapsePasarela'.$val.'"  aria-controls="collapsePasarela'.$val.'">
+					         	'.$pasarela["datos"][$i]["nombre"].'
+
+					        </button>
+				         	<label class="switch float-right">
+							  <input type="checkbox" '.(($pasarela["datos"][$i]["estado"])?'checked':'').' name="'.$param.'" onchange="javascript:procesoMediosPagos.actDesBtn(\''.$param.'\', this)">
+							  <span class="slider round"></span>
+							</label>
+					      </h5>
+					    </div>
+
+					    <div id="collapsePasarela'.$val.'" class="collapse" aria-labelledby="heading'.$val.'" data-parent="#accordion">
+					      <div class="card-body">
+					        '.$table.'
+					      </div>
+					    </div>
+					</div>					
+	    		';				
+			}
+		}
+
+		$contenido .= '	
+						</div>
+				    </div>
+				</div>
+			</div>
+        ';
+		
+		return $contenido;
+	}
 }
 ?>

@@ -15,7 +15,8 @@ class Scripts
 			"fontAwesome"=>'<link href="'.$ruta.'assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 				<link href="'.$ruta.'assets/vendor/fontawesome-free/css/v4-shims.min.css" rel="stylesheet" type="text/css">',
 			"fonts.googleapis"=>'<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">',
-			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css" rel="stylesheet">',
+			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css" rel="stylesheet">
+							<link href="'.$ruta.'assets/css/switch.css" rel="stylesheet">',
 			"dataTables"=>'<link href="'.$ruta.'assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">'
 		);
 
@@ -50,20 +51,22 @@ class Scripts
     		"dataTables"=>'<!-- Page level plugins -->
 				    <script src="'.$ruta.'assets/vendor/datatables/jquery.dataTables.min.js"></script>
 				    <script src="'.$ruta.'assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>',
-			"system"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_admin.js" type="text/javascript"></script>',
-			"system-user"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_user.js" type="text/javascript"></script>',
+			"system"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_admin.js"></script>',
+			"system-user"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_user.js" ></script>',
 			"charts"=>'<!-- Page level plugins -->
     				<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js"></script>,
     				<script src="'.$ruta.'assets/js_pnyees/chart.js"></script>',
-    		"productos_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_productos.js" type="text/javascript" ></script>',
-    		"usuarios_detalles"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles.js" type="text/javascript" charset="utf-8"></script>',
-    		"usuarios_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_usuarios.js" type="text/javascript" ></script>',
+    		"productos_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_productos.js"  ></script>',
+    		"usuarios_detalles"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles.js" ></script>',
+    		"usuarios_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_usuarios.js"  ></script>',
     		"login"=>'<script src="'.$ruta.'assets/js_pnyees/login.js"></script>',
-    		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js" type="text/javascript" charset="utf-8"></script>',
-    		"catalogo"=>'<script src="'.$ruta.'assets/js_pnyees/catalogo.js" type="text/javascript" charset="utf-8"></script>',
-    		"detalle_producto"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_producto.js" type="text/javascript" charset="utf-8"></script>',
-    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" type="text/javascript" charset="utf-8"></script>',
-    		"proceso_resumen"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_resumen.js" type="text/javascript" charset="utf-8"></script>'
+    		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js" ></script>',
+    		"catalogo"=>'<script src="'.$ruta.'assets/js_pnyees/catalogo.js" ></script>',
+    		"detalle_producto"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_producto.js" ></script>',
+    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" ></script>',
+    		"proceso_resumen"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_resumen.js" ></script>',
+    		"proceso_pagos"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_pagos.js" ></script>',
+    		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js"></script>'
 		);
 
 		$contenido = '

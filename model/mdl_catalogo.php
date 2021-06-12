@@ -33,7 +33,7 @@ class Catalogo extends Conexion
 				$idProductoEncrip = self::formato_encript($idProductoEncrip, "con");
 				$ruta = "uploads/";
 				$imagen = $ruta.((!empty($rConsu["url_imagen"]))?$rConsu["url_imagen"]:'default.png');
-				$cont .= '<div class="col-lg-4 col-md-6 col-sm-12">
+				$cont .= '<div class="col-lg-3 col-md-6 col-sm-12">
 		                    <div class="card shadow mb-4">
 		                        <div class="card-body">
 		                            <div class="row ">
@@ -49,8 +49,16 @@ class Catalogo extends Conexion
 												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
 												  <input type="hidden" name="entrada" value="agregarProducto" >
 												</div>
-			                            		<button type="submit" class="btn btn-info "><i class="fa fa-plus"></i> Agregar al carrito</button>
-			                            		<a href="detalle-'.self::encriptar($rConsu["id"], "Det1").'" class="btn btn-warning "><i class="fa fa-external-link"></i> Ir al etalle</a>
+												<div class="row">
+													<div class="col-sm-6">
+														<button type="submit" class="btn btn-info btn-sm xs"><i class="fa fa-plus"></i> Agregar</button>
+													</div>
+													<div class="col-sm-6">
+														<a href="detalle-'.self::encriptar($rConsu["id"], "Det1").'" class="btn btn-warning btn-sm"><i class="fa fa-external-link"></i> Ver detalle</a>
+													</div>
+												</div>
+			                            		
+			                            		
 			                            	</form>
 		                            	</div>
 		                            </div>
@@ -264,6 +272,24 @@ class Catalogo extends Conexion
 
 	public static function procesarVaciarCarrito()	{
 		unset($_SESSION["CARRITO"]);
+	}
+
+	public static function cargarBotonesPago(){
+		$contenido = '';
+		$pasarela = self::consultaSystem("relacion", "metodo_pago");
+		var_dump($pasarela);
+		return $contenido;
+	}
+
+	public static function cargarModalDirecciones(){
+		$contenido = 'MODAL';
+		if (isset($_SESSION["SYSTEM"])) {
+			//consultar datos de dirección de sesión iniciada
+		}else{
+			//cargar modal de
+		}
+
+		return $contenido;
 	}
 }
  ?>

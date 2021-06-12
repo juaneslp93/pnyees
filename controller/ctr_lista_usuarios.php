@@ -128,7 +128,6 @@ switch ($caso) {
 			$valor = $_POST["valor"];
 			$casos = array("usuario","nombre","apellido","correo","telefono");
 			if (in_array($caso, $casos)) {
-				// echo "$id $caso $valor";
 				$datos = Usuarios::editar_usuario($id, $caso, $valor);
 				$continue = $datos["proceso"];
 				$mensaje = $datos["mensaje"];

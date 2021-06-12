@@ -301,7 +301,7 @@ class Vistas Extends Conexion
             }else{
                 header("Location: $url ");
             }
-        }else if($carpetaActual==="tienda-$ref" || $carpetaActual==="detalle-$id"){
+        }else if($carpetaActual==="tienda-$ref" || $carpetaActual==="detalle-$id" || $carpetaActual==="pagos"){
             //////////////////////////////////////////////////////////////////////////////////////
             // Permitimos acceder a la tienda sólo cuado se cumple una de estas dos condiciones //
             //////////////////////////////////////////////////////////////////////////////////////

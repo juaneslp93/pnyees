@@ -7,7 +7,10 @@ $casos = array(
 	"datosInicio",
 	"notificaciones",
 	"cargarDatosGrafico",
-	"cargarInfoDetallesUsuarios"
+	"cargarInfoDetallesUsuarios",
+	"cargarMediosPagos",
+	"CrearBanco",
+	"actPasarela"
 );
 // entrada
 $caso = '';
@@ -69,6 +72,41 @@ switch ($caso) {
 			        </div>
 			    </div>';
 		$result = array("continue" => true, "html"=>$html);
+		break;
+	case 'cargarMediosPagos':
+		$html = ProcesosAdmin::cargar_medios_pago();
+		$result = array("continue" => true, "html"=>$html);
+		break;
+	case 'CrearBanco':
+		$nombre = $_POST["nombre"];
+		$cuenta = $_POST["cuenta"];
+		$tipo = $_POST["tipo"];
+		$continue = true;
+
+		if (empty($nombre) || empty($cuenta) || empty($tipo) ) {
+			$continue = false;
+			$mensaje = "El nombre, la cuenta y el tipo son obligatorios";
+		}
+
+		if ($continue) {
+			$reg = ProcesosAdmin::registrar_banco($nombre, $cuenta, $tipo);
+			$continue = $reg["estado"];
+			if ($reg["estado"]) {
+				$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span> ['.$imagen["mensaje"].']';
+			}else{
+				$mensaje = $reg["mensaje"];
+			}
+		}
+		$result = array("continue" => true, "mensaje"=>$datos);
+		break;
+	case 'actPasarela':
+		$opcion =  $_POST["opcion"];
+		$opcion = str_replace('check', '', $opcion);
+		$opcion =  Conexion::decriptTable($opcion);
+		$valor =  $_POST["valor"];
+		
+		$result = Conexion::editSystem("estado", $valor, 'id', $opcion);
+		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		break;
 	
 	default:

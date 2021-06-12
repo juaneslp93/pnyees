@@ -116,7 +116,7 @@ class Productos extends Conexion
 
 	public static function registrar_descuentos($idProducto=0, $min=0, $max=0, $descuento=0){
 		$conexion = Conexion::iniciar();
-		$sql = "INSERT INTO productos_descuento (id_producto, minimo, maximo, descuento) VALUES (?,?,?,?)";
+		$sql = "INSERT INTO productos_descuento (productos_id, minimo, maximo, descuento) VALUES (?,?,?,?)";
 		$sentencia = $conexion->prepare($sql);
 		$sentencia->bind_param("iiid", $idProducto, $min, $max, $descuento);
 		$idProducto = $idProducto;
@@ -136,7 +136,7 @@ class Productos extends Conexion
 
 	public static function eliminar_descuentos($idProducto=0){
 		$conexion = Conexion::iniciar();
-		$sql = "DELETE FROM productos_descuento WHERE id_producto= $idProducto ";
+		$sql = "DELETE FROM productos_descuento WHERE productos_id= $idProducto ";
 		$conexion->query($sql);
 		$conexion->close();
 	}

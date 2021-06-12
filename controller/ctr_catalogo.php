@@ -9,7 +9,8 @@ $casos = array(
 	"agregarProducto",
 	"actualizarCot",
 	"eliminarProducto",
-	"vaciarCarrito"
+	"vaciarCarrito",
+	"botonesPasarela"
 );
 // entrada
 
@@ -60,6 +61,12 @@ switch ($caso) {
 		Catalogo::procesarVaciarCarrito();
 		$result = array("continue" => true, "html"=> '', ""=>'');
 		break;
+	case 'botonesPasarela':
+		$html = Catalogo::cargarBotonesPago();
+		$html .= Catalogo::cargarModalDirecciones();
+		$result = array("continue" => true, "html"=> $html, ""=>'');
+		break;
+
 	default:
 		$result = array("continue" => false, "mensaje"=> 'No existe dicho metodo '.$caso);
 	break;

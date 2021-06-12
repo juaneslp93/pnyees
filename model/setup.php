@@ -5,6 +5,8 @@ ini_set("display_errors", 1);
 
 define("KEYGEN_DATATBLE", random(16));
 
+date_default_timezone_set('America/Bogota');
+
 
 
 /* ---------------------------------------------------------------------------------- */

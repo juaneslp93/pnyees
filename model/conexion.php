@@ -191,12 +191,55 @@ class Conexion
 		}
 	}
 
-	public static function formato_encript($variable='', $preg='conv'){
+	public static function formato_encript($variable='', $preg='con'){
 		if ($preg=="des") {
 			return preg_replace('~-~', '=', $variable);
 		}else if($preg=="con"){
 			return preg_replace('~=~', '-', $variable);
 		}
+	}
+
+	public static function consultaSystem($campo='', $valCampo=''){
+		$conexion = self::iniciar();
+		$sql = "SELECT id, nombre, valor, defecto, estado FROM sistema WHERE $campo='$valCampo'";
+		$sentencia = $conexion->prepare($sql);
+
+		$result = true;
+		$mensaje = '';
+		$nombre = $valor = $defecto = $estado = null;
+		$datos = array();
+		if (!$sentencia->execute()) {
+			$result = false;
+			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al consultar datos del sistema!. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
+		}else{
+			$sentencia->bind_result($id, $nombre, $valor, $defecto, $estado);
+			while($sentencia->fetch()){
+				array_push($datos, array("id"=>$id, "nombre"=>$nombre, "valor"=>$valor, "defecto"=>$defecto, "estado"=>$estado));
+			}
+		}
+
+		$conexion->close();
+		return array("estado"=>$result, "mensaje"=>$mensaje, "datos"=>$datos);
+	}
+
+	public static function editSystem($campo='', $valor='', $campoWhere='', $valorWhere='')	{
+		$conexion = self::iniciar();
+		$where = '';
+		if ($campoWhere!='' && !empty($campoWhere)) {
+			$where = "WHERE $campoWhere = '$valorWhere'";
+		}
+		$sql = "UPDATE sistema SET $campo = '$valor' $where ";
+		$sentencia = $conexion->prepare($sql);
+
+		$mensaje = '';
+		$result = true;
+		if (!$sentencia->execute()) {
+			$result = false;
+			$mensaje = $sentencia->error.' ['.$sentencia->errono.'] ';
+		}
+		$conexion->close();
+
+		return array("estado"=>$result, "mensaje"=>$mensaje);
 	}
 }
 
