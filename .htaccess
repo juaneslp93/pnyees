@@ -2,6 +2,8 @@ Options +FollowSymLinks
 RewriteEngine On
 Options All -Indexes
 RewriteBase /pnyees/
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
 
 #RewriteCond %{HTTP_HOST} ^www.midominio.com [NC]
 #RewriteRule ^(.*)$ http://midominio.com/$1 [L,R=301]
@@ -30,7 +32,7 @@ RewriteRule ^user/inicio$ view/user/inicio.php [L]
 RewriteRule ^user/cerrar$ view/user/logout.php [L]
 
 #tienda
-RewriteRule ^tienda-(.+)$ view/tienda/catalogo.php?id=$1 [L]
+RewriteRule ^tienda-(.+)&(.+)$ view/tienda/catalogo.php?id=$1&pagina=$2 [QSA,L]
 RewriteRule ^resumen$ view/tienda/resumen.php [L]
 RewriteRule ^pagos$ view/tienda/pagos.php [L]
 RewriteRule ^detalle-(.+)$ view/tienda/detalle_producto.php?id=$1 [L]

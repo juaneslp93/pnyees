@@ -241,6 +241,89 @@ class Conexion
 
 		return array("estado"=>$result, "mensaje"=>$mensaje);
 	}
+
+	public static function cargar_departamentos($idDepartamento=0){
+		$conexion = self::iniciar();		
+		$sql = "SELECT id, nombre, codigo FROM departamentos ORDER BY nombre ASC";
+		$consu = $conexion->query($sql);
+		$opciones = '';
+		if ($consu->num_rows>0) {
+			while ($rConsu = $consu->fetch_assoc()) {
+				$opciones .= '<option value="'.$rConsu["codigo"].'" '.(($idDepartamento==$rConsu["id"])?'selected':'').'>'.$rConsu["nombre"].'</option>';
+			}
+		}
+		$html = '
+			<div class="form-group">
+				<label class="control-label" >Departamento</label>
+				<select name="departamento" id="departamento" class="form-control" required>
+					<option value="">**SELECCIONE**</option>
+					'.$opciones.'
+				</select>
+			</div>
+			<div class="form-group" id="cargarMunicipios">
+				<label class="control-label" >Municipio</label>
+				<select name="municipio" id="municipio" class="form-control">
+					<option value="">**SELECCIONE**</option>
+				</select>
+			</div>
+			<script type="text/javascript" charset="utf-8" async defer>
+				$("#departamento").on("change", function(){
+					var codigo = $(this).val();
+					$.ajax({
+						url: "controller/ctr_pagos.php",
+						type: "POST",
+						dataType: "json",
+						data:{"entrada":"cargarMunicipios", "codigo":codigo},
+					})
+					.done(function(result) {
+						$("#cargarMunicipios").html(result.html);
+					})
+					.fail(function() {
+						console.log("error");
+					});
+				});
+			</script>
+		';
+		$conexion->close();
+
+		return $html;
+	}
+
+	public static function cargar_municipios($idMunicipio=0, $codigoDepartamento=0){
+		$conexion = self::iniciar();
+		$where = '';
+		if ($codigoDepartamento>0) {
+			$where = " WHERE codigo_departamento = $codigoDepartamento ";
+		}		
+		$sql = "SELECT id, nombre_municipio, codigo_departamento, codigo_municipio FROM municipios $where ORDER BY nombre_municipio ASC";
+		$consu = $conexion->query($sql);
+		$opciones = '';
+		if ($consu->num_rows>0) {
+			while ($rConsu = $consu->fetch_assoc()) {
+				$opciones .= '<option value="'.$rConsu["codigo_municipio"].'" '.(($idMunicipio==$rConsu["id"])?'selected':'').'>'.$rConsu["nombre_municipio"].'</option>';
+			}
+		}
+		$html = '
+			<div class="form-group">
+				<label class="control-label" >Municipio</label>
+				<select name="municipio" id="municipio" class="form-control" required>
+					<option value="">**SELECCIONE**</option>
+					'.$opciones.'
+				</select>
+			</div>
+		';
+		$conexion->close();
+
+		return $html;
+	}
+
+	public static function fecha_sistema(){
+		return date('Y-m-d H:i:s');
+	}
+
+	public static function generar_numero_orden(){
+		return date("YmdHis").random(2);
+	}
 }
 
 ?>

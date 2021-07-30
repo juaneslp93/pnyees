@@ -135,7 +135,7 @@ class Vistas
 
 		        </ul>
         	';
-		}else if($_SESSION["SYSTEM"]["TIPO"]==="USER"){
+		}else {
 			$result = '';
 		}
 
@@ -347,7 +347,7 @@ class Vistas
 
                 </nav>
 			';
-		}else if($_SESSION["SYSTEM"]["TIPO"]==="USER"){
+		}else {
 			$result = '';
 		}
 		return $result;

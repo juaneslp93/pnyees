@@ -49,7 +49,7 @@ include "controller/ctr_scripts.php";
                                             <i class="fa fa-sign-in fa-lg"></i> Ingresar
                                         </button>
                                         <hr>
-                                        <a href="tienda-Yg==" class="btn btn-secondary btn-user btn-block"><i class="fa fa-shopping-cart fa-lg"></i> Ir directo a la tienda</a>
+                                        <a href="tienda-YQ==&1" class="btn btn-secondary btn-user btn-block"><i class="fa fa-shopping-cart fa-lg"></i> Ir directo a la tienda</a>
                                        
                                     </form>
                                     <hr>

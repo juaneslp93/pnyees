@@ -1,8 +1,8 @@
 <?php 
 include "../../controller/ctr_vistas_tienda.php";
 include "../../controller/ctr_scripts.php";
-$_SESSION["TIENDA"]["ID"] = $_GET["id"];
-$_SESSION["TIENDA"]["COMPRADOR"] = Vistas::reconocer_comprador($_GET["id"]);
+/*$_SESSION["TIENDA"]["ID"] = $_GET["id"];
+$_SESSION["TIENDA"]["COMPRADOR"] = Vistas::reconocer_comprador($_GET["id"]);*/
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -89,7 +89,7 @@ switch ($caso) {
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="detalles-usuarios-'.Conexion::encriptar($val, "Tbl1").'">Ver detalles</a>
-                            <a class="dropdown-item" href="../tienda-'.Conexion::encriptar($val, "Tbl1").'">Ir a la tienda</a>
+                            <a class="dropdown-item" href="../tienda-'.Conexion::encriptar($val, "Tbl1").'&1">Ir a la tienda</a>
                             <hr>
                             <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptar($val, "Tbl1").'">Eliminar</a>
                         </div>

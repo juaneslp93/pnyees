@@ -88,6 +88,11 @@ switch ($caso) {
 			$mensaje = "El nombre, la cuenta y el tipo son obligatorios";
 		}
 
+		if (ProcesosAdmin::validar_cuenta_existe($cuenta, $tipo)) {
+			$continue = false;
+			$mensaje = "El numero de cuenta ya se encuentra registrada";
+		}
+
 		if ($continue) {
 			$reg = ProcesosAdmin::registrar_banco($nombre, $cuenta, $tipo);
 			$continue = $reg["estado"];
@@ -97,7 +102,7 @@ switch ($caso) {
 				$mensaje = $reg["mensaje"];
 			}
 		}
-		$result = array("continue" => true, "mensaje"=>$datos);
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
 		break;
 	case 'actPasarela':
 		$opcion =  $_POST["opcion"];

@@ -264,6 +264,17 @@ class ProcesosAdmin Extends Conexion
 		return $fecha;
 	}
 
+	public static function validar_cuenta_existe($cuenta=''){
+		$conexion = self::iniciar();
+		$sql = "SELECT id FROM bancos WHERE cuenta = '$cuenta' ";
+		$consu = $conexion->query($sql);
+		$result = false;
+		if ($consu->num_rows>0) $result = true;
+		
+		$conexion->close();
+		return $result;
+	}
+
 	public static function registrar_banco($nombre='', $cuenta='', $tipo=''){
 		$conexion = self::iniciar();
 		$sql = "INSERT INTO bancos (nombre, cuenta, tipo, estado, fecha) VALUES (?,?,?,?,?)";

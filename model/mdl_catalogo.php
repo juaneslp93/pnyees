@@ -114,7 +114,8 @@ class Catalogo extends Conexion
 		                            <div class="row ">
 		                            	<div class="col-lg-12">
 		                            		<form method="post" name="FormAgregarCarrito" class="agregarCarrito" accept-charset="utf-8">
-			                            		<img src="'.$imagen.'" class="img-responsive img-rounded img-fluid" alt="">
+			                            		<img src="'.$imagen.'" class="img-responsive img-rounded img-fluid" style="width: 35rem;" alt="">
+
 			                            		<h3>'.$rConsu["nombre"].'</h3>
 			                            		<h6>'.$rConsu["descripcion"].'</h6>
 			                            		$'.$precio.'<br>
@@ -153,11 +154,11 @@ class Catalogo extends Conexion
 	public static function agregar_producto($cantidad='', $idProductoEncrip='')	{
 		$idProducto = self::formato_encript($idProductoEncrip, "des");
 		$idProducto = self::desencriptar($idProducto, "Det1");
-		$result = array("result"=>false, "mensaje"=>"Error al cargar los datos");
+		$result = array("result"=>false, "mensaje"=>"Error al agregar el producto");
 		$existe = false;
-	
+		
 		if (!empty($_SESSION["CARRITO"])) {
-			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) { 
+			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) {
 				if ($_SESSION["CARRITO"][$i]["id_producto"] === $idProductoEncrip) {
 					$_SESSION["CARRITO"][$i]["cantidad"] += $cantidad;
 					$existe = true;
@@ -168,39 +169,44 @@ class Catalogo extends Conexion
 		}
 		
 		if (!$existe) {
-			$conexion = self::iniciar();
-			$sql = "SELECT nombre, descripcion, precio, impuesto, url_imagen FROM productos WHERE id= $idProducto AND estado='1'";
-			$consu = $conexion->query($sql);
-			if (!isset($_SESSION["CARRITO"])) {
-				$_SESSION["CARRITO"] = array();
-			}
-			if ($consu->num_rows>0) {
-				$rConsu = $consu->fetch_assoc();
-				$descuento = self::obtenerDecuento($cantidad, $idProducto);
-				$result = array("result"=>true, "mensaje"=>"producto agregado");
-				$precio_calculado = self::calcularPrecio($cantidad, $rConsu["precio"], $descuento, $rConsu["impuesto"]);
-
-				array_push($_SESSION["CARRITO"], 
-					array("id_producto" => $idProductoEncrip,
-						"nombre" => $rConsu["nombre"],
-						"precio" => $rConsu["precio"],
-						"impuesto" => $rConsu["impuesto"],
-						"descuento" => $descuento,
-						"cantidad" => $cantidad,
-						"descripcion" => $rConsu["descripcion"],
-						"imagen" => $rConsu["url_imagen"],
-						"precio_calculado" => $precio_calculado
-					)
-				);
-			}
-			$conexion->close();
+			$result = self::consultar_producto($cantidad, $idProducto, $idProductoEncrip);
 		}
 		return $result;
 	}
 
-	public static function obtenerDecuento($cantidad=0, $idProducto=0)	{
+	private static function consultar_producto($cantidad, $idProducto, $idProductoEncrip){
 		$conexion = self::iniciar();
-		$sql = "SELECT descuento, maximo, minimo FROM productos_descuento WHERE id_producto = $idProducto ";
+		$sql = "SELECT nombre, descripcion, precio, impuesto, url_imagen FROM productos WHERE id= $idProducto AND estado='1'";
+		$consu = $conexion->query($sql);
+		if (!isset($_SESSION["CARRITO"])) {
+			$_SESSION["CARRITO"] = array();
+		}
+		if ($consu->num_rows>0) {
+			$rConsu = $consu->fetch_assoc();
+			$descuento = self::obtener_descuento($cantidad, $idProducto);
+			$result = array("result"=>true, "mensaje"=>"producto agregado");
+			$precio_calculado = self::calcular_precio($cantidad, $rConsu["precio"], $descuento, $rConsu["impuesto"]);
+
+			array_push($_SESSION["CARRITO"], 
+				array("id_producto" => $idProductoEncrip,
+					"nombre" => $rConsu["nombre"],
+					"precio" => $rConsu["precio"],
+					"impuesto" => $rConsu["impuesto"],
+					"descuento" => $descuento,
+					"cantidad" => $cantidad,
+					"descripcion" => $rConsu["descripcion"],
+					"imagen" => $rConsu["url_imagen"],
+					"precio_calculado" => $precio_calculado
+				)
+			);
+		}
+		$conexion->close();
+		return $result;
+	}
+
+	private static function obtener_descuento($cantidad=0, $idProducto=0)	{
+		$conexion = self::iniciar();
+		$sql = "SELECT descuento, maximo, minimo FROM productos_descuento WHERE productos_id = $idProducto ";
 		$consu = $conexion->query($sql);
 		$descuento = 0.00;
 		if ($consu->num_rows>0) {
@@ -219,7 +225,7 @@ class Catalogo extends Conexion
 		return $descuento;
 	}
 
-	public static function calcularPrecio($cantidad, $precio, $descuento, $impuesto)	{
+	private static function calcular_precio($cantidad, $precio, $descuento, $impuesto)	{
 		$precioImpuesto = ($precio*$impuesto)/100;
 		$precioImpuesto = $precioImpuesto+$precio;
 		$precioImpuesto = $precioImpuesto*$cantidad;
@@ -232,7 +238,7 @@ class Catalogo extends Conexion
 		return $precioTotal;
 	}
 
-	public static function InfoCotActualizada($value='')	{
+	public static function info_cot_actualizada($value='')	{
 		$html = '';
 		$totalCompra = 0;
 		if (!empty($_SESSION["CARRITO"])) {
@@ -259,7 +265,7 @@ class Catalogo extends Conexion
 		return $html;
 	}
 
-	public static function procesarEliminacion($idProducto='')	{
+	public static function procesar_eliminacion($idProducto='')	{
 		if (!empty($_SESSION["CARRITO"])) {
 			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) {
 				if (($clave = array_search($idProducto,  $_SESSION["CARRITO"][$i])) !== false && $clave==="id_producto") {
@@ -270,25 +276,120 @@ class Catalogo extends Conexion
 		}
 	}
 
-	public static function procesarVaciarCarrito()	{
+	public static function procesar_vaciar_carrito()	{
 		unset($_SESSION["CARRITO"]);
 	}
 
-	public static function cargarBotonesPago(){
-		$contenido = '';
-		$pasarela = self::consultaSystem("relacion", "metodo_pago");
-		var_dump($pasarela);
+	public static function cargar_medios_de_pago(){
+		$html = '';
+
+		# se cargan los botones electrónicos si existen (PENDIENTE)
+		$htmlPendiente = self::cargar_botones_pago();
+
+		# contenido html para el contenedor
+		$html .= '<div class="card shadow mb-4">
+			<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+				<p> Medios de pago </p>
+				<div class="pull-right" id="direEdit">'.((!empty($_SESSION["DATOS_FACTURACION"]))?'<button class="btn btn-warning btn-xs" onclick="procesoPagos.editDirSel();"><i class="fa fa-edit"></i> Seleccionar otra dirección</button>':'').'</div>
+			</div>
+			<div class="card-body">				
+			';
+		$contenido = '<div class="card shadow mb-4">';
+		
+		# se carga el botón de DB si existe
+		$pasarela = self::consultaSystem("id", "102");//Activación pagos por Deposito Bancario
+		if ($pasarela["estado"]) {
+			$html .= '<div class="card-body">
+							<button type="button" class="btn btn-success" name="metodo_pago" id="bancoBtn" ><i class="fa fa-bank"></i> Banco </button>
+						</div>
+			';
+			$html .= self::cargarBancos();
+		}
+		$contenido .= '</div>';
+		$html .= '		
+			</div>
+		</div>';
+		return $html;
+	}
+
+	private static function cargarBancos(){
+		
+		$conexion = self::iniciar();
+		$sql = "SELECT nombre, tipo, cuenta FROM  bancos WHERE estado = '1'";
+		$consu = $conexion->query($sql);		
+		$contenido = $datosBanco = '';
+		/////////////////////
+		// Info del banco  //
+		/////////////////////
+		
+		$contenido .= '<div class="modal fade" id="datosBanco" tabindex="-1" role="dialog" aria-labelledby="btnPasarela" aria-hidden="true" > ';
+		while ($rConsu = $consu->fetch_assoc()) {
+			$nombre = $rConsu["nombre"];
+			$tipo = (($rConsu["tipo"]==1)?'Ahorros':(($rConsu["tipo"]==2)?'Corriente':'Inválido'));
+			$cuenta = $rConsu["cuenta"];
+			$datosBanco .= '<div class="col-lg-6 col-md-6 " > Nombre : '.$nombre.' <br>';
+			$datosBanco .= ' Cuenta : '.$cuenta.'<br>';
+			$datosBanco .= ' Tipo : '.$tipo.'</div>';
+		}
+		$contenido .= '<div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newProductoMdl">Pago por Deposito Bancario</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="modal-body">
+                        	<div class="row" style="background-color:#9BD0FF; border-radius:1rem;">
+                        		'.$datosBanco.'
+                        	</div>
+                            <form class="user" id="FormRegistroOrdenCompra" autocomplete="off">
+                        		<br>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control" type="text" name="numero_cuenta" value="" placeholder="numero de cuenta" required>
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                       <input class="form-control" type="date" name="fecha" value="" placeholder="fecha" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="soporte_pago" value="" placeholder="Soporte de pago" required>
+                                </div>
+                                <div class="form-group">
+                                </div>
+                                <input type="hidden" name="entrada" value="compraDepoBanc">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    Finalizar Pago
+                                </button>
+                                <hr>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+		
+		
+		
+		$contenido .= '</div>';
+
+		$conexion->close();
 		return $contenido;
 	}
 
-	public static function cargarModalDirecciones(){
-		$contenido = 'MODAL';
-		if (isset($_SESSION["SYSTEM"])) {
-			//consultar datos de dirección de sesión iniciada
-		}else{
-			//cargar modal de
-		}
-
+	private static function cargar_botones_pago(){
+		$contenido = '<div class="card shadow mb-4">';
+		$pasarela = self::consultaSystem("relacion", "metodo_pago");
+		$contenido .= '<div class="card-body">
+						<button class="btn btn-success" name="metodo_pago" id="PAYU"><i class="fa fa-bank"></i> PAYU </button>
+					</div>';
+		$contenido .= '</div>';
 		return $contenido;
 	}
 }

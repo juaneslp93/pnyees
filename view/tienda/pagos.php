@@ -1,6 +1,7 @@
 <?php 
 include "../../controller/ctr_vistas_tienda.php";
 include "../../controller/ctr_scripts.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,5 +48,20 @@ include "../../controller/ctr_scripts.php";
     <!-- End of Page Wrapper -->
 
 </body>
+    <!-- direcciones Modal-->
+    <div class="modal fade" id="direccionModal" tabindex="-1" role="dialog" aria-labelledby="direccionesMdl"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="direccionesMdl">Direccciones</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenidoDir">CONTENIDO</div>
+            </div>
+        </div>
+    </div>
 	<?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2", "proceso_tienda", "proceso_pagos")); ?> 
 </html>

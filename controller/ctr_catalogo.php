@@ -49,21 +49,20 @@ switch ($caso) {
 		$result = array("continue" => $continue, "mensaje"=> $mensaje, ""=>'');
 		break;
 	case 'actualizarCot':
-		$html = Catalogo::InfoCotActualizada();
+		$html = Catalogo::info_cot_actualizada();
 		
 		$result = array("continue" => true, "html"=> $html, ""=>'');
 		break;
 	case 'eliminarProducto':
-		$datos = Catalogo::procesarEliminacion($_POST["id"]);
+		$datos = Catalogo::procesar_eliminacion($_POST["id"]);
 		$result = array("continue" => true, "html"=> $datos, ""=>'');
 		break;
 	case 'vaciarCarrito':
-		Catalogo::procesarVaciarCarrito();
+		Catalogo::procesar_vaciar_carrito();
 		$result = array("continue" => true, "html"=> '', ""=>'');
 		break;
 	case 'botonesPasarela':
-		$html = Catalogo::cargarBotonesPago();
-		$html .= Catalogo::cargarModalDirecciones();
+		$html = Catalogo::cargar_medios_de_pago();
 		$result = array("continue" => true, "html"=> $html, ""=>'');
 		break;
 

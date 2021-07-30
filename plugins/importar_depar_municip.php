@@ -52,18 +52,18 @@ for ($row = 7; $row <= $highestRow-19; $row++){ $num++;
     array_push($codigoDep, $sheet->getCell("A".$row)->getValue());
     $sheet->getCell("A".$row)->getValue();
     // $sql = "INSERT INTO departamentos (nombre, codigo) VALUES ('".$sheet->getCell('B'.$row)->getValue()."', ".$sheet->getCell('A'.$row)->getValue().")";
-    /*if (!$conexion->query($sql)) {
-      echo $conexion->error;
-    }*/
+    // if (!$conexion->query($sql)) {
+    //   echo $conexion->error;
+    // }
   }
 
   // if (!in_array($sheet->getCell("C".$row)->getValue(), $codigoMu)) {
-    array_push($codigoMu, $sheet->getCell("C".$row)->getValue());
-    $sheet->getCell("C".$row)->getValue();
-    echo $sql = "INSERT INTO municipios (id_departamento, nombre_municipio) VALUES (".(int)$sheet->getCell('A'.$row)->getValue().", '".$sheet->getCell('D'.$row)->getValue()."');";
-    if (!$conexion->query($sql)) {
-      echo $conexion->error;
-    }
+    // array_push($codigoMu, $sheet->getCell("C".$row)->getValue());
+    // $sheet->getCell("C".$row)->getValue();
+    // echo $sql = "INSERT INTO municipios (id_departamento, nombre_municipio, codigo) VALUES (".(int)$sheet->getCell('A'.$row)->getValue().", '".$sheet->getCell('D'.$row)->getValue()."', '".$sheet->getCell("C".$row)->getValue()."');";
+    // if (!$conexion->query($sql)) {
+    //   echo $conexion->error;
+    // }
   // }
   ?>
        <tr>

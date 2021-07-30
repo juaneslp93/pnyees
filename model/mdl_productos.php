@@ -82,7 +82,7 @@ class Productos extends Conexion
 
 	public static function cargar_descuentos($idProducto='')	{
 		$conexion = Conexion::iniciar();
-		$sql = "SELECT maximo, minimo, descuento FROM productos_descuento WHERE id_producto= $idProducto ";
+		$sql = "SELECT maximo, minimo, descuento FROM productos_descuento WHERE productos_id= $idProducto ";
 		$consu = $conexion->query($sql);
 		$x = 0;
 		$html = '';

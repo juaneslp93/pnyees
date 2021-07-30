@@ -125,7 +125,7 @@ class Vistas Extends Conexion
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-left">
                             <li class="nav-item dropdown no-arrow">
-                                <a class="btn btn-link text-white rounded-circle mr-3" href="tienda-'.$ref.'">
+                                <a class="btn btn-link text-white rounded-circle mr-3" href="tienda-'.$ref.'&1">
                                     <i class="fa fa-home"></i> Inicio
                                 </a>
                             </li>
@@ -204,35 +204,36 @@ class Vistas Extends Conexion
         return $usuario;
     }
 
-    public static function resumenCarrito($ref='', $id='')    {
+    public static function resumenCarrito($ref='', $id='' )    {
         $carpeta = explode("/", $_SERVER["REDIRECT_URL"]);
-        $carpetaActual = $carpeta[2];
+        $carpetaActual = explode("&", $carpeta[2])[0];
         $resumen = '';
-        $url = 'tienda-'.$ref;
-        if ($carpetaActual==="resumen" && !empty($_SESSION["CARRITO"])) {           
+        $url = "tienda-$ref&1";
+        if (($carpetaActual==="resumen") && !empty($_SESSION["CARRITO"])) {           
             if (!empty($_SESSION["CARRITO"])) {
 
                 $resumen = '<div class="row">
                             <div class="col-lg-8 col-md-6 col-sm-12">
                                 <div class="card shadow mb-12">
-                                    <div class="card-body align-self-center">
-                                        <div class="row text-center ">
-                                            <div class="col-lg-12 table-striped">
-                                                <table class="table table-responsive d-table-cel">
-                                                    Resumen del carrito
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Nombre</th>
-                                                            <th>Cantidad M²</th>
-                                                            <th>Descuento %</th>
-                                                            <th>Precio base</th>
-                                                            <th>IVA %</th>
-                                                            <th>Subtotal</th>
-                                                            <th><i class="fa fa-trash "></i></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                    <div class="table-responsive">
+                                        <div class="card-body align-self-center">
+                                            <div class="row text-center ">
+                                                <div class="col-lg-12 table-striped">
+                                                    <table class="table table-responsive d-table-cel" width="100%">
+                                                        Resumen del carrito
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Nombre</th>
+                                                                <th>Cantidad M²</th>
+                                                                <th>Descuento %</th>
+                                                                <th>Precio base</th>
+                                                                <th>IVA %</th>
+                                                                <th>Subtotal</th>
+                                                                <th><i class="fa fa-trash "></i></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                         
                 ';
                 $totalCompra = $t = 0;
@@ -259,6 +260,7 @@ class Vistas Extends Conexion
                                                 <button type="button" id="vaciar" class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> Vaciar el carrito</button>
                                                 <a href="'.$url.'" class="btn btn-info btn-sm"> <i class="fa fa-shopping-cart"></i> Continuar comprando</a>
 
+                                                </div>
                                             </div>
                                         </div>                                        
                                     </div>
@@ -301,7 +303,7 @@ class Vistas Extends Conexion
             }else{
                 header("Location: $url ");
             }
-        }else if($carpetaActual==="tienda-$ref" || $carpetaActual==="detalle-$id" || $carpetaActual==="pagos"){
+        }else if($carpetaActual==="tienda-$ref" || $carpetaActual==="detalle-$id" || ($carpetaActual==="pagos" && !empty($_SESSION["CARRITO"]))){
             //////////////////////////////////////////////////////////////////////////////////////
             // Permitimos acceder a la tienda sólo cuado se cumple una de estas dos condiciones //
             //////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,8 @@
 <?php 
 include "controller/ctr_scripts.php";
- ?>
+$sitio = explode("/", $_SERVER["SERVER_NAME"]);
+$sitio = $_SERVER["REQUEST_SCHEME"].'://'.$sitio[0];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +31,7 @@ include "controller/ctr_scripts.php";
                         <div class="error mx-auto" data-text="404">404</div>
                         <p class="lead text-gray-800 mb-5">Página no encontrada.</p>
                         <p class="text-gray-500 mb-0">No hemos encontrado la página que solicitas. Si crees que es un error comentalo con el administrador del sitio.</p>
-                        <a href="javascript: history.go(-1)">Volver atrás</a>
+                        <a href="<?= $sitio ?>">Volver atrás</a>
                     </div>
 
                 </div>
