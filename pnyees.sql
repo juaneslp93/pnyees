@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-08-2021 a las 00:05:45
+-- Tiempo de generación: 10-08-2021 a las 01:56:05
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.2.34
 
-SET SQL_MODE = "ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+05:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -97,12 +97,10 @@ CREATE TABLE `compras` (
 --
 
 INSERT INTO `compras` (`id`, `nro_compra`, `total_compra`, `total_descuento`, `total_impuesto`, `metodo_pago`, `fecha_compra`, `estado_envio`, `estado_proceso`, `estado_aprobacion`, `soporte_pago`, `id_usuario`, `datos_envio`, `datos_facturacion`, `orden_asociada`) VALUES
-(2, '0', '678300.00', '0.00', '19.00', '1', '2021-08-07 14:02:44', '0', '1', '1', 'sadfaf', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729175609vt'),
-(3, '0', '45220.00', '0.00', '19.00', '1', '2021-08-07 14:06:45', '0', '1', '1', 'aaaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183354zK'),
-(4, '0', '45220.00', '0.00', '19.00', '1', '2021-08-07 14:08:50', '0', '1', '1', 'aaaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183354zK'),
-(5, '0', '502418.00', '0.00', '38.00', '1', '2021-08-07 14:15:21', '0', '1', '1', 'aaaadddaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183921wU'),
-(6, '0', '502418.00', '0.00', '38.00', '1', '2021-08-07 15:08:00', '0', '1', '1', 'aaaadddaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183921wU'),
-(7, '0', '678300.00', '0.00', '19.00', '1', '2021-08-07 16:32:33', '0', '1', '1', 'sadfaf', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729175609vt');
+(1, '0', '457198.00', '0.00', '19.00', '1', '2021-08-07 17:18:53', '0', '1', '1', 'sdfgs', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807171636Qu'),
+(2, '0', '1142995.00', '0.00', '19.00', '1', '2021-08-07 19:54:19', '0', '1', '1', 'asdAS1', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807190208ms'),
+(3, '0', '178307.22', '0.00', '19.00', '1', '2021-08-07 20:28:26', '0', '1', '1', 'uuujujy', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202750tD'),
+(4, '0', '795098.50', '0.00', '38.00', '1', '2021-08-07 23:07:21', '0', '1', '1', 'EEqwer', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807230708bW');
 
 -- --------------------------------------------------------
 
@@ -128,8 +126,10 @@ CREATE TABLE `compras_detalles` (
 --
 
 INSERT INTO `compras_detalles` (`id`, `nombre`, `precio`, `cantidad`, `impuesto`, `descuento`, `fecha`, `id_producto`, `id_compra`, `precio_calculado`) VALUES
-(1, 'prueba1', '1921.00', 200, '19.00', '0.00', '2021-08-07 14:15:21', 0, 2, '457198.00'),
-(2, 'prueba1', '1921.00', 200, '19.00', '0.00', '2021-08-07 15:08:00', 0, 2, '457198.00');
+(1, 'prueba1', '1921.00', 200, '19.00', '0.00', '2021-08-07 17:18:53', 3, 1, '457198.00'),
+(2, 'prueba1', '1921.00', 500, '19.00', '0.00', '2021-08-07 19:54:19', 3, 1, '1142995.00'),
+(3, 'prueba1', '1921.00', 78, '19.00', '0.00', '2021-08-07 20:28:26', 3, 1, '178307.22'),
+(4, 'Prueba2', '1900.00', 200, '19.00', '0.00', '2021-08-07 23:07:21', 4, 1, '452200.00');
 
 -- --------------------------------------------------------
 
@@ -1348,20 +1348,12 @@ CREATE TABLE `ordenes_compras` (
 --
 
 INSERT INTO `ordenes_compras` (`id`, `total_orden_compra`, `total_descuento`, `total_impuesto`, `metodo_pago`, `fecha`, `estado_proceso`, `estado_aprobacion`, `soporte_pago`, `datos_envio`, `numero_orden`, `id_usuario`, `datos_facturacion`) VALUES
-(2, '678300.00', '0.00', '19.00', 1, '2021-07-29 17:56:09', '1', '1', 'sadfaf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729175609vt', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(3, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:00:41', '1', '1', 'sadfafa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '202107291800414Q', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(4, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:03:29', '1', '1', 'sadfafaS', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180329.f', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(5, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:04:07', '1', '1', 'sadfafaSa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180407bH', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(6, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:04:46', '1', '1', 'sadfafaSaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180446aD', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(7, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:09:45', '1', '1', 'aaasddfsdf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180945,9', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(8, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:16:57', '1', '1', 'aaasddfsdfa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729181657FL', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(9, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:25:15', '1', '1', 'asdfasdfasdfasdfasf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729182515p.', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(10, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:32:59', '1', '1', 'asdfasfaaaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '202107291832592O', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(11, '45220.00', '0.00', '19.00', 1, '2021-07-29 18:33:54', '1', '1', 'aaaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183354zK', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(12, '502418.00', '0.00', '38.00', 1, '2021-07-29 18:39:21', '1', '1', 'aaaadddaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183921wU', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
-(13, '22610.00', '0.00', '19.00', 1, '2021-07-29 18:53:09', '1', '0', 'asdfasfaaaadd', 'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:8:\"asdfafsd\";s:8:\"telefono\";s:4:\"2324\";s:6:\"correo\";s:9:\"ad@mail.c\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}', '20210729185309-s', 0, 'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:8:\"asdfafsd\";s:8:\"telefono\";s:4:\"2324\";s:6:\"correo\";s:9:\"ad@mail.c\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}'),
-(14, '457198.00', '0.00', '19.00', 1, '2021-08-07 16:54:58', '0', '0', 'asdfasf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807165458KZ', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
-(15, '457198.00', '0.00', '19.00', 1, '2021-08-07 16:59:16', '0', '0', 'asdfas', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807165916yc', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}');
+(1, '457198.00', '0.00', '19.00', 1, '2021-08-07 17:16:36', '1', '1', 'sdfgs', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807171636Qu', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(2, '1142995.00', '0.00', '19.00', 1, '2021-08-07 19:02:08', '1', '1', 'asdAS1', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807190208ms', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(3, '135660.00', '0.00', '19.00', 1, '2021-08-07 20:25:33', '1', '0', 'juhytgr', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202533AL', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(4, '1600193.00', '0.00', '19.00', 1, '2021-08-07 20:26:49', '1', '0', 'kkujyh', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202649sl', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(5, '178307.22', '0.00', '19.00', 1, '2021-08-07 20:27:50', '1', '1', 'uuujujy', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202750tD', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(6, '795098.50', '0.00', '38.00', 1, '2021-08-07 23:07:08', '1', '1', 'EEqwer', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807230708bW', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}');
 
 -- --------------------------------------------------------
 
@@ -1388,15 +1380,13 @@ CREATE TABLE `ordenes_compras_detalles` (
 --
 
 INSERT INTO `ordenes_compras_detalles` (`id`, `nombre_producto`, `precio_producto`, `impuesto_producto`, `descuento_producto`, `cantidad`, `fecha`, `id_producto`, `ordenes_compras_id`, `precio_calculado`, `orden_asociada`) VALUES
-(5, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:04:46', 0, 6, '678300.00', '20210729180446aD'),
-(6, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:09:45', 0, 7, '678300.00', '20210729180945,9'),
-(7, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:16:57', 0, 8, '678300.00', '20210729181657FL'),
-(8, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:25:15', 0, 9, '678300.00', '20210729182515p.'),
-(9, 'Prueba2', '1900.00', '19.00', '0.00', 300, '2021-07-29 18:32:59', 0, 10, '678300.00', '202107291832592O'),
-(10, 'Prueba2', '1900.00', '19.00', '0.00', 20, '2021-07-29 18:33:54', 0, 11, '45220.00', '20210729183354zK'),
-(11, 'prueba1', '1921.00', '19.00', '0.00', 200, '2021-07-29 18:39:21', 0, 12, '457198.00', '20210729183921wU'),
-(12, 'Prueba2', '1900.00', '19.00', '0.00', 20, '2021-07-29 18:39:21', 0, 12, '45220.00', '20210729183921wU'),
-(13, 'Prueba2', '1900.00', '19.00', '0.00', 10, '2021-07-29 18:53:09', 0, 13, '22610.00', '20210729185309-s');
+(1, 'prueba1', '1921.00', '19.00', '0.00', 200, '2021-08-07 17:16:36', 3, 1, '457198.00', '20210807171636Qu'),
+(2, 'prueba1', '1921.00', '19.00', '0.00', 500, '2021-08-07 19:02:08', 3, 2, '1142995.00', '20210807190208ms'),
+(3, 'Prueba2', '1900.00', '19.00', '0.00', 60, '2021-08-07 20:25:33', 4, 3, '135660.00', '20210807202533AL'),
+(4, 'prueba1', '1921.00', '19.00', '0.00', 700, '2021-08-07 20:26:49', 3, 4, '1600193.00', '20210807202649sl'),
+(5, 'prueba1', '1921.00', '19.00', '0.00', 78, '2021-08-07 20:27:50', 3, 5, '178307.22', '20210807202750tD'),
+(6, 'Prueba2', '1900.00', '19.00', '0.00', 200, '2021-08-07 23:07:08', 4, 6, '452200.00', '20210807230708bW'),
+(7, 'prueba1', '1921.00', '19.00', '0.00', 150, '2021-08-07 23:07:08', 3, 6, '342898.50', '20210807230708bW');
 
 -- --------------------------------------------------------
 
@@ -1420,8 +1410,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `impuesto`, `url_imagen`, `estado`, `descripcion`, `fecha_registro`) VALUES
-(1, 'prueba1', '1921.00', '19.00', 'd44c2b12a815eb568c327d3de7b2916b3685684c.jpg', '1', 'asdf', '2021-06-17 19:06:54'),
-(2, 'Prueba2', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16');
+(3, 'prueba1', '1921.00', '19.00', 'd44c2b12a815eb568c327d3de7b2916b3685684c.jpg', '1', 'asdf', '2021-06-17 19:06:54'),
+(4, 'Prueba2', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16');
 
 -- --------------------------------------------------------
 
@@ -1510,6 +1500,7 @@ CREATE TABLE `sistema` (
 --
 
 INSERT INTO `sistema` (`id`, `nombre`, `valor`, `defecto`, `relacion`, `estado`) VALUES
+(101, 'formato decimal', '2', '2', 'config_general', '1'),
 (102, 'deposito bancario', 'a:0:{}', '1', 'metodo_pago', '1'),
 (103, 'Otra pasarela', 'a:0:{}', '1', 'metodo_pago', '0');
 
@@ -1683,13 +1674,13 @@ ALTER TABLE `bancos`
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `compras_detalles`
 --
 ALTER TABLE `compras_detalles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -1707,13 +1698,13 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de la tabla `ordenes_compras`
 --
 ALTER TABLE `ordenes_compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes_compras_detalles`
 --
 ALTER TABLE `ordenes_compras_detalles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -1756,11 +1747,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `usuarios_direcciones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- Restricciones para tablas volcadas
---
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
