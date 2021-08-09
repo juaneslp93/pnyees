@@ -8,22 +8,16 @@ procesosListaUsuarios = {
       	"processing":true,
       	"serverside":true,
       	"ajax":'../controller/ctr_lista_usuarios.php?entrada=lista_usuarios',
-      	"orden":[[0,'asc']],
+      	"order":[[0,'asc']],
       	"pageLength":25,
       	"dom":"lBfrtip",
-      	"buttons":[{
-      		"extend":"copy",
-      		"className":"btn-sm"
-      	},{
-      		"extend":"print",
-      		"className":"btn-sm"
-      	}],
-      	"responsive":1,
-      	"autoFill":!0,
-      	"colReader":!0,
-      	"keys":!0,
-      	"rowReorder":!0,
-      	"select":!0
+      	"buttons":['excel', 'pdf', 'copy', 'print'],
+      	"responsive":true,
+      	"autoFill":false,
+      	"colReader":false,
+      	"keys":false,
+      	"rowReorder":false,
+      	"select":false
       });
 
       table.on('draw', function(){

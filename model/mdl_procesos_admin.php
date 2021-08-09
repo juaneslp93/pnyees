@@ -26,7 +26,7 @@ class ProcesosAdmin Extends Conexion
 			$enviadas = 0;
 			$total_envio = 0;
 			while ($rConsu = $consu->fetch_assoc()) {
-				$id_envio = $rConsu["id"];
+				// $id_envio = $rConsu["id"];
 				$estado_envio = $rConsu["estado_envio"];
 				$total_envio++;
 				if ($estado_envio=='1') {
@@ -391,58 +391,60 @@ class ProcesosAdmin Extends Conexion
 			// echo serialize(array("nombre"=>"payulatam","IdAcount"=>87287237283,"ApiKey"=>"Kolip8932uj2"));
 			$val = 0;
 			for ($i=0; $i <count($pasarela["datos"]) ; $i++) { 
-				// echo $pasarela["datos"][$i]["nombre"].' - ';
-				$table = $col = $fila = '';
-				$datosPasarela = unserialize($pasarela["datos"][$i]["valor"]);
-				foreach ($datosPasarela as $key => $valu) {
-					$col .= '<th>'.$key.'</th>';
-					if (!is_array($valu)) {
-						$fila .= '<td>'.$valu.'</td>';
-					}else{
-						foreach ($valu as $key2 => $valu2) {
-							# code...
+				// echo $pasarela["datos"][$i]["id"].' - ';
+				if ($pasarela["datos"][$i]["id"]!=102) {					
+					$table = $col = $fila = '';
+					$datosPasarela = unserialize($pasarela["datos"][$i]["valor"]);
+					foreach ($datosPasarela as $key => $valu) {
+						$col .= '<th>'.$key.'</th>';
+						if (!is_array($valu)) {
+							$fila .= '<td>'.$valu.'</td>';
+						}else{
+							foreach ($valu as $key2 => $valu2) {
+								# code...
+							}
 						}
 					}
+					$table .='
+								<table>
+							  		Datos '.$pasarela["datos"][$i]["nombre"].'
+								  	<thead>
+								  		<tr>
+								  			'.$col.'
+								  		</tr>
+								  	</thead>
+								  	<tbody>
+								  		<tr>
+								  			'.$fila.'
+								  		</tr>
+								  	</tbody>
+							  	</table>
+					';
+					$val++;
+					$param = 'check'.self::encriptTable($pasarela["datos"][$i]["id"]);
+					$contenido .= '
+						<div class="card">
+						    <div class="card-header" id="heading'.$val.'">
+						      <h5 class="mb-0">
+						        <button class="btn btn-light" data-toggle="collapse" data-target="#collapsePasarela'.$val.'"  aria-controls="collapsePasarela'.$val.'">
+						         	'.$pasarela["datos"][$i]["nombre"].'
+
+						        </button>
+					         	<label class="switch float-right">
+								  <input type="checkbox" '.(($pasarela["datos"][$i]["estado"])?'checked':'').' name="'.$param.'" onchange="javascript:procesoMediosPagos.actDesBtn(\''.$param.'\', this)">
+								  <span class="slider round"></span>
+								</label>
+						      </h5>
+						    </div>
+
+						    <div id="collapsePasarela'.$val.'" class="collapse" aria-labelledby="heading'.$val.'" data-parent="#accordion">
+						      <div class="card-body">
+						        '.$table.'
+						      </div>
+						    </div>
+						</div>					
+		    		';				
 				}
-				$table .='
-							<table>
-						  		Datos '.$pasarela["datos"][$i]["nombre"].'
-							  	<thead>
-							  		<tr>
-							  			'.$col.'
-							  		</tr>
-							  	</thead>
-							  	<tbody>
-							  		<tr>
-							  			'.$fila.'
-							  		</tr>
-							  	</tbody>
-						  	</table>
-				';
-				$val++;
-				$param = 'check'.self::encriptTable($pasarela["datos"][$i]["id"]);
-				$contenido .= '
-					<div class="card">
-					    <div class="card-header" id="heading'.$val.'">
-					      <h5 class="mb-0">
-					        <button class="btn btn-light" data-toggle="collapse" data-target="#collapsePasarela'.$val.'"  aria-controls="collapsePasarela'.$val.'">
-					         	'.$pasarela["datos"][$i]["nombre"].'
-
-					        </button>
-				         	<label class="switch float-right">
-							  <input type="checkbox" '.(($pasarela["datos"][$i]["estado"])?'checked':'').' name="'.$param.'" onchange="javascript:procesoMediosPagos.actDesBtn(\''.$param.'\', this)">
-							  <span class="slider round"></span>
-							</label>
-					      </h5>
-					    </div>
-
-					    <div id="collapsePasarela'.$val.'" class="collapse" aria-labelledby="heading'.$val.'" data-parent="#accordion">
-					      <div class="card-body">
-					        '.$table.'
-					      </div>
-					    </div>
-					</div>					
-	    		';				
 			}
 		}
 

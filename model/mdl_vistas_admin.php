@@ -2,7 +2,7 @@
 /**
  * MODELO VISTAS
  */
-class Vistas
+class VistasAdmin
 {
 	
 	function __construct(){
@@ -58,7 +58,7 @@ class Vistas
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2"
                             aria-expanded="true" aria-controls="collapse2">
-                            <i class="fas fa-fw fa-shopping-cart"></i>
+                            <i class="fas fa-fw fa-dollar-sign"></i>
                             <span>Compras</span>
                         </a>
                         <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -71,9 +71,24 @@ class Vistas
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ordenesCompras"
+                            aria-expanded="true" aria-controls="ordenesCompras">
+                            <i class="fas fa-fw fa-shopping-basket"></i>
+                            <span>Ordenes Compras</span>
+                        </a>
+                        <div id="ordenesCompras" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Gestión de ordenes de compras:</h6>
+                                <a class="collapse-item" href="lista-orden-compras">Listar Ordenes Compras</a>
+                                <a class="collapse-item" href="reporte-orden-compras">Reporte de Ordenes de compras</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3"
                             aria-expanded="true" aria-controls="collapse3">
-                            <i class="fas fa-fw fa-shopping-cart"></i>
+                            <i class="fas fa-fw fa-box-open"></i>
                             <span>Productos y servicios</span>
                         </a>
                         <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

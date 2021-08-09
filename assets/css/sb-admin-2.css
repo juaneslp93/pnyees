@@ -10344,6 +10344,7 @@ a:focus {
   font-weight: 800;
   font-size: 0.65rem;
   color: #b7b9cc;
+  overflow: hidden;
 }
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
@@ -10355,6 +10356,7 @@ a:focus {
   text-decoration: none;
   border-radius: 0.35rem;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item:hover,

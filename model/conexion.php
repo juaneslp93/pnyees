@@ -203,8 +203,7 @@ class Conexion
 		$conexion = self::iniciar();
 		$sql = "SELECT id, nombre, valor, defecto, estado FROM sistema WHERE $campo='$valCampo'";
 		$sentencia = $conexion->prepare($sql);
-
-		$result = true;
+		
 		$mensaje = '';
 		$nombre = $valor = $defecto = $estado = null;
 		$datos = array();
@@ -212,9 +211,17 @@ class Conexion
 			$result = false;
 			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al consultar datos del sistema!. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
 		}else{
+			$result = true;
+			$sentencia->store_result();
 			$sentencia->bind_result($id, $nombre, $valor, $defecto, $estado);
-			while($sentencia->fetch()){
-				array_push($datos, array("id"=>$id, "nombre"=>$nombre, "valor"=>$valor, "defecto"=>$defecto, "estado"=>$estado));
+			if ($sentencia->num_rows==1) {
+				$sentencia->fetch();
+				$result = $estado;
+				$datos = array("id"=>$id, "nombre"=>$nombre, "valor"=>$valor, "defecto"=>$defecto, "estado"=>$estado);
+			}else{
+				while($sentencia->fetch()){
+					array_push($datos, array("id"=>$id, "nombre"=>$nombre, "valor"=>$valor, "defecto"=>$defecto, "estado"=>$estado));
+				}				
 			}
 		}
 
@@ -323,6 +330,11 @@ class Conexion
 
 	public static function generar_numero_orden(){
 		return date("YmdHis").random(2);
+	}
+
+	public static function formato_decimal($valor=0){
+		$decimal = self::consultaSystem("id",101)["datos"]["valor"];
+		return number_format($valor,$decimal,',','.');
 	}
 }
 

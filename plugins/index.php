@@ -51,10 +51,10 @@ for ($row = 7; $row <= $highestRow-19; $row++){ $num++;
 ?>
        <tr>
           <th scope='row'><?php echo $num;?></th>
-          <td><?php echo $sheet->getCell("A".$row)->getValue();?></td>
-          <td><?php echo $sheet->getCell("B".$row)->getValue();?></td>
-          <td><?php echo $sheet->getCell("C".$row)->getValue();?></td>
-          <td><?php echo $sheet->getCell("D".$row)->getValue();?></td>
+          <td><?= $sheet->getCell("A".$row)->getValue();?></td>
+          <td><?= $sheet->getCell("B".$row)->getValue();?></td>
+          <td><?= $sheet->getCell("C".$row)->getValue();?></td>
+          <td><?= $sheet->getCell("D".$row)->getValue();?></td>
         </tr>
     	
 	<?php	

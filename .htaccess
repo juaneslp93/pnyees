@@ -12,7 +12,9 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 #RewriteCond %{HTTP_REFERER} !^$
 #RewriteRule .*\.(jpg|gif|bmp|png)$ http://hotlink.midominio.com/no_se_permite_hotlinking.jpg [L]
 
-ErrorDocument 404 http://localhost/pnyees/404.php
+#error document
+ErrorDocument 404 http://desktop-adv24fo:8080/pnyees/404
+RewriteRule ^404$ view/404.php [L]
 
 # Registro
 RewriteRule ^registro$ view/register.php [L]
@@ -24,6 +26,9 @@ RewriteRule ^admin/lista-usuarios$ view/admin/usuarios_lista.php [L]
 RewriteRule ^admin/detalles-usuarios-(.+)$ view/admin/usuarios_detalles.php?id=$1 [L]
 RewriteRule ^admin/lista-productos$ view/admin/productos_lista.php [L]
 RewriteRule ^admin/medios-pago$ view/admin/config_medios_pago.php [L]
+RewriteRule ^admin/lista-orden-compras$ view/admin/orden_compra_lista.php [L]
+RewriteRule ^admin/orden-compra-detalle-(.+)$ view/admin/orden_compra_detalle.php?id=$1 [L]
+RewriteRule ^admin/reporte-orden-compras$ view/admin/config_medios_pago.php [L]
 
 RewriteRule ^admin/importar$ view/admin/config_importar.php [L]
 

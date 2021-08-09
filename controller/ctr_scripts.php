@@ -17,7 +17,7 @@ class Scripts
 			"fonts.googleapis"=>'<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">',
 			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css" rel="stylesheet">
 							<link href="'.$ruta.'assets/css/switch.css" rel="stylesheet">',
-			"dataTables"=>'<link href="'.$ruta.'assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">'
+			"dataTables"=>'<link href="'.$ruta.'assets/vendor/datatables/datatables.min.css" rel="stylesheet">'
 		);
 
 		$contenido = '
@@ -49,8 +49,7 @@ class Scripts
 					<script src="'.$ruta.'assets/js/demo/chart-area-demo.js"></script>
     				<script src="'.$ruta.'assets/js/demo/chart-pie-demo.js"></script>',
     		"dataTables"=>'<!-- Page level plugins -->
-				    <script src="'.$ruta.'assets/vendor/datatables/jquery.dataTables.min.js"></script>
-				    <script src="'.$ruta.'assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>',
+				    <script src="'.$ruta.'assets/vendor/datatables/datatables.min.js"></script>',
 			"system"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_admin.js"></script>',
 			"system-user"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_user.js" ></script>',
 			"charts"=>'<!-- Page level plugins -->
@@ -66,7 +65,9 @@ class Scripts
     		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" ></script>',
     		"proceso_resumen"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_resumen.js" ></script>',
     		"proceso_pagos"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_pagos.js" ></script>',
-    		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js"></script>'
+    		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js"></script>',
+    		"orden_compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra.js"></script>',
+			"orden_compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra.js"></script>',
 		);
 
 		$contenido = '

@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-07-2021 a las 01:10:25
+-- Tiempo de generación: 08-08-2021 a las 00:05:45
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.2.34
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+05:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -61,6 +61,13 @@ CREATE TABLE `bancos` (
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `bancos`
+--
+
+INSERT INTO `bancos` (`id`, `nombre`, `tipo`, `cuenta`, `estado`, `fecha`) VALUES
+(1, 'Prueba', '1', '098787656', '1', '2021-06-21 15:06:18');
+
 -- --------------------------------------------------------
 
 --
@@ -79,12 +86,23 @@ CREATE TABLE `compras` (
   `estado_proceso` enum('0','1') NOT NULL DEFAULT '0',
   `estado_aprobacion` enum('0','1') NOT NULL DEFAULT '0',
   `soporte_pago` varchar(100) NOT NULL,
-  `direccion` varchar(45) NOT NULL,
-  `comprascol` varchar(45) NOT NULL,
-  `usuarios_direcciones_id` int(11) NOT NULL,
-  `usuarios_direcciones_usuarios_id` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  `datos_envio` text NOT NULL,
+  `datos_facturacion` text NOT NULL,
+  `orden_asociada` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `compras`
+--
+
+INSERT INTO `compras` (`id`, `nro_compra`, `total_compra`, `total_descuento`, `total_impuesto`, `metodo_pago`, `fecha_compra`, `estado_envio`, `estado_proceso`, `estado_aprobacion`, `soporte_pago`, `id_usuario`, `datos_envio`, `datos_facturacion`, `orden_asociada`) VALUES
+(2, '0', '678300.00', '0.00', '19.00', '1', '2021-08-07 14:02:44', '0', '1', '1', 'sadfaf', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729175609vt'),
+(3, '0', '45220.00', '0.00', '19.00', '1', '2021-08-07 14:06:45', '0', '1', '1', 'aaaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183354zK'),
+(4, '0', '45220.00', '0.00', '19.00', '1', '2021-08-07 14:08:50', '0', '1', '1', 'aaaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183354zK'),
+(5, '0', '502418.00', '0.00', '38.00', '1', '2021-08-07 14:15:21', '0', '1', '1', 'aaaadddaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183921wU'),
+(6, '0', '502418.00', '0.00', '38.00', '1', '2021-08-07 15:08:00', '0', '1', '1', 'aaaadddaa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183921wU'),
+(7, '0', '678300.00', '0.00', '19.00', '1', '2021-08-07 16:32:33', '0', '1', '1', 'sadfaf', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729175609vt');
 
 -- --------------------------------------------------------
 
@@ -101,8 +119,17 @@ CREATE TABLE `compras_detalles` (
   `descuento` decimal(10,2) NOT NULL,
   `fecha` datetime NOT NULL,
   `id_producto` int(11) NOT NULL,
-  `id_compra` int(11) NOT NULL
+  `id_compra` int(11) NOT NULL,
+  `precio_calculado` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `compras_detalles`
+--
+
+INSERT INTO `compras_detalles` (`id`, `nombre`, `precio`, `cantidad`, `impuesto`, `descuento`, `fecha`, `id_producto`, `id_compra`, `precio_calculado`) VALUES
+(1, 'prueba1', '1921.00', 200, '19.00', '0.00', '2021-08-07 14:15:21', 0, 2, '457198.00'),
+(2, 'prueba1', '1921.00', 200, '19.00', '0.00', '2021-08-07 15:08:00', 0, 2, '457198.00');
 
 -- --------------------------------------------------------
 
@@ -1316,6 +1343,26 @@ CREATE TABLE `ordenes_compras` (
   `datos_facturacion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `ordenes_compras`
+--
+
+INSERT INTO `ordenes_compras` (`id`, `total_orden_compra`, `total_descuento`, `total_impuesto`, `metodo_pago`, `fecha`, `estado_proceso`, `estado_aprobacion`, `soporte_pago`, `datos_envio`, `numero_orden`, `id_usuario`, `datos_facturacion`) VALUES
+(2, '678300.00', '0.00', '19.00', 1, '2021-07-29 17:56:09', '1', '1', 'sadfaf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729175609vt', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(3, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:00:41', '1', '1', 'sadfafa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '202107291800414Q', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(4, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:03:29', '1', '1', 'sadfafaS', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180329.f', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(5, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:04:07', '1', '1', 'sadfafaSa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180407bH', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(6, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:04:46', '1', '1', 'sadfafaSaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180446aD', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(7, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:09:45', '1', '1', 'aaasddfsdf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729180945,9', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(8, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:16:57', '1', '1', 'aaasddfsdfa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729181657FL', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(9, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:25:15', '1', '1', 'asdfasdfasdfasdfasf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729182515p.', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(10, '678300.00', '0.00', '19.00', 1, '2021-07-29 18:32:59', '1', '1', 'asdfasfaaaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '202107291832592O', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(11, '45220.00', '0.00', '19.00', 1, '2021-07-29 18:33:54', '1', '1', 'aaaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183354zK', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(12, '502418.00', '0.00', '38.00', 1, '2021-07-29 18:39:21', '1', '1', 'aaaadddaa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}', '20210729183921wU', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"5\";s:6:\"nombre\";s:10:\"Dirección\";s:8:\"telefono\";s:4:\"2342\";s:6:\"correo\";s:9:\"23@kao.co\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:5:\"Asdfa\";s:12:\"departamento\";s:8:\"AMAZONAS\";s:9:\"municipio\";s:4:\"PORE\";}}}'),
+(13, '22610.00', '0.00', '19.00', 1, '2021-07-29 18:53:09', '1', '0', 'asdfasfaaaadd', 'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:8:\"asdfafsd\";s:8:\"telefono\";s:4:\"2324\";s:6:\"correo\";s:9:\"ad@mail.c\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}', '20210729185309-s', 0, 'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:8:\"asdfafsd\";s:8:\"telefono\";s:4:\"2324\";s:6:\"correo\";s:9:\"ad@mail.c\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}'),
+(14, '457198.00', '0.00', '19.00', 1, '2021-08-07 16:54:58', '0', '0', 'asdfasf', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807165458KZ', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(15, '457198.00', '0.00', '19.00', 1, '2021-08-07 16:59:16', '0', '0', 'asdfas', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807165916yc', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}');
+
 -- --------------------------------------------------------
 
 --
@@ -1336,6 +1383,21 @@ CREATE TABLE `ordenes_compras_detalles` (
   `orden_asociada` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `ordenes_compras_detalles`
+--
+
+INSERT INTO `ordenes_compras_detalles` (`id`, `nombre_producto`, `precio_producto`, `impuesto_producto`, `descuento_producto`, `cantidad`, `fecha`, `id_producto`, `ordenes_compras_id`, `precio_calculado`, `orden_asociada`) VALUES
+(5, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:04:46', 0, 6, '678300.00', '20210729180446aD'),
+(6, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:09:45', 0, 7, '678300.00', '20210729180945,9'),
+(7, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:16:57', 0, 8, '678300.00', '20210729181657FL'),
+(8, 'Prueba2', '1900.00', '19.00', '0.00', 900, '2021-07-29 18:25:15', 0, 9, '678300.00', '20210729182515p.'),
+(9, 'Prueba2', '1900.00', '19.00', '0.00', 300, '2021-07-29 18:32:59', 0, 10, '678300.00', '202107291832592O'),
+(10, 'Prueba2', '1900.00', '19.00', '0.00', 20, '2021-07-29 18:33:54', 0, 11, '45220.00', '20210729183354zK'),
+(11, 'prueba1', '1921.00', '19.00', '0.00', 200, '2021-07-29 18:39:21', 0, 12, '457198.00', '20210729183921wU'),
+(12, 'Prueba2', '1900.00', '19.00', '0.00', 20, '2021-07-29 18:39:21', 0, 12, '45220.00', '20210729183921wU'),
+(13, 'Prueba2', '1900.00', '19.00', '0.00', 10, '2021-07-29 18:53:09', 0, 13, '22610.00', '20210729185309-s');
+
 -- --------------------------------------------------------
 
 --
@@ -1353,6 +1415,14 @@ CREATE TABLE `productos` (
   `fecha_registro` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id`, `nombre`, `precio`, `impuesto`, `url_imagen`, `estado`, `descripcion`, `fecha_registro`) VALUES
+(1, 'prueba1', '1921.00', '19.00', 'd44c2b12a815eb568c327d3de7b2916b3685684c.jpg', '1', 'asdf', '2021-06-17 19:06:54'),
+(2, 'Prueba2', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16');
+
 -- --------------------------------------------------------
 
 --
@@ -1368,6 +1438,14 @@ CREATE TABLE `productos_descuento` (
   `minimo` decimal(10,2) NOT NULL,
   `productos_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `productos_descuento`
+--
+
+INSERT INTO `productos_descuento` (`id`, `nombre`, `descuento`, `estado`, `maximo`, `minimo`, `productos_id`) VALUES
+(1, '', '5.00', '0', '10.00', '1.00', 3),
+(2, '', '10.00', '0', '20.00', '11.00', 3);
 
 -- --------------------------------------------------------
 
@@ -1427,6 +1505,14 @@ CREATE TABLE `sistema` (
   `estado` enum('0','1') NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `sistema`
+--
+
+INSERT INTO `sistema` (`id`, `nombre`, `valor`, `defecto`, `relacion`, `estado`) VALUES
+(102, 'deposito bancario', 'a:0:{}', '1', 'metodo_pago', '1'),
+(103, 'Otra pasarela', 'a:0:{}', '1', 'metodo_pago', '0');
+
 -- --------------------------------------------------------
 
 --
@@ -1444,6 +1530,13 @@ CREATE TABLE `usuarios` (
   `estado` enum('0','1') NOT NULL DEFAULT '0',
   `fecha_registro` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `usuario`, `clave`, `nombre`, `apellido`, `telefono`, `correo`, `estado`, `fecha_registro`) VALUES
+(1, 'Usuario3', '$2y$10$j7YtRcRKSAjpj9oBKkeFiOPI/8DxYDO2n.3EyzG3vzlGi/Rj0mOi6', 'Usuario2', 'Prueba1', 8768378, 'Usuario1@mail.com', '1', '2021-06-21 15:06:50');
 
 -- --------------------------------------------------------
 
@@ -1466,6 +1559,17 @@ CREATE TABLE `usuarios_direcciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Volcado de datos para la tabla `usuarios_direcciones`
+--
+
+INSERT INTO `usuarios_direcciones` (`id`, `nombre`, `telefono`, `correo`, `direccion`, `usuarios_id`, `fecha`, `estado`, `identificacion`, `departamento`, `municipio`) VALUES
+(1, 'puebla', 2334, 'a@m.co', 'lejos muy lejos', 1, '2021-06-29 15:34:47', '1', '', 5, 1),
+(2, 'camargo', 2434, 'g@m.co', 'otro lejos muy lejos', 1, '2021-06-29 15:35:47', '1', '', 5, 2),
+(3, 'puebla', 2334, 'a@m.co', 'lejos muy lejos', 1, '2021-06-29 15:34:47', '1', '', 5, 4),
+(4, 'Dirección', 2342, '23@kao.co', 'asdf', 1, '2021-07-27 19:18:29', '1', 'Asdfa', 91, 263),
+(5, 'Dirección', 2342, '23@kao.co', 'asdf', 1, '2021-07-27 19:27:15', '1', 'Asdfa', 91, 263);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -1473,8 +1577,7 @@ CREATE TABLE `usuarios_direcciones` (
 -- Indices de la tabla `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`,`roles_id`,`roles_roles_permisos_id`),
-  ADD KEY `fk_admin_roles1` (`roles_id`,`roles_roles_permisos_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `bancos`
@@ -1486,15 +1589,13 @@ ALTER TABLE `bancos`
 -- Indices de la tabla `compras`
 --
 ALTER TABLE `compras`
-  ADD PRIMARY KEY (`id`,`usuarios_direcciones_id`,`usuarios_direcciones_usuarios_id`),
-  ADD KEY `fk_compras_usuarios_direcciones1` (`usuarios_direcciones_id`,`usuarios_direcciones_usuarios_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `compras_detalles`
 --
 ALTER TABLE `compras_detalles`
-  ADD PRIMARY KEY (`id`,`id_compra`),
-  ADD KEY `fk_facturas_detalles_facturas1` (`id_compra`);
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indices de la tabla `departamentos`
@@ -1518,33 +1619,31 @@ ALTER TABLE `ordenes_compras`
 -- Indices de la tabla `ordenes_compras_detalles`
 --
 ALTER TABLE `ordenes_compras_detalles`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `productos_descuento`
 --
 ALTER TABLE `productos_descuento`
-  ADD PRIMARY KEY (`id`,`productos_id`),
-  ADD KEY `fk_productos_descuento_productos1` (`productos_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
-  ADD PRIMARY KEY (`id`,`roles_permisos_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `roles_permisos`
 --
 ALTER TABLE `roles_permisos`
-  ADD PRIMARY KEY (`id`,`roles_id`,`roles_roles_permisos_id`),
-  ADD KEY `fk_roles_permisos_roles1` (`roles_id`,`roles_roles_permisos_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `sistema`
@@ -1562,8 +1661,7 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `usuarios_direcciones`
 --
 ALTER TABLE `usuarios_direcciones`
-  ADD PRIMARY KEY (`id`,`usuarios_id`),
-  ADD KEY `fk_usuarios_direcciones_usuarios1` (`usuarios_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -1579,13 +1677,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT de la tabla `bancos`
 --
 ALTER TABLE `bancos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `compras`
+--
+ALTER TABLE `compras`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `compras_detalles`
 --
 ALTER TABLE `compras_detalles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -1603,25 +1707,25 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de la tabla `ordenes_compras`
 --
 ALTER TABLE `ordenes_compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes_compras_detalles`
 --
 ALTER TABLE `ordenes_compras_detalles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `productos_descuento`
 --
 ALTER TABLE `productos_descuento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -1639,59 +1743,24 @@ ALTER TABLE `roles_permisos`
 -- AUTO_INCREMENT de la tabla `sistema`
 --
 ALTER TABLE `sistema`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_direcciones`
 --
 ALTER TABLE `usuarios_direcciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
 --
 
---
--- Filtros para la tabla `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `fk_admin_roles1` FOREIGN KEY (`roles_id`,`roles_roles_permisos_id`) REFERENCES `roles` (`id`, `roles_permisos_id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `compras`
---
-ALTER TABLE `compras`
-  ADD CONSTRAINT `fk_compras_usuarios_direcciones1` FOREIGN KEY (`usuarios_direcciones_id`,`usuarios_direcciones_usuarios_id`) REFERENCES `usuarios_direcciones` (`id`, `usuarios_id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `compras_detalles`
---
-ALTER TABLE `compras_detalles`
-  ADD CONSTRAINT `fk_facturas_detalles_facturas1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `productos_descuento`
---
-ALTER TABLE `productos_descuento`
-  ADD CONSTRAINT `fk_productos_descuento_productos1` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `roles_permisos`
---
-ALTER TABLE `roles_permisos`
-  ADD CONSTRAINT `fk_roles_permisos_roles1` FOREIGN KEY (`roles_id`,`roles_roles_permisos_id`) REFERENCES `roles` (`id`, `roles_permisos_id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `usuarios_direcciones`
---
-ALTER TABLE `usuarios_direcciones`
-  ADD CONSTRAINT `fk_usuarios_direcciones_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

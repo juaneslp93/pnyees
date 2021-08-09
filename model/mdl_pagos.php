@@ -125,7 +125,7 @@ class Pagos Extends Conexion
 		$totalDescuento = $totales["totalDescuento"];
 		$error = false;		
 		$result = true;
-		$mensaje = "Compra realizada";
+		$mensaje = "Orden de compra realizada";
 		#se registra la orden en la base de datos
 		$registroOrden = self::registrar_orden_compra($idComprador, $orden, $soporte, $cuenta, $fechaSoporte, $totalCompra, $totalDescuento, $totalImpuesto, 1, $fecha );
 
@@ -133,7 +133,8 @@ class Pagos Extends Conexion
 		if ($registroOrden["id"]>0) {
 			for ($i=0; $i <count($_SESSION["CARRITO"]) ; $i++) {
 				if (!empty($_SESSION["CARRITO"][$i]["id_producto"])) {
-					$idProducto 			= $_SESSION["CARRITO"][$i]["id_producto"];
+					$idProductoEncrip = self::formato_encript($_SESSION["CARRITO"][$i]["id_producto"], "des");
+					$idProducto = self::desencriptar($idProductoEncrip, "Det1");
 					$nombre 				= $_SESSION["CARRITO"][$i]["nombre"];
 					$precio 				= $_SESSION["CARRITO"][$i]["precio"];
 					$impuesto 				= $_SESSION["CARRITO"][$i]["impuesto"];
@@ -226,8 +227,8 @@ class Pagos Extends Conexion
 		$v4 =  $totalImpuesto;
 		$v5 =  $metodoPago;
 		$v6 =  $fecha;
-		$v7 =  '1';
-		$v8 =  '1';
+		$v7 =  '0';
+		$v8 =  '0';
 		$v9 =  $soportePago;
 		$v10 = $_SESSION["DATOS_FACTURACION"];
 		$v11 = $_SESSION["DATOS_FACTURACION"];

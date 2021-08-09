@@ -3,8 +3,8 @@
 require "../../model/mdl_vistas_admin.php";
 
 # nabvar
-$navbar = Vistas::navBar();
+$navbar = VistasAdmin::navBar();
 # menu
-$menu = Vistas::menu();
+$menu = VistasAdmin::menu();
 
 ?>

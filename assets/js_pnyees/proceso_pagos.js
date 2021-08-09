@@ -96,10 +96,14 @@ procesoPagos = {
 					}).then((promised)=> {
 						if (promised.isConfirmed) {
 							window.location.reload();
-						}else{
-							alert("PORQUE NO ACEPTA HPTA");
 						}
 					});
+				}else{
+					Swal.fire({
+						icon: 'warning',
+						title: '¡Proceso detenido!',
+						html: result.mensaje
+					  });
 				}
 			})
 			.fail(function() {

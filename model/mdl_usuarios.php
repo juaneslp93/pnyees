@@ -38,5 +38,6 @@ class Usuarios extends Conexion
 		$conexion->close();
 		return array("proceso"=>$result, "mensaje"=>$mensaje);
 	}
+
 }
  ?>
