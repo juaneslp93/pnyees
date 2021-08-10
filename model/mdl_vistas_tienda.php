@@ -227,6 +227,7 @@ class Vistas Extends Conexion
                                                                 <th>Nombre</th>
                                                                 <th>Cantidad M²</th>
                                                                 <th>Descuento %</th>
+                                                                <th>Precio unitario</th>
                                                                 <th>Precio base</th>
                                                                 <th>IVA %</th>
                                                                 <th>Subtotal</th>
@@ -245,6 +246,7 @@ class Vistas Extends Conexion
                                                     <td>'.$_SESSION["CARRITO"][$i]["cantidad"].'</td>
                                                     <td>'.number_format($_SESSION["CARRITO"][$i]["descuento"],2,'.',',').'</td>
                                                     <td>'.number_format($_SESSION["CARRITO"][$i]["precio"],2,'.',',').'</td>
+                                                    <td>'.number_format(($_SESSION["CARRITO"][$i]["precio"]*$_SESSION["CARRITO"][$i]["cantidad"]),2,'.',',').'</td>
                                                     <td>'.$_SESSION["CARRITO"][$i]["impuesto"].'</td>
                                                     <td>'.number_format($_SESSION["CARRITO"][$i]["precio_calculado"],2,'.',',').'</td>
                                                     <td><a href="javascript:procesoResumen.eliminarProducto(\''.Conexion::formato_encript($_SESSION["CARRITO"][$i]["id_producto"],'con').'\')"><i class="fa fa-trash text-danger"></i></a></td>  

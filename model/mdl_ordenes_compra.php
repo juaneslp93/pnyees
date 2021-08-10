@@ -50,7 +50,7 @@ class OrdenesCompra extends Conexion
 					}
 				}else{
 					$result = false;
-					$mensaje = "Orden procesada ya ha sido procesada";
+					$mensaje = "Esta orden ya ha sido procesada";
 				}			
 			}			
 		}
@@ -71,6 +71,19 @@ class OrdenesCompra extends Conexion
 		return $result;
 	}
 
+	private static function validar_orden_aprobada($idOrden){
+		$conexion = self::iniciar();
+		$sql = "SELECT id FROM ordenes_compras WHERE id = $idOrden AND estado_aprobacion = '1'";
+		$consu = $conexion->query($sql);
+		$result = false;
+		if($consu->num_rows>0)
+			$result = true;
+		
+		$conexion->close();
+
+		return $result;
+	}
+	
 	private static function negar_orden_compra($idOrden){
 		$result = false;
 		if (!empty($idOrden)) {
@@ -116,8 +129,16 @@ class OrdenesCompra extends Conexion
 	}
 
 	public static function consultar_orden_compra_detalle($idOrden){
-		$sql = "SELECT nombre_producto, precio_producto, impuesto_producto, descuento_producto, cantidad, precio_calculado, id_producto, orden_asociada FROM ordenes_compras_detalles WHERE ordenes_compras_id = $idOrden ";
 		$conexion = self::iniciar();
+
+		$sqlFac = "SELECT (SELECT usuario FROM usuarios AS u WHERE oc.id_usuario = u.id ) as usuario, datos_facturacion, datos_envio FROM ordenes_compras AS oc WHERE id = $idOrden ";
+		$consu1 = $conexion->query($sqlFac);
+		$rConsu1 = $consu1->fetch_assoc();
+		$datosEnvio = $rConsu1["datos_envio"];
+		$datosFacturacion = $rConsu1["datos_facturacion"];
+		$usuario = $rConsu1["usuario"];
+		$sql = "SELECT nombre_producto, precio_producto, impuesto_producto, descuento_producto, cantidad, precio_calculado, id_producto, orden_asociada FROM ordenes_compras_detalles WHERE ordenes_compras_id = $idOrden ";
+		
 		$consu = $conexion->query($sql);
 		$datos["result"] = false;
 		$datos["mensaje"] = "Orden detalle no encontrada";
@@ -128,6 +149,9 @@ class OrdenesCompra extends Conexion
 			}
 			$datos["result"] = true;
 			$datos["mensaje"] = "";
+			$datos["datos_envio"] = $datosEnvio;
+			$datos["datos_facturacion"] = $datosFacturacion;
+			$datos["usuario"] = (($usuario)?$usuario:'----');
 		}
 		$conexion->close();
 		return $datos;
@@ -158,18 +182,16 @@ class OrdenesCompra extends Conexion
 				$datos = self::consultar_orden_compra_detalle($idOrden);
 				if ($datos["result"]) {
 					for ($i=0; $i <count($datos["datos"]) ; $i++) { 
-						if(is_array($datos["datos"][$i])){
-							foreach ($datos["datos"][$i] as $value) {
-								$nombreProducto 		= $value["nombre_producto"];
-								$precioProducto 		= $value["precio_producto"];
-								$impuestoProducto 		= $value["impuesto_producto"];
-								$descuentoProducto 		= $value["descuento_producto"];
-								$cantidad 				= $value["cantidad"];
-								$precioCalculado		= $value["precio_calculado"];
-								$idProducto 			= $value["id_producto"];
-								# insertamos el detalle de cada item de la orden
-								$datosCompraDetalle 	= self::insertar_datos_compra_detalle($nombreProducto, $precioProducto, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado, $idProducto, $nroCompra, $fechaActual);
-							}							
+						if(is_array($datos["datos"][$i])){							
+							$nombreProducto 		= $datos["datos"][$i]["nombre_producto"];
+							$precioProducto 		= $datos["datos"][$i]["precio_producto"];
+							$impuestoProducto 		= $datos["datos"][$i]["impuesto_producto"];
+							$descuentoProducto 		= $datos["datos"][$i]["descuento_producto"];
+							$cantidad 				= $datos["datos"][$i]["cantidad"];
+							$precioCalculado		= $datos["datos"][$i]["precio_calculado"];
+							$idProducto 			= $datos["datos"][$i]["id_producto"];
+							# insertamos el detalle de cada item de la orden
+							$datosCompraDetalle 	= self::insertar_datos_compra_detalle($nombreProducto, $precioProducto, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado, $idProducto, $nroCompra, $fechaActual);
 						}
 					}
 					
@@ -189,7 +211,7 @@ class OrdenesCompra extends Conexion
 		$rConsu = $consu->fetch_assoc();
 		$nroCompra = $rConsu["ultimo_nro_compra"];
 		$conexion->close();
-		return $nroCompra++;
+		return ++$nroCompra;
 	}
 
 	private static function insertar_datos_compra($orden, $idComprador, $totalOrdenCompra, $totalDescuento, $totalImpuesto, $metodoPago, $soportePago, $datosEnvio, $datosFacturacion, $fechaActual){
@@ -262,9 +284,10 @@ class OrdenesCompra extends Conexion
 	}
 
 	public static function cargar_detalle_orden_compra($idOrden){
+		$idEncrip = $idOrden;
 		$idOrden = Conexion::formato_encript($idOrden, "des");
 		$idOrden = Conexion::decriptTable($idOrden);
-		$tablaH = $tablaB = $tablaT = '';
+		$tablaH = $tablaB = $tablaT = $datosComprador = '';
 		$ordenAsociada = '----';	
 		if (!empty($idOrden)) {
 			$datos = self::consultar_orden_compra_detalle($idOrden);	
@@ -272,10 +295,98 @@ class OrdenesCompra extends Conexion
 			if ($datos["result"]) {	
 				$item = 0;	
 				$totalImpuesto = $totalDescuento = $totalPrecioUni = $total = 0;
+				$usuario 				= $datos["usuario"];	
+				#datos de facturación
+				$datosFacturacion 		= unserialize($datos["datos_facturacion"]);
+				$nombreDireccionFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["nombre"]:$datosFacturacion["nombre"]));
+				$telefonoDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["telefono"]:$datosFacturacion["telefono"]));
+				$correoDirFac 			= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["correo"]:$datosFacturacion["correo"]));
+				$direccionDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["direccion"]:$datosFacturacion["direccion"]));
+				$identificacionDirFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["identificacion"]:$datosFacturacion["identificacion"]));
+				$departamentoDirFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["departamento"]:$datosFacturacion["departamento"]));
+				$municipioDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["municipio"]:$datosFacturacion["municipio"]));
+				#datos de envío
+				$datosEnvio 			= unserialize($datos["datos_envio"]);
+				$nombreDireccionEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["nombre"]:$datosEnvio["nombre"]));
+				$telefonoDirEnv 		= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["telefono"]:$datosEnvio["telefono"]));
+				$correoDirEnv 			= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["correo"]:$datosEnvio["correo"]));
+				$direccionDirEnv 		= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["direccion"]:$datosEnvio["direccion"]));
+				$identificacionDirEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["identificacion"]:$datosEnvio["identificacion"]));
+				$departamentoDirEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["departamento"]:$datosEnvio["departamento"]));
+				$municipioDirEnv 		= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["municipio"]:$datosEnvio["municipio"]));
+				$ordenProcesada 		= self::validar_orden_procesada($idOrden);
+				$ordenAprobada 			= self::validar_orden_aprobada($idOrden);
+				$datosComprador = '
+					<div class="col-lg-12">	
+						'.(($ordenAprobada)?'
+						<div class="float-right">						
+							<div class="card bg-light text-black ">
+								<div class="card-body">
+									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Orden aprobada</div>
+								</div>
+							</div>
+						</div>':'
+						<div class="float-right">						
+							<div class="card bg-light text-black ">
+								<div class="card-body">
+									<div class="text-black small"><i class="btn btn-danger btn-circle btn-lg"><i class="fa fa-close"></i></i> Orden negada</div>
+								</div>
+							</div>
+						</div>').'
+						'.((!$ordenProcesada)?'
+						<form class="form-horizontal" id="formProcesarOrden">
+							<div class="float-right">
+									<div class="form-group">
+										<label class="control-label">Negar orden(es)
+											<input type="radio" id="negar-orden" name="opcion-orden" value="1" class="form-control">
+										</label>
+										<label class="control-label">Aprobar orden(es)
+											<input type="radio" id="aprobar-orden" name="opcion-orden" value="2" class="form-control">
+										</label>
+										<input type="hidden" name="entrada" value="procesarOrdenCompra" class="form-control">
+										<input type="hidden" name="autorizarOrden[]" id="autOrd'.$idEncrip.'" value="'.$idEncrip.'" data-control="'.$idEncrip.'" >
+										<button type="submit" class="btn btn-info">Procesar selección</button>
+									</div>
+							</div>
+						</form>
+						':'
+						<div class="float-right">						
+							<div class="card bg-light text-black ">
+								<div class="card-body">
+									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Orden procesada</div>
+								</div>
+							</div>
+						</div>').'
+					<h2>Usuario: <b>'.$usuario.'</b></h2>
+					</div>
+					<div class="col-lg-6">
+						<h3>Datos facturación:</h3>
+						<p>Identificación/Nit: '.$identificacionDirFac.'<br>
+						Nombre de la dirección: '.$nombreDireccionFac.'	<br>
+						Teléfono: '.$telefonoDirFac.'<br>
+						Correo: '.$correoDirFac.'<br>
+						Dirección: '.$direccionDirFac.'<br>
+						Departamento: '.$departamentoDirFac.'<br>
+						Municipio: '.$municipioDirFac.'</p>
+						
+					</div>
+					<div class="col-lg-6">
+						<h3>Datos Envío:</h3>
+						<p>Identificación/Nit: '.$identificacionDirEnv.'<br>
+						Nombre de la dirección: '.$nombreDireccionEnv.'	<br>
+						Teléfono: '.$telefonoDirEnv.'<br>
+						Correo: '.$correoDirEnv.'<br>
+						Dirección: '.$direccionDirEnv.'<br>
+						Departamento: '.$departamentoDirEnv.'<br>
+						Municipio: '.$municipioDirEnv.'</p>	
+					</div>
+					<hr class="topbar topbar-divider" >
+					';
 				for ($i=0; $i <count($datos["datos"]) ; $i++) {
 					$item++;
 					$nombreProducto 		= $datos["datos"][$i]["nombre_producto"];
 					$precioProducto 		= self::formato_decimal($datos["datos"][$i]["precio_producto"]);
+					$precioBase 			= self::formato_decimal(($datos["datos"][$i]["precio_producto"]*$datos["datos"][$i]["cantidad"]));
 					$impuestoProducto 		= self::formato_decimal($datos["datos"][$i]["impuesto_producto"]);
 					$descuentoProducto 		= self::formato_decimal($datos["datos"][$i]["descuento_producto"]);
 					$cantidad 				= $datos["datos"][$i]["cantidad"];
@@ -290,6 +401,7 @@ class OrdenesCompra extends Conexion
 							<td>$item</td>
 							<td>$nombreProducto</td>
 							<td>$precioProducto</td>
+							<td>$precioBase</td>
 							<td>$impuestoProducto</td>
 							<td>$descuentoProducto</td>
 							<td>$cantidad</td>
@@ -300,7 +412,7 @@ class OrdenesCompra extends Conexion
 
 				$result = true;
 				$mensaje = '';
-				$tablaH .= '
+				$tablaH .= '				
 				<div class="table-responsive">
 					<table class="table table-bordered" width="100%" cellspacing="0">
 						<thead>
@@ -308,6 +420,7 @@ class OrdenesCompra extends Conexion
 								<th>Item</th>
 								<th>Nombre producto</th>
 								<th>Precio Unitario $ </th>
+								<th>Precio Base $ </th>
 								<th>Impuesto % </th>
 								<th>Descuento % </th>
 								<th>Cantidad M²</th>
@@ -360,8 +473,10 @@ class OrdenesCompra extends Conexion
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 						<p>Detalle de la Orden <b>'.$ordenAsociada.'</b> </p><a href="lista-orden-compras" class="btn btn-warning float-right" id="regDirBtnSel"><i class="fa fa-arrow-circle-left"></i> Volver</a>
 					</div>
+					
 					<div class="card-body">
 						<div class="row ">
+							'.$datosComprador.'
 							<div class="col-lg-8">
 							'.$tablaH.'
 							</div>

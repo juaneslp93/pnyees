@@ -225,15 +225,13 @@ class Catalogo extends Conexion
 		return $descuento;
 	}
 
-	private static function calcular_precio($cantidad, $precio, $descuento, $impuesto)	{
-		$precioImpuesto = ($precio*$impuesto)/100;
-		$precioImpuesto = $precioImpuesto+$precio;
-		$precioImpuesto = $precioImpuesto*$cantidad;
-
-		$precioDescuento  = ($precioImpuesto*$descuento)/100;
-		$precioDescuento = $precioImpuesto-$precioDescuento;
-
-		$precioTotal = $precioDescuento;
+	public static function calcular_precio($cantidad, $precio, $descuento, $impuesto)	{
+		$precioUnitario = $precio*$cantidad;#380000
+		$precioDescuento  = ($precioUnitario*$descuento)/100;#0
+		$precioDescuento = $precioUnitario-$precioDescuento;#380000
+		$precioImpuesto = ($precioDescuento*$impuesto)/100;#72200
+		$precioImpuesto = $precioImpuesto+$precioDescuento;#452200
+		$precioTotal = $precioImpuesto;
 
 		return $precioTotal;
 	}
