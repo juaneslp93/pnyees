@@ -336,6 +336,10 @@ class Conexion
 		$decimal = self::consultaSystem("id",101)["datos"]["valor"];
 		return number_format($valor,$decimal,',','.');
 	}
+
+	public static function formato_nro_factura($valor=0, $tam=10){
+		return str_pad($valor, $tam, "0", STR_PAD_LEFT);  // produce "00001"
+	}
 }
 
 ?>

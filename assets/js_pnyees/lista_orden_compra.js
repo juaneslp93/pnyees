@@ -9,7 +9,7 @@ procesosListaOrdenesCompra = {
 			"processing":true,
 			"serverside":true,
 			"ajax":'../controller/ctr_lista_orden_compra.php?entrada=lista_orden_compra',
-			"order":[[0,'asc']],
+			"order":[[7,'desc']],
 			"pageLength":25,
 			"dom":"lBfrtip",
 			"buttons":['excel', 'pdf', 'copy', 'print'],

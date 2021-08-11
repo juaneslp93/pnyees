@@ -68,6 +68,8 @@ class Scripts
     		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js"></script>',
     		"orden_compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra.js"></script>',
 			"orden_compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra.js"></script>',
+			"compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra.js"></script>',
+			"compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_compra.js"></script>',
 		);
 
 		$contenido = '
