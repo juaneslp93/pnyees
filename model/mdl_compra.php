@@ -34,8 +34,9 @@ class Compras extends Conexion
 		}		
 	}
 
-	public static function procesar_compra($ordenes=array(), $opcion=0)	{
-		foreach ($ordenes as $value) {			
+	public static function procesar_compra($compras=array(), $opcion=0)	{
+		$_SESSION["GENERAR_PDF_ENVIO"] = array();
+		foreach ($compras as $value) {			
 			$idEncrip = self::formato_encript($value, "des");
 			$idCompra = self::decriptTable($idEncrip);
 			if(!empty($idCompra)){				
@@ -45,7 +46,7 @@ class Compras extends Conexion
 				}else if($opcion == '2'){#enviar la compra
 					$compraEnviada = self::validar_compra_enviada($idCompra);
 					if(!$compraEnviada){
-						$datos = self::aprobar_compra_envio($idCompra);
+						$datos = self::aprobar_compra_envio($idCompra, $idEncrip);
 						$result = $datos["result"];
 						$mensaje = $datos["mensaje"];
 					}else{
@@ -99,7 +100,7 @@ class Compras extends Conexion
 		return $result;
 	}
 
-	private static function aprobar_compra_envio($idCompra){
+	private static function aprobar_compra_envio($idCompra, $idEncrip){
 		
 		if (!empty($idCompra)) {
 			$sql = "UPDATE compras SET estado_envio = '1' WHERE id = $idCompra";
@@ -107,7 +108,7 @@ class Compras extends Conexion
 			if ($conexion->query($sql)) {
 				$result = true;
 				$mensaje = "Estado de envío actualizado ";
-				self::consultar_datos_envio_activo($idCompra);
+				self::consultar_datos_envio_activo($idEncrip);
 			}else{
 				$result = false;
 				$mensaje = $conexion->error;
@@ -118,16 +119,25 @@ class Compras extends Conexion
 		return array("result"=>$result, "mensaje"=>$mensaje);
 	}
 
-	private static function consultar_datos_envio_activo($idCompra){
-		$datos = self::consultar_compra($idCompra);
+	private static function consultar_datos_envio_activo($idEncrip){
+		$idCompra = Conexion::formato_encript($idEncrip, "des");
+		echo $idCompra = Conexion::decriptTable($idCompra);
+	
+		if (!empty($idCompra)) {
+			$datos = self::consultar_compra_detalle($idCompra);
+		}
+		
+		if ($datos["result"]) {
+			array_push($_SESSION["GENERAR_PDF_ENVIO"], $datos);	
+		}
 	}
 
 	private static function consultar_compra($idCompra){
-		$sql = "SELECT numero_orden, id_usuario, total_orden_compra, total_descuento, total_impuesto, metodo_pago, fecha, estado_proceso, estado_aprobacion, soporte_pago, datos_envio, datos_facturacion FROM compras WHERE id = $idCompra ";
+		$sql = "SELECT nro_compra, id_usuario, total_compra, total_descuento, total_impuesto, metodo_pago, fecha, estado_proceso, estado_aprobacion, soporte_pago, datos_envio, datos_facturacion FROM compras WHERE id = $idCompra ";
 		$conexion = self::iniciar();
 		$consu = $conexion->query($sql);
 		$datos["result"] = false;
-		$datos["mensaje"] = "Orden no encontrada";
+		$datos["mensaje"] = "Compra no encontrada";
 		if ($consu->num_rows>0) {
 			$datos = $consu->fetch_array();
 			$datos["result"] = true;
@@ -140,13 +150,17 @@ class Compras extends Conexion
 	private static function consultar_compra_detalle($idCompra){
 		$conexion = self::iniciar();
 
-		$sqlFac = "SELECT (SELECT usuario FROM usuarios AS u WHERE oc.id_usuario = u.id ) as usuario, datos_facturacion, datos_envio FROM compras AS oc WHERE id = $idCompra ";
+		$sqlFac = "SELECT (SELECT telefono FROM usuarios AS u WHERE oc.id_usuario = u.id ) as telefono, (SELECT correo FROM usuarios AS u WHERE oc.id_usuario = u.id ) as correo, (SELECT CONCAT(nombre, ' ', apellido) FROM usuarios AS u WHERE oc.id_usuario = u.id ) as nombre_completo, (SELECT usuario FROM usuarios AS u WHERE oc.id_usuario = u.id ) as usuario, datos_facturacion, datos_envio, nro_compra FROM compras AS oc WHERE id = $idCompra ";
 		$consu1 = $conexion->query($sqlFac);
 		$rConsu1 = $consu1->fetch_assoc();
 		$datosEnvio = $rConsu1["datos_envio"];
 		$datosFacturacion = $rConsu1["datos_facturacion"];
+		$nroCompra = $rConsu1["nro_compra"];
 		$usuario = $rConsu1["usuario"];
-		$sql = "SELECT nombre_producto, precio_producto, impuesto_producto, descuento_producto, cantidad, precio_calculado, id_producto, orden_asociada FROM compras_detalles WHERE compras_id = $idCompra ";
+		$nombreCompleto = $rConsu1["nombre_completo"];
+		$correo = $rConsu1["correo"];
+		$telefono = $rConsu1["telefono"];
+		$sql = "SELECT nombre, precio, impuesto, descuento, cantidad, precio_calculado, id_producto FROM compras_detalles WHERE id_compra = $idCompra ";
 		
 		$consu = $conexion->query($sql);
 		$datos["result"] = false;
@@ -161,150 +175,32 @@ class Compras extends Conexion
 			$datos["datos_envio"] = $datosEnvio;
 			$datos["datos_facturacion"] = $datosFacturacion;
 			$datos["usuario"] = (($usuario)?$usuario:'----');
+			$datos["nombre_completo"] = (($nombreCompleto)?$nombreCompleto:'----');
+			$datos["nro_compra"] = self::formato_nro_factura($nroCompra);
+			$datos["correo"] = (($correo)?$correo:'----');
+			$datos["telefono"] = (($telefono)?$telefono:'----');
 		}
 		$conexion->close();
 		return $datos;
 	}
-
-	/*private static function generar_compra($idCompra){
-		# consultamos la datos de la orden
-		$datos = self::consultar_orden_compra($idCompra);
-		if ($datos["result"]) {
-			$orden = $datos["numero_orden"];
-			$idComprador = $datos["id_usuario"];
-			$totalOrdenCompra = $datos["total_orden_compra"];
-			$totalDescuento = $datos["total_descuento"];
-			$totalImpuesto = $datos["total_impuesto"];
-			$metodoPago = $datos["metodo_pago"];
-			$soportePago = $datos["soporte_pago"];
-			$datosEnvio = $datos["datos_envio"];
-			$datosFacturacion = $datos["datos_facturacion"];
-			$fechaActual = self::fecha_sistema();
-			# insertamos los datos si la orden existe
-			$datosCompra = self::insertar_datos_compra($orden, $idComprador, $totalOrdenCompra, $totalDescuento, $totalImpuesto, $metodoPago, $soportePago, $datosEnvio, $datosFacturacion, $fechaActual);
-			$datos["result"] = $datosCompra["result"];
-			$datos["mensaje"] = $datosCompra["mensaje"];
-			$nroCompra = $datosCompra["nro_compra"];
-			# si los datos de la compra se guardan con exito se insertan los datos del detalle de la compra
-			if ($datos["result"]) {
-				#consultamos los datos del detalle de la orden de compra
-				$datos = self::consultar_orden_compra_detalle($idCompra);
-				if ($datos["result"]) {
-					for ($i=0; $i <count($datos["datos"]) ; $i++) { 
-						if(is_array($datos["datos"][$i])){							
-							$nombreProducto 		= $datos["datos"][$i]["nombre_producto"];
-							$precioProducto 		= $datos["datos"][$i]["precio_producto"];
-							$impuestoProducto 		= $datos["datos"][$i]["impuesto_producto"];
-							$descuentoProducto 		= $datos["datos"][$i]["descuento_producto"];
-							$cantidad 				= $datos["datos"][$i]["cantidad"];
-							$precioCalculado		= $datos["datos"][$i]["precio_calculado"];
-							$idProducto 			= $datos["datos"][$i]["id_producto"];
-							# insertamos el detalle de cada item de la orden
-							$datosCompraDetalle 	= self::insertar_datos_compra_detalle($nombreProducto, $precioProducto, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado, $idProducto, $nroCompra, $fechaActual);
-						}
-					}
-					
-					$datos["result"] = $datosCompraDetalle["result"];
-					$datos["mensaje"] = $datosCompraDetalle["mensaje"];
-				}
-			}
-		}
-
-		return $datos;
-	}*/
-
-	/*private static function generar_nro_compra(){
-		$conexion = self::iniciar();
-		$sql = "SELECT IF (max(nro_compra) > 0, max(nro_compra), 0) AS ultimo_nro_compra FROM compras ";
-		$consu  = $conexion->query($sql);
-		$rConsu = $consu->fetch_assoc();
-		$nroCompra = $rConsu["ultimo_nro_compra"];
-		$conexion->close();
-		return ++$nroCompra;
-	}*/
-
-	/*private static function insertar_datos_compra($orden, $idComprador, $totalOrdenCompra, $totalDescuento, $totalImpuesto, $metodoPago, $soportePago, $datosEnvio, $datosFacturacion, $fechaActual){
-		$nroCompra = self::generar_nro_compra();#generamos el número de la compra
-		$sql = "INSERT INTO compras (nro_compra, total_compra, total_descuento, total_impuesto, metodo_pago, fecha_compra, estado_envio, estado_aprobacion, estado_proceso, soporte_pago, id_usuario, datos_envio, datos_facturacion, orden_asociada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		$conexion = self::iniciar();
-		$sentencia = $conexion->prepare($sql);
-		$sentencia->bind_param('sdddssssssisss', $v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9, $v10, $v11, $v12, $v13, $v14);
-		$v1 = $nroCompra;
-		$v2 = $totalOrdenCompra;
-		$v3 = $totalDescuento;
-		$v4 = $totalImpuesto;
-		$v5 = $metodoPago;
-		$v6 = $fechaActual;
-		$v7 = '0';
-		$v8 = '1';
-		$v9 = '1';
-		$v10 = $soportePago;
-		$v11 = $idComprador;
-		$v12 = $datosEnvio;
-		$v13 = $datosFacturacion;
-		$v14 = $orden;
-
-		$result = true;
-		$mensaje = "Datos de compra guardados";
-		if (!$sentencia->execute()) {
-			$result = false;
-			$mensaje = "Error al insertar los datos de la compra ".$sentencia->error;
-		}
-		$conexion->close();
-		return array("result"=>$result, "mensaje"=>$mensaje, "nro_compra" => $nroCompra);
-	}*/
-
-	/*private static function insertar_datos_compra_detalle($nombreProducto, $precioProducto, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado, $idProducto, $nroCompra, $fechaActual){
-		// echo "$nombreProducto, $precioProducto, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado, $idProducto, $nroCompra";
-		$conexion = self::iniciar();
-		$consu = $conexion->query("SELECT id FROM compras WHERE nro_compra = '$nroCompra' LIMIT 1");
-		$idCompra = 0;
-		$result = false;
-		$mensaje = "No se pudo agregar el detalle de la compra, no existe una compra para asociar";
-
-		if($consu->num_rows>0){
-			$rConsu = $consu->fetch_assoc();
-			$idCompra = $rConsu["id"];
-			$result = true;
-		}
-
-		if($result = true){
-			$sql = "INSERT INTO compras_detalles (nombre, precio, cantidad, impuesto, descuento, fecha, id_producto, id_compra, precio_calculado) VALUES (?,?,?,?,?,?,?,?,?)";			
-			$sentencia = $conexion->prepare($sql);
-			$sentencia->bind_param('sdiddsiid', $v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9);
-			$v1 = $nombreProducto;
-			$v2 = $precioProducto;
-			$v3 = $cantidad;
-			$v4 = $impuestoProducto;
-			$v5 = $descuentoProducto;
-			$v6 = $fechaActual;
-			$v7 = $idProducto;
-			$v8 = $idCompra;
-			$v9 = $precioCalculado;
-
-			$mensaje = "Datos de la compra guardados";
-			if (!$sentencia->execute()) {
-				$result = false;
-				$mensaje = "Error al insertar los datos del detalle de la compra ".$sentencia->error;
-			}
-		}		
-		$conexion->close();
-		return array("result"=>$result, "mensaje"=>$mensaje);
-	}*/
 
 	public static function cargar_detalle_compra($idCompra){
 		$idEncrip = $idCompra;
 		$idCompra = Conexion::formato_encript($idCompra, "des");
 		$idCompra = Conexion::decriptTable($idCompra);
 		$tablaH = $tablaB = $tablaT = $datosComprador = '';
-		$ordenAsociada = '----';	
+		$nroCompra = '----';	
 		if (!empty($idCompra)) {
-			$datos = self::consultar_compra_detalle($idCompra);	
+			$datos = self::consultar_compra_detalle($idCompra);
 				
 			if ($datos["result"]) {	
 				$item = 0;	
 				$totalImpuesto = $totalDescuento = $totalPrecioUni = $total = 0;
-				$usuario 				= $datos["usuario"];	
+				$usuario 				= $datos["usuario"];
+				$nroCompra 				= $datos["nro_compra"];	
+				$nombreCompleto			= $datos["nombre_completo"];	
+				$correo 				= $datos["correo"];	
+				$telefono 				= $datos["telefono"];	
 				#datos de facturación
 				$datosFacturacion 		= unserialize($datos["datos_facturacion"]);
 				$nombreDireccionFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["nombre"]:$datosFacturacion["nombre"]));
@@ -323,25 +219,31 @@ class Compras extends Conexion
 				$identificacionDirEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["identificacion"]:$datosEnvio["identificacion"]));
 				$departamentoDirEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["departamento"]:$datosEnvio["departamento"]));
 				$municipioDirEnv 		= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["municipio"]:$datosEnvio["municipio"]));
-				$compraEnviada 		= self::validar_compra_enviada($idCompra);
+				$compraEnviada 			= self::validar_compra_enviada($idCompra);
 				$datosComprador = '
 					<div class="col-lg-12">	
 						'.(($compraEnviada)?'
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Orden aprobada</div>
+									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Enviada</div>
 								</div>
 							</div>
 						</div>':'
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-danger btn-circle btn-lg"><i class="fa fa-close"></i></i> Orden negada</div>
+									<div class="text-black small"><i class="btn btn-danger btn-circle btn-lg"><i class="fa fa-close"></i></i> NO enviada</div>
 								</div>
 							</div>
-						</div>').'						
-						<h2>Usuario: <b>'.$usuario.'</b></h2>
+						</div>').'
+						<h3>Datos comprador:</h3>
+						<p>
+							<h4>Usuario: <b>'.$usuario.'</b></h4>
+							Nombre Completo: '.$nombreCompleto.'<br>
+							Teléfono: '.$telefono.'<br>
+							Correo: '.$correo.'<br>
+						</p>
 					</div>
 					<div class="col-lg-6">
 						<h3>Datos facturación:</h3>
@@ -368,17 +270,16 @@ class Compras extends Conexion
 					';
 				for ($i=0; $i <count($datos["datos"]) ; $i++) {
 					$item++;
-					$nombreProducto 		= $datos["datos"][$i]["nombre_producto"];
-					$precioProducto 		= self::formato_decimal($datos["datos"][$i]["precio_producto"]);
-					$precioBase 			= self::formato_decimal(($datos["datos"][$i]["precio_producto"]*$datos["datos"][$i]["cantidad"]));
-					$impuestoProducto 		= self::formato_decimal($datos["datos"][$i]["impuesto_producto"]);
-					$descuentoProducto 		= self::formato_decimal($datos["datos"][$i]["descuento_producto"]);
+					$nombreProducto 		= $datos["datos"][$i]["nombre"];
+					$precioProducto 		= self::formato_decimal($datos["datos"][$i]["precio"]);
+					$precioBase 			= self::formato_decimal(($datos["datos"][$i]["precio"]*$datos["datos"][$i]["cantidad"]));
+					$impuestoProducto 		= self::formato_decimal($datos["datos"][$i]["impuesto"]);
+					$descuentoProducto 		= self::formato_decimal($datos["datos"][$i]["descuento"]);
 					$cantidad 				= $datos["datos"][$i]["cantidad"];
-					$precioCalculado 		= self::formato_decimal($datos["datos"][$i]["precio_calculado"]);
-					$ordenAsociada 			= $datos["datos"][$i]["orden_asociada"];
-					$totalImpuesto 			+= $datos["datos"][$i]["impuesto_producto"];
-					$totalDescuento 		+= $datos["datos"][$i]["descuento_producto"];
-					$totalPrecioUni 		+= ($datos["datos"][$i]["precio_producto"]*$datos["datos"][$i]["cantidad"]);
+					$precioCalculado 		= self::formato_decimal($datos["datos"][$i]["precio_calculado"]);					
+					$totalImpuesto 			+= $datos["datos"][$i]["impuesto"];
+					$totalDescuento 		+= $datos["datos"][$i]["descuento"];
+					$totalPrecioUni 		+= ($datos["datos"][$i]["precio"]*$datos["datos"][$i]["cantidad"]);
 					$total 					+= $datos["datos"][$i]["precio_calculado"];
 					$tablaB .= "
 						<tr>
@@ -433,7 +334,7 @@ class Compras extends Conexion
 								<th>Total Impuesto % </th>	
 								<td>'.self::formato_decimal($totalImpuesto).'</td>
 							<tr>
-								<th>Total Orden Compra $ </th>
+								<th>Total Compra $ </th>
 								<td>'.self::formato_decimal($total).'</td>
 							</tr>
 						</thead>
@@ -443,19 +344,19 @@ class Compras extends Conexion
 			}else{
 				$result = $datos["result"];
 				$mensaje = $datos["mensaje"];
-				$tablaH .= ' <i class="fa fa-close text-danger" ></i> No se pudo cargar el contenido de la orden. ';
+				$tablaH .= ' <i class="fa fa-close text-danger" ></i> No se pudo cargar el contenido de la compra. ';
 			}
 			
 		}else{
 			$result = false;
-			$mensaje = "No fue posible reconocer el detalle de la orden seleccionada ";
-			$tablaH .= ' <i class="fa fa-close text-danger" ></i> Orden no reconocida. ';
+			$mensaje = "No fue posible reconocer el detalle de la compra seleccionada ";
+			$tablaH .= ' <i class="fa fa-close text-danger" ></i> Compra no reconocida. ';
 		}
 
 		$html = '
 				<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<p>Detalle de la Orden <b>'.$ordenAsociada.'</b> </p><a href="lista-orden-compras" class="btn btn-warning float-right" id="regDirBtnSel"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+						<p>Detalle de la Compra Nro <b>'.$nroCompra.'</b> </p><a href="javascript:Detalle_compra.generar_pdf(\''.$idEncrip.'\')" class="btn btn-info float-right"><i class="fa fa-file-pdf"></i> Generar factura </a><a href="lista-compras" class="btn btn-warning float-right" id="regDirBtnSel"><i class="fa fa-arrow-circle-left"></i> Volver</a>
 					</div>
 					
 					<div class="card-body">
@@ -474,6 +375,11 @@ class Compras extends Conexion
 			';
 
 		return array("result"=>$result, "mensaje"=>$mensaje, "html"=>$html);
+	}
+
+	public static function cargar_pdf_factura($idEncrip){
+		$_SESSION["GENERAR_PDF_ENVIO"] = array();
+		self::consultar_datos_envio_activo($idEncrip);
 	}
 }
 ?>

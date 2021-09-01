@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-08-2021 a las 01:56:05
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.2.34
+-- Tiempo de generación: 13-08-2021 a las 03:44:09
+-- Versión del servidor: 10.4.20-MariaDB
+-- Versión de PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -97,10 +97,8 @@ CREATE TABLE `compras` (
 --
 
 INSERT INTO `compras` (`id`, `nro_compra`, `total_compra`, `total_descuento`, `total_impuesto`, `metodo_pago`, `fecha_compra`, `estado_envio`, `estado_proceso`, `estado_aprobacion`, `soporte_pago`, `id_usuario`, `datos_envio`, `datos_facturacion`, `orden_asociada`) VALUES
-(1, '0', '457198.00', '0.00', '19.00', '1', '2021-08-07 17:18:53', '0', '1', '1', 'sdfgs', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807171636Qu'),
-(2, '0', '1142995.00', '0.00', '19.00', '1', '2021-08-07 19:54:19', '0', '1', '1', 'asdAS1', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807190208ms'),
-(3, '0', '178307.22', '0.00', '19.00', '1', '2021-08-07 20:28:26', '0', '1', '1', 'uuujujy', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202750tD'),
-(4, '0', '795098.50', '0.00', '38.00', '1', '2021-08-07 23:07:21', '0', '1', '1', 'EEqwer', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807230708bW');
+(1, '1', '1592696.00', '0.00', '38.00', '1', '2021-08-12 12:25:58', '1', '1', '1', 'sdsgdgfsg', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '202108121221131l'),
+(2, '2', '1567998.74', '0.00', '247.00', '1', '2021-08-12 16:07:39', '1', '1', '1', 'aaadasa', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210812160708pN');
 
 -- --------------------------------------------------------
 
@@ -126,10 +124,21 @@ CREATE TABLE `compras_detalles` (
 --
 
 INSERT INTO `compras_detalles` (`id`, `nombre`, `precio`, `cantidad`, `impuesto`, `descuento`, `fecha`, `id_producto`, `id_compra`, `precio_calculado`) VALUES
-(1, 'prueba1', '1921.00', 200, '19.00', '0.00', '2021-08-07 17:18:53', 3, 1, '457198.00'),
-(2, 'prueba1', '1921.00', 500, '19.00', '0.00', '2021-08-07 19:54:19', 3, 1, '1142995.00'),
-(3, 'prueba1', '1921.00', 78, '19.00', '0.00', '2021-08-07 20:28:26', 3, 1, '178307.22'),
-(4, 'Prueba2', '1900.00', 200, '19.00', '0.00', '2021-08-07 23:07:21', 4, 1, '452200.00');
+(1, 'Prueba2', '1900.00', 300, '19.00', '0.00', '2021-08-12 12:25:58', 4, 1, '678300.00'),
+(2, 'prueba1', '1921.00', 400, '19.00', '0.00', '2021-08-12 12:25:58', 3, 1, '914396.00'),
+(3, 'Prjju767u', '1900.00', 10, '19.00', '0.00', '2021-08-12 16:07:39', 13, 2, '22610.00'),
+(4, 'moli76ba212', '1900.00', 23, '19.00', '0.00', '2021-08-12 16:07:39', 12, 2, '52003.00'),
+(5, 'Pru09oi832', '1900.00', 43, '19.00', '0.00', '2021-08-12 16:07:39', 11, 2, '97223.00'),
+(6, 'Pr8i94212', '1900.00', 98, '19.00', '0.00', '2021-08-12 16:07:39', 10, 2, '221578.00'),
+(7, 'Prueba3433', '1900.00', 12, '19.00', '0.00', '2021-08-12 16:07:39', 9, 2, '27132.00'),
+(8, 'Pru22a', '1900.00', 78, '19.00', '0.00', '2021-08-12 16:07:39', 8, 2, '176358.00'),
+(9, 'Prueba212asdas', '1900.00', 65, '19.00', '0.00', '2021-08-12 16:07:39', 7, 2, '146965.00'),
+(10, 'Prueba12s', '1900.00', 15, '19.00', '0.00', '2021-08-12 16:07:39', 6, 2, '33915.00'),
+(11, 'Prueba23', '1900.00', 34, '19.00', '0.00', '2021-08-12 16:07:39', 5, 2, '76874.00'),
+(12, 'Prueba2', '1900.00', 87, '19.00', '0.00', '2021-08-12 16:07:39', 4, 2, '196707.00'),
+(13, 'prueba1', '1921.00', 100, '19.00', '0.00', '2021-08-12 16:07:39', 3, 2, '228599.00'),
+(14, 'prueba34', '1921.00', 50, '19.00', '0.00', '2021-08-12 16:07:39', 2, 2, '114299.50'),
+(15, 'prueba9', '1921.00', 76, '19.00', '0.00', '2021-08-12 16:07:39', 1, 2, '173735.24');
 
 -- --------------------------------------------------------
 
@@ -1348,12 +1357,8 @@ CREATE TABLE `ordenes_compras` (
 --
 
 INSERT INTO `ordenes_compras` (`id`, `total_orden_compra`, `total_descuento`, `total_impuesto`, `metodo_pago`, `fecha`, `estado_proceso`, `estado_aprobacion`, `soporte_pago`, `datos_envio`, `numero_orden`, `id_usuario`, `datos_facturacion`) VALUES
-(1, '457198.00', '0.00', '19.00', 1, '2021-08-07 17:16:36', '1', '1', 'sdfgs', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807171636Qu', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
-(2, '1142995.00', '0.00', '19.00', 1, '2021-08-07 19:02:08', '1', '1', 'asdAS1', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807190208ms', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
-(3, '135660.00', '0.00', '19.00', 1, '2021-08-07 20:25:33', '1', '0', 'juhytgr', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202533AL', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
-(4, '1600193.00', '0.00', '19.00', 1, '2021-08-07 20:26:49', '1', '0', 'kkujyh', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202649sl', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
-(5, '178307.22', '0.00', '19.00', 1, '2021-08-07 20:27:50', '1', '1', 'uuujujy', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807202750tD', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
-(6, '795098.50', '0.00', '38.00', 1, '2021-08-07 23:07:08', '1', '1', 'EEqwer', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210807230708bW', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}');
+(1, '1592696.00', '0.00', '38.00', 1, '2021-08-12 12:21:13', '1', '1', 'sdsgdgfsg', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '202108121221131l', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),
+(2, '1567998.74', '0.00', '247.00', 1, '2021-08-12 16:07:08', '1', '1', 'aaadasa', 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}', '20210812160708pN', 1, 'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}');
 
 -- --------------------------------------------------------
 
@@ -1380,13 +1385,21 @@ CREATE TABLE `ordenes_compras_detalles` (
 --
 
 INSERT INTO `ordenes_compras_detalles` (`id`, `nombre_producto`, `precio_producto`, `impuesto_producto`, `descuento_producto`, `cantidad`, `fecha`, `id_producto`, `ordenes_compras_id`, `precio_calculado`, `orden_asociada`) VALUES
-(1, 'prueba1', '1921.00', '19.00', '0.00', 200, '2021-08-07 17:16:36', 3, 1, '457198.00', '20210807171636Qu'),
-(2, 'prueba1', '1921.00', '19.00', '0.00', 500, '2021-08-07 19:02:08', 3, 2, '1142995.00', '20210807190208ms'),
-(3, 'Prueba2', '1900.00', '19.00', '0.00', 60, '2021-08-07 20:25:33', 4, 3, '135660.00', '20210807202533AL'),
-(4, 'prueba1', '1921.00', '19.00', '0.00', 700, '2021-08-07 20:26:49', 3, 4, '1600193.00', '20210807202649sl'),
-(5, 'prueba1', '1921.00', '19.00', '0.00', 78, '2021-08-07 20:27:50', 3, 5, '178307.22', '20210807202750tD'),
-(6, 'Prueba2', '1900.00', '19.00', '0.00', 200, '2021-08-07 23:07:08', 4, 6, '452200.00', '20210807230708bW'),
-(7, 'prueba1', '1921.00', '19.00', '0.00', 150, '2021-08-07 23:07:08', 3, 6, '342898.50', '20210807230708bW');
+(1, 'Prueba2', '1900.00', '19.00', '0.00', 300, '2021-08-12 12:21:13', 4, 1, '678300.00', '202108121221131l'),
+(2, 'prueba1', '1921.00', '19.00', '0.00', 400, '2021-08-12 12:21:13', 3, 1, '914396.00', '202108121221131l'),
+(3, 'Prjju767u', '1900.00', '19.00', '0.00', 10, '2021-08-12 16:07:08', 13, 2, '22610.00', '20210812160708pN'),
+(4, 'moli76ba212', '1900.00', '19.00', '0.00', 23, '2021-08-12 16:07:08', 12, 2, '52003.00', '20210812160708pN'),
+(5, 'Pru09oi832', '1900.00', '19.00', '0.00', 43, '2021-08-12 16:07:08', 11, 2, '97223.00', '20210812160708pN'),
+(6, 'Pr8i94212', '1900.00', '19.00', '0.00', 98, '2021-08-12 16:07:08', 10, 2, '221578.00', '20210812160708pN'),
+(7, 'Prueba3433', '1900.00', '19.00', '0.00', 12, '2021-08-12 16:07:08', 9, 2, '27132.00', '20210812160708pN'),
+(8, 'Pru22a', '1900.00', '19.00', '0.00', 78, '2021-08-12 16:07:08', 8, 2, '176358.00', '20210812160708pN'),
+(9, 'Prueba212asdas', '1900.00', '19.00', '0.00', 65, '2021-08-12 16:07:08', 7, 2, '146965.00', '20210812160708pN'),
+(10, 'Prueba12s', '1900.00', '19.00', '0.00', 15, '2021-08-12 16:07:08', 6, 2, '33915.00', '20210812160708pN'),
+(11, 'Prueba23', '1900.00', '19.00', '0.00', 34, '2021-08-12 16:07:08', 5, 2, '76874.00', '20210812160708pN'),
+(12, 'Prueba2', '1900.00', '19.00', '0.00', 87, '2021-08-12 16:07:08', 4, 2, '196707.00', '20210812160708pN'),
+(13, 'prueba1', '1921.00', '19.00', '0.00', 100, '2021-08-12 16:07:08', 3, 2, '228599.00', '20210812160708pN'),
+(14, 'prueba34', '1921.00', '19.00', '0.00', 50, '2021-08-12 16:07:08', 2, 2, '114299.50', '20210812160708pN'),
+(15, 'prueba9', '1921.00', '19.00', '0.00', 76, '2021-08-12 16:07:08', 1, 2, '173735.24', '20210812160708pN');
 
 -- --------------------------------------------------------
 
@@ -1410,8 +1423,19 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `impuesto`, `url_imagen`, `estado`, `descripcion`, `fecha_registro`) VALUES
+(1, 'prueba9', '1921.00', '19.00', 'd44c2b12a815eb568c327d3de7b2916b3685684c.jpg', '1', 'asdfaaa', '2021-06-17 19:06:54'),
+(2, 'prueba34', '1921.00', '19.00', 'd44c2b12a815eb568c327d3de7b2916b3685684c.jpg', '1', 'asdfaaa', '2021-06-17 19:06:54'),
 (3, 'prueba1', '1921.00', '19.00', 'd44c2b12a815eb568c327d3de7b2916b3685684c.jpg', '1', 'asdf', '2021-06-17 19:06:54'),
-(4, 'Prueba2', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16');
+(4, 'Prueba2', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(5, 'Prueba23', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(6, 'Prueba12s', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(7, 'Prueba212asdas', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(8, 'Pru22a', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(9, 'Prueba3433', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(10, 'Pr8i94212', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(11, 'Pru09oi832', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(12, 'moli76ba212', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16'),
+(13, 'Prjju767u', '1900.00', '19.00', '3381115f3bee4efad599a1a8e3f340556c127e0f.jpg', '1', 'asdfads', '2021-06-30 19:06:16');
 
 -- --------------------------------------------------------
 
@@ -1674,13 +1698,13 @@ ALTER TABLE `bancos`
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `compras_detalles`
 --
 ALTER TABLE `compras_detalles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -1698,19 +1722,19 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de la tabla `ordenes_compras`
 --
 ALTER TABLE `ordenes_compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes_compras_detalles`
 --
 ALTER TABLE `ordenes_compras_detalles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `productos_descuento`

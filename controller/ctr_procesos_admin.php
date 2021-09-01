@@ -10,7 +10,12 @@ $casos = array(
 	"cargarInfoDetallesUsuarios",
 	"cargarMediosPagos",
 	"CrearBanco",
-	"actPasarela"
+	"actPasarela",
+	"cargarConfigGeneral",
+	"cargarTitulacionEmpresarial",
+	"cargarRolesAdministracion",
+	"actRoles",
+	"actPermiso"
 );
 // entrada
 $caso = '';
@@ -111,6 +116,37 @@ switch ($caso) {
 		$valor =  $_POST["valor"];
 		
 		$result = Conexion::editSystem("estado", $valor, 'id', $opcion);
+		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		break;
+	case 'cargarConfigGeneral':
+		$html = ProcesosAdmin::cargar_config_general();
+		$result = array("continue" => true, "mensaje"=>"consulta realizada", "html"=>$html);
+		break;
+	case 'cargarTitulacionEmpresarial':
+		$html = ProcesosAdmin::facturacion_titulo_empresa();
+		$result = array("continue" => true, "mensaje"=>"consulta realizada", "html"=>$html);
+		break;
+	case 'cargarRolesAdministracion':
+		$html = ProcesosAdmin::cargar_roles_y_administracion();
+		$result = array("continue" => true, "mensaje"=>"consulta realizada", "html"=>$html);
+		break;
+	case 'actRoles':
+		$opcion =  $_POST["opcion"];
+		$opcion = str_replace('check', '', $opcion);
+		$id =  Conexion::decriptTable($opcion);
+		$valor =  $_POST["valor"];
+		
+		$result = ProcesosAdmin::editar_estado_rol($id, $valor);
+		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		break;
+	case 'actPermiso':
+		$opcion =  $_POST["opcion"];
+		$opcion = str_replace('check', '', $opcion);
+		$id =  Conexion::decriptTable($opcion);
+		$valor =  $_POST["valor"];
+		$campo =  $_POST["campo"];
+		$continue = true;		
+		$result = ProcesosAdmin::editar_estado_permiso($id, $valor, $campo);
 		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		break;
 	

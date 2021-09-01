@@ -42,7 +42,7 @@ procesosListaCompra = {
 		
       })
 	},	
-	continuar_procesar_compra: function(table, self){
+	continuar_procesar_compra: function(table, self, envio){
 		$.ajax({
 			url: '../controller/ctr_lista_compra.php',
 			type: 'POST',
@@ -68,6 +68,7 @@ procesosListaCompra = {
 			console.log("error");
 		}).always(function() {
 			$("button[type=submit]").removeAttr("disabled").html('Procesar selección');
+			if(envio) window.open('generar-pdf-envio', '_blank');
 			table.ajax.reload();
 			document.getElementById("formProcesarCompra").reset();
 		});
@@ -87,13 +88,14 @@ procesosListaCompra = {
 					  denyButtonText: 'No, cancela esta acción',
 				}).then((promised)=> {					
 					if (promised.isConfirmed) {
-						procesosListaCompra.continuar_procesar_compra(table, self);
+						procesosListaCompra.continuar_procesar_compra(table, self, false);
 					}else if(promised.isDenied){
 						table.ajax.reload();
 					}
 				})
 			}else if($("#aprobar-envio").prop("checked")==true){
-				procesosListaCompra.continuar_procesar_compra(table, self);
+				procesosListaCompra.continuar_procesar_compra(table, self, true);
+				
 			}			
 		})
 	}

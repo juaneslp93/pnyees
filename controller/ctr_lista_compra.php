@@ -7,7 +7,8 @@ require '../model/mdl_compra.php';
 $casos = array(
 	"lista_compra",
 	"procesarCompra",
-	"detalleCompra"
+	"detalleCompra",
+	"generar_pdf"
 );
 // entrada
 $caso = '';
@@ -131,10 +132,15 @@ switch ($caso) {
 
 		$result = array("continue" => $continuar, "mensaje"=> $mensaje);
 		break;
-	case 'detalleOrdenCompra':
-		$idOrden = $_POST["idOrden"];		
-		$datos = Compras::cargar_detalle_compra($idOrden);
+	case 'detalleCompra':
+		$idCompra = $_POST["idCompra"];		
+		$datos = Compras::cargar_detalle_compra($idCompra);
 		$result = array("continue" => $datos["result"], "mensaje"=> $datos["mensaje"], "html"=>$datos["html"]);
+		break;
+	case 'generar_pdf':
+		$idCompra = $_POST["id"];
+		Compras::cargar_pdf_factura($idCompra);
+		$result = array("continue" => true, "mensaje"=> "Pdf generado");
 		break;
 	default:
 		# code...

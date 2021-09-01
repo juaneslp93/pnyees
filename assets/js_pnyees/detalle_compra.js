@@ -46,5 +46,18 @@ Detalle_compra = {
 				document.getElementById("formProcesarCompra").reset();
 			});
 		})
+	},
+	generar_pdf: function(id){
+		$.ajax({
+			url: '../controller/ctr_lista_compra.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {"entrada":"generar_pdf", "id":id},
+		})
+		.fail(function() {
+			console.log("error");
+		}).always(function() {
+			window.open('generar-pdf-envio', '_blank');
+		});
 	}
 }

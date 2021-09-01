@@ -49,7 +49,7 @@ include "../../controller/ctr_scripts.php";
                     
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">                        
-                        <div class="card-body" id="contenidoOrden">
+                        <div class="card-body" id="contenidoCompra">
                             <i class="fa fa-spinner fa-spin"></i>Cargando...
                         </div>
                     </div>
@@ -74,7 +74,7 @@ include "../../controller/ctr_scripts.php";
 <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system","compra_detalle")); ?> 
   <script>
       $(document).ready(function () {
-        Detalle_orden_compra.iniciarDetalleOrden('<?= $_GET["id"] ?>');
+        Detalle_compra.iniciarDetalleCompra('<?= $_GET["id"] ?>');
       });
   </script>
 </html>

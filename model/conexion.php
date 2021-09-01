@@ -16,9 +16,9 @@ class Conexion
 		// $conexion = new mysqli($server, $user, $pass, $db);
 		try {
 			$server = "localhost";
-			$db		= "pnyees";
-			$user	= "root";
-			$pass	= "";
+			$db		= "pnyees";//id17442900_pnyeesdb
+			$user	= "root";//pnyeeuser
+			$pass	= "";//gl4z6vn$\h7&Oi%F
 			$key 	= KEYGEN_DATATBLE;
 			$conexion = new mysqli($server, $user, $pass, $db);	
 

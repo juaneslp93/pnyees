@@ -12,12 +12,12 @@ class Scripts
 	public static function headers($ruta, $peticion=array("fontAwesome","fonts.googleapis","sb-admin-2"))	{
 		
 		$elementos = array(
-			"fontAwesome"=>'<link href="'.$ruta.'assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-				<link href="'.$ruta.'assets/vendor/fontawesome-free/css/v4-shims.min.css" rel="stylesheet" type="text/css">',
+			"fontAwesome"=>'<link href="'.$ruta.'assets/vendor/fontawesome-free/css/all.min.css?'.self::keyCache(2).'" rel="stylesheet" type="text/css">
+				<link href="'.$ruta.'assets/vendor/fontawesome-free/css/v4-shims.min.css?'.self::keyCache(2).'" rel="stylesheet" type="text/css">',
 			"fonts.googleapis"=>'<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">',
-			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css" rel="stylesheet">
-							<link href="'.$ruta.'assets/css/switch.css" rel="stylesheet">',
-			"dataTables"=>'<link href="'.$ruta.'assets/vendor/datatables/datatables.min.css" rel="stylesheet">'
+			"sb-admin-2"=>'<link href="'.$ruta.'assets/css/sb-admin-2.min.css?'.self::keyCache(2).'" rel="stylesheet">
+							<link href="'.$ruta.'assets/css/switch.css?'.self::keyCache(2).'" rel="stylesheet">',
+			"dataTables"=>'<link href="'.$ruta.'assets/vendor/datatables/datatables.min.css?'.self::keyCache(2).'" rel="stylesheet">'
 		);
 
 		$contenido = '
@@ -40,36 +40,37 @@ class Scripts
 	public static function footers($ruta, $peticion=array("jquery","bootstrap","sb-admin-2"))	{
 	
 		$elementos = array(
-			"jquery"=>'<script src="'.$ruta.'assets/vendor/jquery/jquery.min.js"></script>
-						<script src="'.$ruta.'assets/vendor/jquery-easing/jquery.easing.min.js"></script>',
-			"bootstrap"=>'<script src="'.$ruta.'assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-						<script src="'.$ruta.'assets/vendor/bootstrap/js/sweetalert2.all.min.js"></script>',
-			"sb-admin-2"=>'<script src="'.$ruta.'assets/js/sb-admin-2.min.js"></script>',
-			"chart"=>'<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js"></script>
-					<script src="'.$ruta.'assets/js/demo/chart-area-demo.js"></script>
-    				<script src="'.$ruta.'assets/js/demo/chart-pie-demo.js"></script>',
+			"jquery"=>'<script src="'.$ruta.'assets/vendor/jquery/jquery.min.js?'.self::keyCache(2).'"></script>
+						<script src="'.$ruta.'assets/vendor/jquery-easing/jquery.easing.min.js?'.self::keyCache(2).'"></script>',
+			"bootstrap"=>'<script src="'.$ruta.'assets/vendor/bootstrap/js/bootstrap.bundle.min.js?'.self::keyCache(2).'"></script>
+						<script src="'.$ruta.'assets/vendor/bootstrap/js/sweetalert2.all.min.js?'.self::keyCache(2).'"></script>',
+			"sb-admin-2"=>'<script src="'.$ruta.'assets/js/sb-admin-2.min.js?'.self::keyCache(2).'"></script>',
+			"chart"=>'<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js?'.self::keyCache(2).'"></script>
+					<script src="'.$ruta.'assets/js/demo/chart-area-demo.js?'.self::keyCache(2).'"></script>
+    				<script src="'.$ruta.'assets/js/demo/chart-pie-demo.js?'.self::keyCache(2).'"></script>',
     		"dataTables"=>'<!-- Page level plugins -->
-				    <script src="'.$ruta.'assets/vendor/datatables/datatables.min.js"></script>',
-			"system"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_admin.js"></script>',
-			"system-user"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_user.js" ></script>',
+				    <script src="'.$ruta.'assets/vendor/datatables/datatables.min.js?'.self::keyCache(2).'"></script>',
+			"system"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_admin.js?'.self::keyCache(2).'"></script>',
+			"system-user"=>'<script src="'.$ruta.'assets/js_pnyees/procesos_user.js?'.self::keyCache(2).'" ></script>',
 			"charts"=>'<!-- Page level plugins -->
-    				<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js"></script>,
-    				<script src="'.$ruta.'assets/js_pnyees/chart.js"></script>',
-    		"productos_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_productos.js"  ></script>',
-    		"usuarios_detalles"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles.js" ></script>',
-    		"usuarios_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_usuarios.js"  ></script>',
-    		"login"=>'<script src="'.$ruta.'assets/js_pnyees/login.js"></script>',
-    		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js" ></script>',
-    		"catalogo"=>'<script src="'.$ruta.'assets/js_pnyees/catalogo.js" ></script>',
-    		"detalle_producto"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_producto.js" ></script>',
-    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js" ></script>',
-    		"proceso_resumen"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_resumen.js" ></script>',
-    		"proceso_pagos"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_pagos.js" ></script>',
-    		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js"></script>',
-    		"orden_compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra.js"></script>',
-			"orden_compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra.js"></script>',
-			"compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra.js"></script>',
-			"compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_compra.js"></script>',
+    				<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js?'.self::keyCache(2).'"></script>,
+    				<script src="'.$ruta.'assets/js_pnyees/chart.js?'.self::keyCache(2).'"></script>',
+    		"productos_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_productos.js?'.self::keyCache(2).'"  ></script>',
+    		"usuarios_detalles"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles.js?'.self::keyCache(2).'" ></script>',
+    		"usuarios_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_usuarios.js?'.self::keyCache(2).'"  ></script>',
+    		"login"=>'<script src="'.$ruta.'assets/js_pnyees/login.js?'.self::keyCache(2).'"></script>',
+    		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js?'.self::keyCache(2).'" ></script>',
+    		"catalogo"=>'<script src="'.$ruta.'assets/js_pnyees/catalogo.js?'.self::keyCache(2).'" ></script>',
+    		"detalle_producto"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_producto.js?'.self::keyCache(2).'" ></script>',
+    		"proceso_tienda"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_tienda.js?'.self::keyCache(2).'" ></script>',
+    		"proceso_resumen"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_resumen.js?'.self::keyCache(2).'" ></script>',
+    		"proceso_pagos"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_pagos.js?'.self::keyCache(2).'" ></script>',
+    		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js?'.self::keyCache(2).'"></script>',
+    		"orden_compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra.js?'.self::keyCache(2).'"></script>',
+			"orden_compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra.js?'.self::keyCache(2).'"></script>',
+			"compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra.js?'.self::keyCache(2).'"></script>',
+			"compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_compra.js?'.self::keyCache(2).'"></script>',
+			"config-general"=>'<script src="'.$ruta.'assets/js_pnyees/config_general.js?'.self::keyCache(2).'"></script>',
 		);
 
 		$contenido = '
@@ -113,6 +114,11 @@ class Scripts
 			}
 		}
 		return $contenido;
+	}
+
+	private static function keyCache($cantidad)	{		 
+		$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		return substr(str_shuffle($permitted_chars), 0, $cantidad);
 	}
 }
 ?>

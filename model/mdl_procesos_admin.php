@@ -259,7 +259,7 @@ class ProcesosAdmin Extends Conexion
 		if (($timestamp = strtotime($cadena)) === false) {
 		    $fecha =  "0000/00/00 00:00:00";
 		} else {
-		    $fecha = date("Y/m/d H:m:s", $fecha);
+		    $fecha = date("Y/m/d H:m:s", $cadena);
 		}
 		return $fecha;
 	}
@@ -456,6 +456,194 @@ class ProcesosAdmin Extends Conexion
         ';
 		
 		return $contenido;
+	}
+
+	public static function cargar_config_general(){
+		return '
+			<div class="card-header">Configuración del sistema</div>	
+			<div class="card-body">Config General del sistema</div>	
+		';
+	}
+
+	public static function facturacion_titulo_empresa(){
+		return '
+		<div class="card-header">Datos de la empresa y facturación</div>	
+		<div class="card-body">Facturación y titulo de la empresa</div>
+		';
+	}
+
+	private static function consultar_roles(){
+		$conexion = self::iniciar();
+		$sql = "SELECT id, nombre, estado, fecha FROM roles ";
+		$consu = $conexion->query($sql);
+		$datos["result"] = false;
+		$datos["mensaje"] = "Error al cargar los roles";
+		$datos["datos"] = array();
+		if ($consu->num_rows>0) {
+			while($data = $consu->fetch_array()){
+				array_push($datos["datos"], $data);
+			}
+			$datos["result"] = true;
+			$datos["mensaje"] = "Roles cargados";
+		}
+		
+		$conexion->close();
+		return $datos;
+	}
+
+	public static function editar_estado_rol($id, $valor){
+		$sql = "UPDATE roles SET estado='$valor' WHERE id=$id ";
+		$conexion = self::iniciar();
+		$result = false;
+		$mensaje = "No se realizó la actualización del rol ";
+		if ($conexion->query($sql)) {
+			$result = true;
+			$mensaje = "Estado actualizado ";
+		}
+		$conexion->close();
+		return array("estado"=>$result, "mensaje"=>$mensaje);
+	}
+
+	private static function cargar_permisos($idAdmin){
+		$conexion = self::iniciar();
+		$sql = "SELECT id, editar, crear, ver, eliminar FROM roles_permisos WHERE id_admin =  $idAdmin ";
+		$consu = $conexion->query($sql);
+		$datos["result"] = false;
+		$datos["mensaje"] = "Error al cargar los permisos";
+		$datos["datos"] = array();
+		if ($consu->num_rows>0) {
+			while($data = $consu->fetch_array()){
+				array_push($datos["datos"], $data);
+			}
+			$datos["result"] = true;
+			$datos["mensaje"] = "Permisos cargados";
+		}
+		
+		$conexion->close();
+		return $datos;
+	}
+
+	public static function editar_estado_permiso($id, $valor, $campo){
+		$sql = "UPDATE roles_permisos SET $campo = '$valor ' WHERE id=$id";
+		$conexion = self::iniciar();
+		$result = false;
+		$mensaje = "Los usuarios estandar del sistema no pueden ser editados ";
+		if (($id!=1)&&$id!=2) {
+			echo $id;
+			$mensaje = "No fue posible editar el permiso ";
+			if ($conexion->query($sql)) {
+				$result = true;
+				$mensaje = "Permiso $campo actualizado ";
+			}
+		}
+		
+		$conexion->close();
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function cargar_roles_y_administracion(){
+		$roles = self::consultar_roles();
+		$html = '';
+		if ($roles["result"]) {
+			foreach ($roles as $value) {
+				if (is_array($value)) {
+					for ($i=0; $i <count($value) ; $i++) {						
+						$idRol =  self::encriptTable($value[$i]["id"]);						
+						$nombre =  $value[$i]["nombre"];
+						$estado =  (($value[$i]["estado"])?'checked':'');
+						$fecha =  $value[$i]["fecha"];
+						$permisos = self::cargar_permisos($value[$i]["id"]);
+						if($permisos["result"]){
+							foreach ($permisos as $valuePermiso) {
+								if (is_array($valuePermiso)) {
+									for ($t=0; $t <count($valuePermiso) ; $t++) { 
+										$disabled = (($valuePermiso[$t]["id"]==1)||($valuePermiso[$t]["id"]==2)) ? 'disabled="disabled"' : '' ;
+										$idPermiso =  self::encriptTable($valuePermiso[$t]["id"]);
+										$crear =  (($valuePermiso[$t]["crear"])?'checked '.$disabled:'');
+										$editar =  (($valuePermiso[$t]["editar"])?'checked '.$disabled:'');
+										$ver =  (($valuePermiso[$t]["ver"])?'checked '.$disabled:'');
+										$eliminar =  (($valuePermiso[$t]["eliminar"])?'checked '.$disabled:'');
+
+										$htmlPermisos = '
+											<div class="row">
+												<div class="col-sm-3"> 
+													<label class="form-label">  Ver 
+														<label class="switch ">
+															<input type="checkbox" '.$ver.' name="'.$idPermiso.'" data-control="ver" onchange="javascript:configGeneral.modificarPermisoVer(\''.$idPermiso.'\', this)">
+															<span class="slider round"></span>
+														</label>
+													</label>
+												</div>
+												<div class="col-sm-3"> 
+													<label class="form-label">  Crear 
+														<label class="switch ">
+															<input type="checkbox" '.$crear.' name="'.$idPermiso.'" data-control="crear" onchange="javascript:configGeneral.modificarPermisoCrear(\''.$idPermiso.'\', this)">
+															<span class="slider round"></span>
+														</label>
+													</label>
+												</div>
+												<div class="col-sm-3"> 
+													<label class="form-label">  Editar 
+														<label class="switch ">
+															<input type="checkbox" '.$editar.' name="'.$idPermiso.'" data-control="editar" onchange="javascript:configGeneral.modificarPermisoEditar(\''.$idPermiso.'\', this)">
+															<span class="slider round"></span>
+														</label>
+													</label>
+												</div>
+												<div class="col-sm-3"> 
+													<label class="form-label">  Eliminar 
+														<label class="switch ">
+															<input type="checkbox" '.$eliminar.' name="'.$idPermiso.'" data-control="eliminar" onchange="javascript:configGeneral.modificarPermisoEliminar(\''.$idPermiso.'\', this)">
+															<span class="slider round"></span>
+														</label>
+													</label>
+												</div>
+											</div>
+										';
+									}
+								}								
+							}
+							
+						}else{
+							$htmlPermisos = $permisos["mensaje"];
+						}
+						$html .= '
+							<div class="card shadow mb-4">
+								<!-- Card Header - Accordion -->
+								<a href="#collapseCard-'.$idRol.'" class="d-block card-header py-3 '/*.(($i!=0)?'collapsed':'')*/.'" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard-'.$idRol.'">
+									<h6 class="m-0 font-weight-bold text-primary"> Rol '.ucfirst($nombre).' (Activo desde '.$fecha.')</h6>
+								</a>
+								<!-- Card Content - Collapse -->
+								<div class="collapse show'/*.(($i!=0)?'':'show')*/.'" id="collapseCard-'.$idRol.'" >
+									<div class="card-body">
+										<div class="form-group">
+											
+											<label class="switch ">
+												<input type="checkbox" '.$estado.' name="'.$idRol.'" onchange="javascript:configGeneral.modificarEstadoRol(\''.$idRol.'\', this)">
+												<span class="slider round"></span>
+											</label>
+											<label class="form-label">  Activar/Desactivar Rol </label>
+										</div>
+										
+										<div class="card shadow mb-4">
+											<div class="card-header">Permisos</div>
+											<div class="card-body"> '.$htmlPermisos.' </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						';
+					}
+				}
+				
+			}
+		}else{
+			$html = $roles["mensaje"];
+		}
+		return '
+			<div class="card-header">Gestión de roles y asignación de permisos</div>	
+            <div class="card-body">'.$html.'</div>
+		';
 	}
 }
 ?>
