@@ -1,6 +1,7 @@
 <?php 
 @session_start();
 require '../model/conexion.php';
+require "../model/ssp.php";
 require '../model/mdl_procesos_admin.php';
 #Definición de entradas
 $casos = array(
@@ -15,13 +16,26 @@ $casos = array(
 	"cargarTitulacionEmpresarial",
 	"cargarRolesAdministracion",
 	"actRoles",
-	"actPermiso"
+	"actPermiso",
+	"crearRol",
+	"listaRolesUsuarios",
+	"crearNuevoUsuario",
+	"cargarRoles",
+	"editarUsuario",
+	"eliminarUsuario",
+	"asignarRolUsuario"
 );
 // entrada
 $caso = '';
 if (!empty($_POST)) {
-	if (in_array($_POST["entrada"], $casos)) {
-		$caso = $_POST["entrada"];
+	if (in_array(@$_POST["entrada"], $casos)) {
+		$metodo = "post";
+		$caso = @$_POST["entrada"];
+	}
+}else if(!empty($_GET)){
+	if (in_array(@$_GET["entrada"], $casos)) {
+		$metodo = 'get';
+		$caso = @$_GET["entrada"];
 	}
 }
 
@@ -149,12 +163,154 @@ switch ($caso) {
 		$result = ProcesosAdmin::editar_estado_permiso($id, $valor, $campo);
 		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		break;
-	
+	case 'crearRol':
+		$nombre = $_POST["nombre"];
+		$ver = (($_POST["ver"])?1:0);
+		$crear = (($_POST["crear"])?1:0);
+		$editar = (($_POST["editar"])?1:0);
+		$eliminar = (($_POST["eliminar"])?1:0);
+		$continue = true;
+
+		if (empty($nombre)) {
+			$continue = false;
+			$mensaje = "Por favor indique un nombre al nuevo rol ";
+		}
+
+		if($continue){
+			$datos = ProcesosAdmin::registrar_rol($nombre, $ver, $crear, $editar, $eliminar);
+			$continue = $datos["result"];
+			$mensaje = $datos["mensaje"];
+		}
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		break;
+	case 'listaRolesUsuarios':
+		$table = "admin";
+		$primaryKey = "id";
+		$columns  = array(			
+			array('db' => 'usuario', 'dt'=>0),
+			array('db' => 'nombre', 'dt'=>1),
+			array('db' => 'telefono', 'dt'=>2),
+			array('db' => 'correo', 'dt'=>3),
+			array('db' => 'estado', 'dt'=>4, 'formatter'=>function($val, $fila){
+				return '
+					<div>
+						'.(($val=='1')?'
+							<i class="btn btn-success btn-circle btn-lg">
+								<i class="fa fa-check"></i>
+							</i>
+						':'
+							<i class="btn btn-danger btn-circle btn-lg">
+								<i class="fa fa-close"></i>
+							</i>
+						').'
+					</div>';
+			}),
+			array('db' => 'roles_id', 'dt'=>5, 'formatter'=>function($val, $fila){
+				$nombre = ProcesosAdmin::traer_nombre_rol_dt($val);
+				return '
+					<div>
+						'.$nombre.'
+					</div>';
+			}),
+			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($val);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
+				return '
+				<div class="dropdown mb-4 ">
+					<button class="btn btn-primary dropdown-toggle" type="button" id="accionesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						Acciones
+					</button>
+					<div class="dropdown-menu animated--fade-in " aria-labelledby="accionesMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+						<a class="dropdown-item asignarRol" href="#" data-control="'.$idEncrip.'"><i class="fa fa-users"></i> Asignar un rol</a>
+						<a class="dropdown-item editarUsuario" href="#" data-control="'.$idEncrip.'"><i class="fa fa-edit"></i> Editar</a>
+						<a class="dropdown-item eliminarUsuario" href="#" data-control="'.$idEncrip.'"><i class="fa fa-close"></i> Eliminar</a>
+					</div>
+				</div>';
+			})
+		);
+		$conexion = Conexion::iniciar();
+		$sql_details = Conexion::dataTable(KEYGEN_DATATBLE);
+		$data = SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, 'id != 1 ', '' );
+		$conexion->close();
+		break;
+	case 'crearNuevoUsuario':
+		$usuario = trim($_POST["usuario"]);
+		$usuario = str_replace(' ', '', $usuario);
+		$usuario = strtolower($usuario);
+		$nombre = $_POST["nombre"];
+		$telefono = $_POST["telefono"];
+		$correo = $_POST["correo"];
+		$continue = true;
+
+		if (empty($nombre) || empty($usuario) || empty($correo) || empty($telefono)) {
+			$continue = false;
+			$mensaje = "Todos los campos son obligatorios ";
+		}
+
+		if($continue){
+			$datos = ProcesosAdmin::registrar_nuevo_usuario($nombre, $usuario, $correo, $telefono);
+			$continue = $datos["result"];
+			$mensaje = $datos["mensaje"];
+		}
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		break;
+	case 'cargarRoles':
+		$idEncrip = Conexion::formato_encript($_POST["data-control"], "des");
+		$id = Conexion::decriptTable($idEncrip);
+		$continue = true;
+		if (!is_numeric($id)) {
+			$continue = false;
+			$mensaje = "Error al tomar el identificador del elemento ";
+			$html = "Error al cargar los roles";
+		}
+
+		if ($continue) {
+			$data = ProcesosAdmin::cargar_roles_asignacion($id);
+			$continue = $data["result"];
+			$mensaje = $data["mensaje"];
+			$html = $data["html"];
+		}
+		
+		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
+		break;
+	case 'editarUsuario':
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		break;
+	case 'eliminarUsuario':
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		break;
+	case 'asignarRolUsuario':
+		$idRol = $_POST["selectRol"];
+		$idAdmin = $_POST["id"];
+		$idRol = Conexion::formato_encript($idRol, "des");
+		$idRol = Conexion::decriptTable($idRol);
+		$idAdmin = Conexion::formato_encript($idAdmin, "des");
+		$idAdmin = Conexion::decriptTable($idAdmin);
+		$continue = true;
+		
+		if (!is_numeric($idRol) || !is_numeric($idAdmin)) {
+			$mensaje = "Error en los parametros enviados ";
+			$continue = false;
+		}
+
+		if ($continue) {
+			$data = ProcesosAdmin::actualizar_rol_usuario($idAdmin, $idRol);
+			$continue = $data["result"];
+			$mensaje = $data["mensaje"];
+		}
+
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		break;
 	default:
-		echo 'NADA';
+		$result = array("continue" => false, "mensaje"=>"Metodo erróneo");
 		break;
 }
-
-echo json_encode($result);
+$mostrar = 'NADA';
+if ($metodo==="post") {
+	$mostrar = $result;
+}else if($metodo==="get"){
+	$mostrar = $data;
+}
+echo json_encode($mostrar);
 
 ?>

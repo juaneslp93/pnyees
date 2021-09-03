@@ -29,9 +29,12 @@ $idProducto = $_GET["id"] ?>
                 <input type="hidden" id="referencia" value="<?= $idProducto ?>">
                 <div class="container-fluid">
                     <div class="row justify-content-center">
-                        <div class="col-lg-12" id="catalogo">
-                            
-                	       Cargando... <span class="fa fa-spinner fa-spin"></span>
+                        <div class="col-lg-12" id="catalogo">                            
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-grow text-primary m-5 " role="status">
+                                    <span class="sr-only">Cargando...</span>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>

@@ -43,13 +43,13 @@ class VistasAdmin
 		                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1"
 		                    aria-expanded="true" aria-controls="collapse1">
 		                    <i class="fas fa-fw fa-user"></i>
-		                    <span>Usuarios</span>
+		                    <span>Clientes</span>
 		                </a>
 		                <div id="collapse1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 		                    <div class="bg-white py-2 collapse-inner rounded">
-		                        <h6 class="collapse-header">Gestión de usuarios:</h6>
-		                        <a class="collapse-item" href="lista-usuarios">Listar usuarios</a>
-		                        <a class="collapse-item" href="reporte-usuarios">Reporte de usuarios</a>
+		                        <h6 class="collapse-header">Gestión de clientes:</h6>
+		                        <a class="collapse-item" href="lista-usuarios">Listar clientes</a>
+		                        <a class="collapse-item" href="reporte-usuarios">Reporte de clientes</a>
 		                    </div>
 		                </div>
 		            </li>

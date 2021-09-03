@@ -276,24 +276,27 @@ class ProcesosAdmin Extends Conexion
 	}
 
 	public static function registrar_banco($nombre='', $cuenta='', $tipo=''){
-		$conexion = self::iniciar();
-		$sql = "INSERT INTO bancos (nombre, cuenta, tipo, estado, fecha) VALUES (?,?,?,?,?)";
-		$sentencia = $conexion->prepare($sql);
-		$sentencia->bind_param('sssss', $nombre, $cuenta, $tipo, $estado, $fecha_registro);
-		$nombre = $nombre;
-		$cuenta = $cuenta;
-		$tipo = $tipo;
-		$estado = '1';
-		$fecha_registro = date('Y-m-d H:m:s');
+		try {
+			$conexion = self::iniciar();
+			$sql = "INSERT INTO bancos (nombre, cuenta, tipo, estado, fecha) VALUES (?,?,?,?,?)";
+			$sentencia = $conexion->prepare($sql);
+			$sentencia->bind_param('sssss', $nombre, $cuenta, $tipo, $estado, $fecha_registro);
+			$nombre = $nombre;
+			$cuenta = $cuenta;
+			$tipo = $tipo;
+			$estado = '1';
+			$fecha_registro = date('Y-m-d H:m:s');
 
-		$result = true;
-		$mensaje = '';
-		if (!$sentencia->execute()) {
+			$result = true;
+			$mensaje = '';
+			$sentencia->execute();
+					
+			$conexion->close();
+			
+		} catch (Exception $e) {
 			$result = false;
-			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. Error code ['.$sentencia->errno.']'.$sentencia->error.'</h1></span>';
+			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. ['.$e->getMessage().']</h1></span>';
 		}
-		echo $sentencia->error;
-		$conexion->close();
 		return array("estado"=>$result, "mensaje"=>$mensaje);
 	}
 
@@ -471,6 +474,33 @@ class ProcesosAdmin Extends Conexion
 		<div class="card-body">Facturación y titulo de la empresa</div>
 		';
 	}
+	public static function traer_nombre_rol_dt($idRol = null){
+		$nombre = " ---- ";
+		if(!empty($idRol)){
+			$datos = self::consultar_rol($idRol);
+			if($datos["result"]){
+				$nombre = $datos["datos"]["nombre"];
+			}
+		}
+		return $nombre;
+	}
+	private static function consultar_rol($idRol){
+		$conexion = self::iniciar();
+		$sql = "SELECT id, nombre, estado, fecha FROM roles WHERE id = $idRol ";
+		$consu = $conexion->query($sql);
+		$datos["result"] = false;
+		$datos["mensaje"] = "Error al cargar el rol";
+		$datos["datos"] = array();
+		if ($consu->num_rows>0) {
+			$data = $consu->fetch_array();
+			$datos["datos"] =  $data;			
+			$datos["result"] = true;
+			$datos["mensaje"] = "Rol cargado";
+		}
+		
+		$conexion->close();
+		return $datos;
+	}
 
 	private static function consultar_roles(){
 		$conexion = self::iniciar();
@@ -528,8 +558,7 @@ class ProcesosAdmin Extends Conexion
 		$conexion = self::iniciar();
 		$result = false;
 		$mensaje = "Los usuarios estandar del sistema no pueden ser editados ";
-		if (($id!=1)&&$id!=2) {
-			echo $id;
+		if (($id!=1)) {
 			$mensaje = "No fue posible editar el permiso ";
 			if ($conexion->query($sql)) {
 				$result = true;
@@ -539,6 +568,79 @@ class ProcesosAdmin Extends Conexion
 		
 		$conexion->close();
 		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	private static function consultar_datos_usuario($idAdmin){
+		$conexion = self::iniciar();
+		$sql = "SELECT roles_id, usuario, fecha FROM admin WHERE id = $idAdmin ";
+		$consu = $conexion->query($sql);
+		$datos["id"] = 0;	
+		$datos["usuario"] = "Indefinido";	
+		if($consu->num_rows>0){
+			$rConsu = $consu->fetch_assoc();
+			$datos["id"] = $rConsu["roles_id"];
+			$datos["usuario"] = $rConsu["usuario"];
+			$datos["fecha"] = $rConsu["fecha"];
+		}
+		$conexion->close();
+		return $datos;
+	}
+
+	public static function cargar_roles_asignacion($idAdmin = 0){
+		$roles = self::consultar_roles();
+		$datosRolActual = self::consultar_datos_usuario($idAdmin);
+		$option = '';
+		if ($roles["result"]) {
+			foreach ($roles as $value) {
+				if (is_array($value)) {
+					for ($i=0; $i <count($value) ; $i++) {
+						if ($value[$i]["estado"]) {
+							$idRol =  self::encriptTable($value[$i]["id"]);						
+							$nombre =  $value[$i]["nombre"];
+							$option .= '<option value="'.$idRol.'" '.(($value[$i]["id"]==$datosRolActual["id"])?'selected':'').'>'.$nombre.'</option>';
+						}
+					}
+				}
+			}
+		}
+		$html = '
+			<div class="modal-header">
+				<h5 class="modal-title" id="nuevoUsuarioMdl">Asignar rol al usuario <b id="tblCtUser">'.$datosRolActual["usuario"].'</b></h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<form class="form-horizontal" name="formAsignarRol"id="formAsignarRol" method="post">
+				<div class="modal-body">
+					<div class="form-group">
+						<select name="selectRol" class="form-control">
+							<option value="">Seleccione un rol</option>
+							'.$option.'
+						</select>
+					</div>					
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" value="asignarRolUsuario" name="entrada">
+					<button class="btn btn-primary" type="submit" name="btnAsignarRol"><i class="fa fa-users"></i>Asingar rol</button>
+					<a class="btn btn-secondary " type="button" data-dismiss="modal" aria-label="Close">Cerrar</a>
+				</div>
+			</form>
+		';
+		return array("result"=>$roles["result"], "mensaje"=>$roles["mensaje"], "html"=>$html);
+	}
+
+	public static function actualizar_rol_usuario($idAdmin=0, $idRol=0){
+		try {
+			$sql = "UPDATE admin SET roles_id = $idRol WHERE id = $idAdmin ";
+			$conexion = self::iniciar();
+			$conexion->query($sql);
+			$conexion->close();
+
+			return array("result"=>true, "mensaje"=>"Rol actualizado");
+		} catch (Exception $th) {
+			//throw $th;
+			return array("result"=>false, "mensaje"=>"Error al actualizar el rol ".$th->getMessage());
+		}
 	}
 
 	public static function cargar_roles_y_administracion(){
@@ -557,7 +659,8 @@ class ProcesosAdmin Extends Conexion
 							foreach ($permisos as $valuePermiso) {
 								if (is_array($valuePermiso)) {
 									for ($t=0; $t <count($valuePermiso) ; $t++) { 
-										$disabled = (($valuePermiso[$t]["id"]==1)||($valuePermiso[$t]["id"]==2)) ? 'disabled="disabled"' : '' ;
+										$disabled = (($valuePermiso[$t]["id"]==1)) ? 'disabled="disabled"' : '' ;
+										$disabled2 = (($valuePermiso[$t]["id"]==1)) ? 'style="background-color:#6e707e"' : '' ;
 										$idPermiso =  self::encriptTable($valuePermiso[$t]["id"]);
 										$crear =  (($valuePermiso[$t]["crear"])?'checked '.$disabled:'');
 										$editar =  (($valuePermiso[$t]["editar"])?'checked '.$disabled:'');
@@ -570,7 +673,7 @@ class ProcesosAdmin Extends Conexion
 													<label class="form-label">  Ver 
 														<label class="switch ">
 															<input type="checkbox" '.$ver.' name="'.$idPermiso.'" data-control="ver" onchange="javascript:configGeneral.modificarPermisoVer(\''.$idPermiso.'\', this)">
-															<span class="slider round"></span>
+															<span class="slider round" '.$disabled2.'></span>
 														</label>
 													</label>
 												</div>
@@ -578,7 +681,7 @@ class ProcesosAdmin Extends Conexion
 													<label class="form-label">  Crear 
 														<label class="switch ">
 															<input type="checkbox" '.$crear.' name="'.$idPermiso.'" data-control="crear" onchange="javascript:configGeneral.modificarPermisoCrear(\''.$idPermiso.'\', this)">
-															<span class="slider round"></span>
+															<span class="slider round" '.$disabled2.'></span>
 														</label>
 													</label>
 												</div>
@@ -586,7 +689,7 @@ class ProcesosAdmin Extends Conexion
 													<label class="form-label">  Editar 
 														<label class="switch ">
 															<input type="checkbox" '.$editar.' name="'.$idPermiso.'" data-control="editar" onchange="javascript:configGeneral.modificarPermisoEditar(\''.$idPermiso.'\', this)">
-															<span class="slider round"></span>
+															<span class="slider round" '.$disabled2.'></span>
 														</label>
 													</label>
 												</div>
@@ -594,7 +697,7 @@ class ProcesosAdmin Extends Conexion
 													<label class="form-label">  Eliminar 
 														<label class="switch ">
 															<input type="checkbox" '.$eliminar.' name="'.$idPermiso.'" data-control="eliminar" onchange="javascript:configGeneral.modificarPermisoEliminar(\''.$idPermiso.'\', this)">
-															<span class="slider round"></span>
+															<span class="slider round" '.$disabled2.'></span>
 														</label>
 													</label>
 												</div>
@@ -641,9 +744,116 @@ class ProcesosAdmin Extends Conexion
 			$html = $roles["mensaje"];
 		}
 		return '
-			<div class="card-header">Gestión de roles y asignación de permisos</div>	
+			<div class="card-header">
+				Gestión de roles y asignación de permisos 
+				<a class="btn btn-success fa-pull-right" href="#" data-toggle="modal" data-target="#rolModal">
+					<i class="fas fa-users fa-sm fa-fw mr-2"></i>
+					Nuevo rol
+				</a>
+			</div>	
             <div class="card-body">'.$html.'</div>
 		';
+	}
+
+	private static function insetar_datos_rol($nombre = ''){
+		try {
+			$conexion = self::iniciar();
+			$sql = "INSERT INTO roles (nombre, estado, fecha) VALUES (?,?,?)";
+			$sentencia = $conexion->prepare($sql);
+			$sentencia->bind_param('sss', $v1, $v2, $v3);
+			$v1 = $nombre;
+			$v2 = '1';
+			$v3 = self::fecha_sistema();
+			
+			$sentencia->execute();
+			$result = true;
+			$mensaje = " Rol creado ";
+
+			$consu = $conexion->query("SELECT max(id) as nuevo_rol FROM roles");
+			$rConsu = $consu->fetch_assoc();
+			$id = $rConsu["nuevo_rol"];
+			
+			$conexion->close();
+			
+		} catch (Exception $e) {
+			$result = false;
+			$mensaje = "Error al insertar el nuevo rol ".$e->getMessage();
+			$id = 0;
+		}
+		return array("result"=>$result, "mensaje"=>$mensaje, "id"=>$id);
+	}
+
+	private static function insetar_datos_rol_permisos($idRol=0, $ver=0, $crear=0, $editar=0, $eliminar=0){
+		try {
+			$conexion = self::iniciar();
+			$sql = "INSERT INTO roles_permisos (id_admin, ver, crear, editar, eliminar) VALUES (?,?,?,?,?)";
+			$sentencia = $conexion->prepare($sql);
+			$sentencia->bind_param('issss', $v1, $v2, $v3, $v4, $v5);
+			$v1 = (int)$idRol;
+			$v2 = $ver;
+			$v3 = $crear;
+			$v4 = $editar;
+			$v5 = $eliminar;
+
+			$result = true;
+			$mensaje = " Rol creado ";
+			$sentencia->execute();
+			$conexion->close();
+			
+		} catch (Exception $e) {
+			$result = false;
+			$mensaje = "Error al insertar el nuevo rol ".$e->getMessage();
+		}
+
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function registrar_rol($nombre='', $ver=0, $crear=0, $editar=0, $eliminar=0){
+		$datos = self::insetar_datos_rol($nombre);
+		$result = $datos["result"];
+		$mensaje = $datos["mensaje"];
+		if($result){
+			$datos = self::insetar_datos_rol_permisos($datos["id"], $ver, $crear, $editar, $eliminar);
+			$result = $datos["result"];
+			$mensaje = $mensaje.' y '.$datos["mensaje"];
+		}
+
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	private static function insetar_datos_usuario($usuario, $nombre, $correo, $telefono){
+		try {
+			$conexion = self::iniciar();
+			$sql = "INSERT INTO admin (usuario, nombre, telefono, correo, estado, fecha, roles_id) VALUES (?,?,?,?,?,?,?)";
+			$sentencia = $conexion->prepare($sql);
+			$sentencia->bind_param('ssssssi', $v1, $v2, $v3, $v4, $v5, $v6, $v7);
+			$v1 = $usuario;
+			$v2 = $nombre;
+			$v3 = $telefono;
+			$v4 = $correo;
+			$v5 = '1';
+			$v6 = self::fecha_sistema();
+			$v7 = 0;
+			
+			$sentencia->execute();
+			$result = true;
+			$mensaje = " Usuario creado ";
+			
+			$conexion->close();
+			
+		} catch (Exception $e) {
+			$result = false;
+			$mensaje = "Error al crear nuevo usuario ".$e->getMessage();
+		}
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function registrar_nuevo_usuario($nombre='', $usuario='', $correo='', $telefono=''){
+		$datos = self::insetar_datos_usuario($usuario, $nombre, $correo, $telefono);
+		$result = $datos["result"];
+		$mensaje = $datos["mensaje"];		
+
+		return array("result"=>$result, "mensaje"=>$mensaje);
 	}
 }
 ?>

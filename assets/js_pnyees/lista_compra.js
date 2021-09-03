@@ -82,10 +82,10 @@ procesosListaCompra = {
 				Swal.fire({
 					title: '¿Está seguro de anular esta(s) compra(s)?',
 					text: 'Este proceso es irreversible',
-					  showDenyButton: true,
-					  showCancelButton: false,
-					  confirmButtonText: 'Si, estoy seguro',
-					  denyButtonText: 'No, cancela esta acción',
+					showDenyButton: true,
+					showCancelButton: false,
+					confirmButtonText: 'Si, estoy seguro',
+					denyButtonText: 'No, cancela esta acción',
 				}).then((promised)=> {					
 					if (promised.isConfirmed) {
 						procesosListaCompra.continuar_procesar_compra(table, self, false);

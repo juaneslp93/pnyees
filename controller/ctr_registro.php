@@ -18,7 +18,9 @@ if (!empty($_POST)) {
 
 switch ($caso) {
 	case 'registroSistema':
-		$usuario = $_POST["usuario"];
+		$usuario = trim($_POST["usuario"]);
+		$usuario = str_replace(' ', '', $usuario);
+		$usuario = strtolower($usuario);
 		$clave = $_POST["clave"];
 		$repita_clave = $_POST["repita_clave"];
 		$nombre = $_POST["nombre"];

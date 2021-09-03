@@ -50,7 +50,11 @@ include "../../controller/ctr_scripts.php";
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">                        
                         <div class="card-body" id="contenidoCompra">
-                            <i class="fa fa-spinner fa-spin"></i>Cargando...
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-grow text-primary m-5 " role="status">
+                                    <span class="sr-only">Cargando...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

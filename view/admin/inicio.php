@@ -42,7 +42,13 @@ include "../../controller/ctr_scripts.php";
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Usuarios Registrados</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="total-usuarios"><span class="fa fa-spinner fa-spin"></span></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="total-usuarios">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="spinner-grow text-primary m-5 " role="status">
+                                                        <span class="sr-only">Cargando...</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -79,7 +85,11 @@ include "../../controller/ctr_scripts.php";
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Envíos realizados
                                             </div>
                                             <div class="row no-gutters align-items-center" id="progreso-envios">
-                                                <span class="fa fa-spinner fa-spin"></span>
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="spinner-grow text-primary m-5 " role="status">
+                                                        <span class="sr-only">Cargando...</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
