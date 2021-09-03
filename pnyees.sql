@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-08-2021 a las 03:44:09
+-- Tiempo de generación: 03-09-2021 a las 03:31:22
 -- Versión del servidor: 10.4.20-MariaDB
--- Versión de PHP: 8.0.8
+-- Versión de PHP: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,16 +35,24 @@ CREATE TABLE `admin` (
   `telefono` int(11) DEFAULT NULL,
   `correo` varchar(45) NOT NULL,
   `estado` enum('0','1') NOT NULL DEFAULT '0',
-  `roles_id` int(11) NOT NULL,
-  `roles_roles_permisos_id` int(11) NOT NULL
+  `fecha` datetime NOT NULL,
+  `roles_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `admin`
 --
 
-INSERT INTO `admin` (`id`, `usuario`, `clave`, `nombre`, `telefono`, `correo`, `estado`, `roles_id`, `roles_roles_permisos_id`) VALUES
-(1, 'root', '$2y$10$ZwJIPtUyfn4yefA1hKlI3.r.rBegXb3ZCfacQroBlz3miqpBtpQcK', 'system', 12345, 'system@mail.com', '1', 1, 1);
+INSERT INTO `admin` (`id`, `usuario`, `clave`, `nombre`, `telefono`, `correo`, `estado`, `fecha`, `roles_id`) VALUES
+(1, 'root', '$2y$10$ZwJIPtUyfn4yefA1hKlI3.r.rBegXb3ZCfacQroBlz3miqpBtpQcK', 'system', 12345, 'system@mail.com', '1', '0000-00-00 00:00:00', 1),
+(2, 'prueba', '', 'pureba sistema', 2332323, '1', '1', '2021-09-02 10:10:24', 0),
+(3, 'asdf', '', 'sadfa', 0, '1', '1', '2021-09-02 10:14:21', 5),
+(4, 'user', '', 'userr sadfa', 0, 'bba@mail.com', '1', '2021-09-02 10:14:59', 0),
+(5, 'user2', '', 'userr sadfa2', 0, 'b2ba@mail.com', '1', '2021-09-02 10:15:21', 0),
+(6, 'moderador', '', 'moderar sistema', 2787364, 'moderar@mail.com', '1', '2021-09-02 10:16:58', 2),
+(7, 'ortroUsuario', '', 'asdfa', 0, 'asdfa', '1', '2021-09-02 10:18:26', 6),
+(8, 'Sub Admin', '', 'dfasdf asdf', 3243242, 'as@mail.com', '1', '2021-09-02 10:26:10', 0),
+(9, 'otronuevousuario', '', 'Otro usuario', 2983873, 'otro@mail.com', '1', '2021-09-02 10:37:27', 0);
 
 -- --------------------------------------------------------
 
@@ -1471,15 +1479,22 @@ CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `estado` enum('0','1') NOT NULL DEFAULT '0',
-  `roles_permisos_id` int(11) NOT NULL
+  `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`id`, `nombre`, `estado`, `roles_permisos_id`) VALUES
-(1, 'administrador', '1', 1);
+INSERT INTO `roles` (`id`, `nombre`, `estado`, `fecha`) VALUES
+(1, 'administrador', '1', '2021-08-31 17:58:49'),
+(2, 'moderador', '1', '2021-08-31 17:58:49'),
+(3, 'Prueba', '1', '2021-09-01 13:35:16'),
+(4, 'Prueba', '1', '2021-09-01 13:35:47'),
+(5, 'Prueba1', '1', '2021-09-01 13:40:26'),
+(6, 'asdfa', '1', '2021-09-01 13:42:07'),
+(7, 'asdfa', '1', '2021-09-01 13:42:56'),
+(8, 'asdfa', '1', '2021-09-01 13:44:26');
 
 -- --------------------------------------------------------
 
@@ -1493,16 +1508,17 @@ CREATE TABLE `roles_permisos` (
   `crear` enum('0','1') NOT NULL DEFAULT '0',
   `ver` enum('0','1') NOT NULL DEFAULT '0',
   `eliminar` enum('0','1') NOT NULL DEFAULT '0',
-  `roles_id` int(11) NOT NULL,
-  `roles_roles_permisos_id` int(11) NOT NULL
+  `id_admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles_permisos`
 --
 
-INSERT INTO `roles_permisos` (`id`, `editar`, `crear`, `ver`, `eliminar`, `roles_id`, `roles_roles_permisos_id`) VALUES
-(1, '1', '1', '1', '1', 1, 1);
+INSERT INTO `roles_permisos` (`id`, `editar`, `crear`, `ver`, `eliminar`, `id_admin`) VALUES
+(1, '1', '1', '1', '1', 1),
+(2, '1', '1', '1', '1', 2),
+(3, '0', '0', '1', '0', 8);
 
 -- --------------------------------------------------------
 
@@ -1658,7 +1674,8 @@ ALTER TABLE `roles`
 -- Indices de la tabla `roles_permisos`
 --
 ALTER TABLE `roles_permisos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `indx_id_admin` (`id_admin`);
 
 --
 -- Indices de la tabla `sistema`
@@ -1686,7 +1703,7 @@ ALTER TABLE `usuarios_direcciones`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `bancos`
@@ -1746,13 +1763,13 @@ ALTER TABLE `productos_descuento`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `roles_permisos`
 --
 ALTER TABLE `roles_permisos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `sistema`
