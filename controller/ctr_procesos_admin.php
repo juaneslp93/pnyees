@@ -21,6 +21,7 @@ $casos = array(
 	"listaRolesUsuarios",
 	"crearNuevoUsuario",
 	"cargarRoles",
+	"cargarEditarUsuario",
 	"editarUsuario",
 	"eliminarUsuario",
 	"asignarRolUsuario"
@@ -273,8 +274,34 @@ switch ($caso) {
 		
 		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
 		break;
+	case 'cargarEditarUsuario':
+		$idEncrip = Conexion::formato_encript($_POST["data-control"], "des");
+		$id = Conexion::decriptTable($idEncrip);
+		$continue = true;
+		if (!is_numeric($id)) {
+			$continue = false;
+			$mensaje = "Error al tomar el identificador del elemento ";
+			$html = "Error al cargar los roles";
+		}
+
+		if ($continue) {
+			$data = ProcesosAdmin::cargar_datos_usuario_admin($id);
+			$continue = $data["result"];
+			$mensaje = $data["mensaje"];
+			$html = $data["html"];
+		}
+		
+		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
+		break;
 	case 'editarUsuario':
-		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		$opcion =  $_POST["opcion"];
+		$opcion = str_replace('check', '', $opcion);
+		$id =  Conexion::decriptTable($opcion);
+		$valor =  $_POST["valor"];
+		$campo =  $_POST["campo"];
+		$continue = true;		
+		$result = ProcesosAdmin::editar_usuario_admin($id, $valor, $campo);
+		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		break;
 	case 'eliminarUsuario':
 		$result = array("continue" => $continue, "mensaje"=>$mensaje);

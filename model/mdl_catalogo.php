@@ -328,6 +328,7 @@ class Catalogo extends Conexion
 			$datosBanco .= '<div class="col-lg-6 col-md-6 " > Nombre : '.$nombre.' <br>';
 			$datosBanco .= ' Cuenta : '.$cuenta.'<br>';
 			$datosBanco .= ' Tipo : '.$tipo.'</div>';
+			$datosBanco .= '<img src="assets/img/qr.jpeg" alt="" width="80">';
 		}
 		$contenido .= '<div class="modal-dialog" role="document">
             <div class="modal-content">

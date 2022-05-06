@@ -572,18 +572,63 @@ class ProcesosAdmin Extends Conexion
 
 	private static function consultar_datos_usuario($idAdmin){
 		$conexion = self::iniciar();
-		$sql = "SELECT roles_id, usuario, fecha FROM admin WHERE id = $idAdmin ";
+		$sql = "SELECT roles_id, usuario, fecha, telefono, correo, nombre FROM admin WHERE id = $idAdmin ";
 		$consu = $conexion->query($sql);
 		$datos["id"] = 0;	
-		$datos["usuario"] = "Indefinido";	
+		$datos["usuario"] = "Indefinido";
+		$datos["mensaje"] = "Datos no encontrados";
+		$datos["result"] = false;
 		if($consu->num_rows>0){
 			$rConsu = $consu->fetch_assoc();
 			$datos["id"] = $rConsu["roles_id"];
 			$datos["usuario"] = $rConsu["usuario"];
+			$datos["nombre"] = $rConsu["nombre"];
+			$datos["correo"] = $rConsu["correo"];
+			$datos["telefono"] = $rConsu["telefono"];
 			$datos["fecha"] = $rConsu["fecha"];
+			$datos["mensaje"] = "Datos cargados";
+			$datos["result"] = true;
 		}
 		$conexion->close();
 		return $datos;
+	}
+
+	public static function cargar_datos_usuario_admin($idAdmin){
+		$datosUsuarioActual = self::consultar_datos_usuario($idAdmin);
+		$form = '
+			<div class="modal-body">
+				'.$datosUsuarioActual["mensaje"].'
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-secondary " type="button" data-dismiss="modal" aria-label="Close">Cerrar</a>
+			</div>
+		';
+		if ($datosUsuarioActual["result"]) {
+			$form = '
+				<form class="form-horizontal" name="formAsignarRol"id="formAsignarRol" method="post">
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="text" name="nombre" id="nombre" placeholder="Nombre" value="'.$datosUsuarioActual["nombre"].'">
+						</div>					
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" value="asignarRolUsuario" name="entrada">
+						<button class="btn btn-primary" type="submit" name="btnAsignarRol"><i class="fa fa-users"></i>Asingar rol</button>
+						<a class="btn btn-secondary " type="button" data-dismiss="modal" aria-label="Close">Cerrar</a>
+					</div>
+				</form>
+			';
+		}
+		$html = '
+			<div class="modal-header">
+				<h5 class="modal-title" id="nuevoUsuarioMdl">Editar datos del usuario <b id="tblCtUser">'.$datosUsuarioActual["usuario"].'</b></h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			'.$form.'
+		';
+		return array("result"=>$datosUsuarioActual["result"], "mensaje"=>$datosUsuarioActual["mensaje"], "html"=>$html);
 	}
 
 	public static function cargar_roles_asignacion($idAdmin = 0){

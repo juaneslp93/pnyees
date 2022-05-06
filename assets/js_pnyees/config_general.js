@@ -279,6 +279,61 @@ configGeneral = {
 			})
 		});
 	},
+	editarDatosUsuario: function (control, table) {
+		
+		$("#formEditarUsuario").submit(function (e) { 
+			e.preventDefault();			
+			Swal.fire({
+				icon: 'warning',
+				title: '¡Atención!',
+				text: "¿Está realmente seguro que desea asignar este rol a este usuario?",
+				showDenyButton: true,
+				showCancelButton: false,
+				confirmButtonText: 'Si, estoy seguro',
+				denyButtonText: 'No, cancela esta acción',
+			}).then((promised)=> {
+				if (promised.isConfirmed) {
+					$.ajax({
+						url: '../controller/ctr_procesos_admin.php',
+						type: 'POST',
+						dataType: 'json',
+						data: $(this).serialize()+'&id='+control,
+					})
+					.done(function(result) {
+						if (result.continue) {
+							Swal.fire({
+							  icon: 'success',
+							  title: '¡Proceso exitoso!',
+							  text: result.mensaje
+							})
+						}else{
+							Swal.fire({
+							  icon: 'warning',
+							  title: '¡Proceso detenido!',
+							  text: result.mensaje
+							})
+						}
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function(){
+						table.ajax.reload();
+						$("#contentTableModal").modal("hide");
+						$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+						$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+						document.getElementById("formAsignarRol").reset();
+					});
+				}else if(promised.isDenied){
+					table.ajax.reload();
+					$("#contentTableModal").modal("hide");
+					$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+					$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+					document.getElementById("formAsignarRol").reset();
+				}
+			})
+		});
+	},
 	listaRolesUsuarios: function(){
 		var self = this;
       	var table = $('#lista-roles-usuarios').DataTable({
@@ -304,7 +359,6 @@ configGeneral = {
       return table.on('draw', function(){
       	
 		$(".asignarRol").on("click", function(e) {
-			var self = this;
 			e.preventDefault();
 			var control = $(this).attr("data-control");
 			$("#tableActionContent").html('<div class="d-flex justify-content-center"><div class="spinner-grow text-primary m-5 " role="status"><span class="sr-only">Cargando...</span></div></div>');
@@ -318,11 +372,6 @@ configGeneral = {
 			.done(function(result) {
 				$("#tableActionContent").html(result.html);
 				configGeneral.guardarRolUsuario(control, table);
-				// table.ajax.reload();
-				// $("#nuevoUsuarioModal").modal("hide");
-				// $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-				// $('.modal-backdrop').remove();//eliminamos el backdrop del modal
-				// document.getElementById("formNuevoUsuario").reset();
 			})
 			.fail(function() {
 				console.log("error");
@@ -338,27 +387,11 @@ configGeneral = {
 				url: '../controller/ctr_procesos_admin.php',
 				type: 'POST',
 				dataType: 'json',
-				data: {"entrada":'editarUsuario', "data-control":control}	
+				data: {"entrada":'cargarEditarUsuario', "data-control":control}	
 			})
 			.done(function(result) {
-				if (result.continue) {
-					Swal.fire({
-					  icon: 'success',
-					  title: '¡Proceso exitoso!',
-					  html: result.mensaje
-					})
-				}else{
-					Swal.fire({
-					  icon: 'warning',
-					  title: '¡Proceso detenido!',
-					  html: result.mensaje
-					})
-				}
-				table.ajax.reload();
-				// $("#nuevoUsuarioModal").modal("hide");
-				// $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-				// $('.modal-backdrop').remove();//eliminamos el backdrop del modal
-				// document.getElementById("formNuevoUsuario").reset();
+				$("#tableActionContent").html(result.html);
+				configGeneral.editarDatosUsuario(control, table);
 			})
 			.fail(function() {
 				console.log("error");
