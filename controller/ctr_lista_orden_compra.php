@@ -90,7 +90,11 @@ switch ($caso) {
 		);
 		$conexion = Conexion::iniciar();
 		$sql_details = Conexion::dataTable(KEYGEN_DATATBLE);
-		$data = SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, '', '' );
+		$where = '';
+		if($_SESSION["SYSTEM"]["TIPO"]==="USER"){
+			$where = ' id_usuario ='.Conexion::desencriptar($_SESSION["SYSTEM"]["ID"], "Tbl1");
+		}
+		$data = SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $where, '' );
 		$conexion->close();
 		break;
 	case 'procesarOrdenCompra':

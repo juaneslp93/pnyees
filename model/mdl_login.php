@@ -17,6 +17,7 @@ class Login Extends Conexion
 		if ($consu->num_rows>0) {
 			$row = $consu->fetch_array();
 			$existe = true;
+			$id = self::encriptar($row["id"], "Tbl1");
 			$user = $row["usuario"];
 			$clave = $row["clave"];
 			if ($row["id"]==1) {
@@ -30,11 +31,13 @@ class Login Extends Conexion
 			if ($consu->num_rows>0) {
 				$row = $consu->fetch_array();
 				$existe = true;
+				$id = self::encriptar($row["id"], "Tbl1");
 				$user = $row["usuario"];
 				$clave = $row["clave"];
 				$tipo = "USER";
 			}else{
 				$existe = false;
+				$id = null;
 				$user = '';
 				$clave = '';
 				$tipo = "Usuario no encontrado";
@@ -42,7 +45,7 @@ class Login Extends Conexion
 		}
 		
 		$conexion->close();
-		$result = array('existe' => $existe, "usuario"=>$user, "clave"=>$clave, "tipo"=>$tipo);
+		$result = array('existe' => $existe, "usuario"=>$user, "clave"=>$clave, "tipo"=>$tipo, "id"=>$id);
 
 		return $result;
 	}
@@ -63,6 +66,7 @@ class Login Extends Conexion
 		$_SESSION["SYSTEM"]["USER"] = $validacion["usuario"];
 		$_SESSION["SYSTEM"]["TIPO"] = $validacion["tipo"];
 		$_SESSION["SYSTEM"]["CLAVE"] = $validacion["tipo"];
+		$_SESSION["SYSTEM"]["ID"] = $validacion["id"];
 		if ($validacion["tipo"]==="MASTER") {
 			$url = "admin/inicio";
 		}else if($validacion["tipo"]==="ADMIN"){

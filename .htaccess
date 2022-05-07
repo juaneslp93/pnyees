@@ -41,6 +41,9 @@ RewriteRule ^admin/importar$ view/admin/config_importar.php [L]
 #User
 RewriteRule ^user/inicio$ view/user/inicio.php [L]
 RewriteRule ^user/cerrar$ view/user/logout.php [L]
+RewriteRule ^user/compras$ view/user/compras.php [L]
+RewriteRule ^user/ordenes$ view/user/ordenes.php [L]
+RewriteRule ^user/reporte-general$ view/user/reporte-general.php [L]
 
 #tienda
 RewriteRule ^tienda-(.+)&(.+)$ view/tienda/catalogo.php?id=$1&pagina=$2 [QSA,L]

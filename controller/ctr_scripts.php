@@ -74,40 +74,40 @@ class Scripts
 		);
 
 		$contenido = '
-		<!-- Scroll to Top Button-->
-	    <a class="scroll-to-top rounded" href="#page-top">
-	        <i class="fas fa-angle-up"></i>
-	    </a>
-	    
-		<!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Sykeyns software &reg; '.date('Y').'</span>
-                    </div>
-                </div>
-            </footer>
+			<!-- Scroll to Top Button-->
+			<a class="scroll-to-top rounded" href="#page-top">
+				<i class="fas fa-angle-up"></i>
+			</a>
+			
+			<!-- Footer -->
+				<footer class="sticky-footer bg-white">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright &copy; Sykeyns software &reg; '.date('Y').'</span>
+						</div>
+					</div>
+				</footer>
 
-            <!-- Logout Modal-->
-		    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutMdl"
-		        aria-hidden="true">
-		        <div class="modal-dialog" role="document">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <h5 class="modal-title" id="logoutMdl">¿Seguro de cerrar la sesión actual?</h5>
-		                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-		                        <span aria-hidden="true">×</span>
-		                    </button>
-		                </div>
-		                <div class="modal-body">Seleccione "Cerrar" si está seguro de continuar.</div>
-		                <div class="modal-footer">
-		                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-		                    <a class="btn btn-primary" href="cerrar">Cerrar</a>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-    ';
+				<!-- Logout Modal-->
+				<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutMdl"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="logoutMdl">¿Seguro de cerrar la sesión actual?</h5>
+								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">Seleccione "Cerrar" si está seguro de continuar.</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+								<a class="btn btn-primary" href="cerrar">Cerrar</a>
+							</div>
+						</div>
+					</div>
+				</div>
+		';
 		for ($i=0; $i <count($peticion) ; $i++) { 
 			if (!empty($peticion[$i])) {
 				$contenido.=$elementos["".$peticion[$i]];
