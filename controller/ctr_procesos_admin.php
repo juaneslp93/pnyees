@@ -27,7 +27,8 @@ if($administracionPermisos["ver"]){
 		"editarUsuario",
 		"eliminarUsuario",
 		"asignarRolUsuario",
-		"actualizarRolesPermisos"
+		"actualizarRolesPermisos",
+		"editarDatosUsuario"
 	);
 }else{
 	$casos = array();
@@ -176,7 +177,7 @@ switch ($caso) {
 		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		break;
 	case 'crearRol':
-		$moderadores    = Self::saber_permiso_asociado(2);
+		$moderadores    = Conexion::saber_permiso_asociado(2);
 		if($moderadores["crear"]){
 			$nombre = @$_POST["nombreRol"];
 			$moduloInicio = ((@$_POST["inicio"])?1:0);#inicio
@@ -345,7 +346,7 @@ switch ($caso) {
 		$conexion->close();
 		break;
 	case 'crearNuevoUsuario':
-		$moderadores    = Self::saber_permiso_asociado(2);
+		$moderadores    = Conexion::saber_permiso_asociado(2);
 		if($moderadores["crear"]){
 			$usuario = trim($_POST["usuario"]);
 			$usuario = str_replace(' ', '', $usuario);
@@ -397,7 +398,7 @@ switch ($caso) {
 		if (!is_numeric($id)) {
 			$continue = false;
 			$mensaje = "Error al tomar el identificador del elemento ";
-			$html = "Error al cargar los roles";
+			$html = "No hay un identificador válido";
 		}
 
 		if ($continue) {
@@ -410,7 +411,7 @@ switch ($caso) {
 		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
 		break;
 	case 'editarUsuario':
-		$moderadores    = Self::saber_permiso_asociado(2);
+		$moderadores    = Conexion::saber_permiso_asociado(2);
 		if($moderadores["editar"]){
 			$opcion =  $_POST["opcion"];
 			$opcion = str_replace('check', '', $opcion);
@@ -426,15 +427,29 @@ switch ($caso) {
 		
 		break;
 	case 'eliminarUsuario':
-		$moderadores    = Self::saber_permiso_asociado(2);
+		$moderadores    = Conexion::saber_permiso_asociado(2);
 		if($moderadores["editar"]){
+			$idEncrip = Conexion::formato_encript($_POST["data-control"], "des");
+			$id = Conexion::decriptTable($idEncrip);
+			$continue = true;
+			if (!is_numeric($id) || $id==1) {
+				$continue = false;
+				$mensaje = "Error al tomar el identificador del elemento ";
+				$html = "No hay un identificador válido";
+			}
+
+			if ($continue) {
+				$data = ProcesosAdmin::eliminar_usuario_admin($id);
+				$continue = $data["result"];
+				$mensaje = $data["mensaje"];
+			}
 			$result = array("continue" => $continue, "mensaje"=>$mensaje);
 		}else{
 			$result = array("continue" => false, "mensaje"=>"No tiene permisos");
 		}
 		break;
 	case 'asignarRolUsuario':
-		$moderadores    = Self::saber_permiso_asociado(2);
+		$moderadores    = Conexion::saber_permiso_asociado(2);
 		if($moderadores["editar"]){
 			$idRol = $_POST["selectRol"];
 			$idAdmin = $_POST["id"];
@@ -462,7 +477,7 @@ switch ($caso) {
 		
 		break;
 	case 'actualizarRolesPermisos':
-		$moderadores    = Self::saber_permiso_asociado(2);
+		$moderadores    = Conexion::saber_permiso_asociado(2);
 		if($moderadores["editar"]){
 			$post = @$_POST;
 			$data = ProcesosAdmin::proceso_actualizacion_roles($post);
@@ -473,6 +488,38 @@ switch ($caso) {
 			$result = array("continue" => false, "mensaje"=>"No tiene permisos");
 		}
 		
+		break;
+	case 'editarDatosUsuario':
+		$moderadores    = Conexion::saber_permiso_asociado(2);
+		if($moderadores["editar"]){
+			$idUser = $_POST["id"];
+			$idUser = Conexion::formato_encript($idUser, "des");
+			$idUser = Conexion::decriptTable($idUser);
+			$nombre = $_POST["nombre"];
+			$correo = $_POST["correo"];
+			$telefono = $_POST["telefono"];
+			$continue = true;
+			if(!is_numeric($idUser)){
+				$continue = false;
+				$mensaje = "No hay un identificador válido";
+			}
+
+			if($continue){
+				if(empty($nombre) || empty($correo) || empty($telefono)){
+					$continue = false;
+					$mensaje = "No se permiten campos vacíos";
+				}
+			}
+
+			if($continue){
+				$datos = ProcesosAdmin::editar_datos_usuario($idUser, $nombre, $correo, $telefono);
+				$continue = $datos["result"];
+				$mensaje = $datos["mensaje"];
+			}
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene permisos");
+		}
 		break;
 	default:
 		$result = array("continue" => false, "mensaje"=>"Metodo erróneo");

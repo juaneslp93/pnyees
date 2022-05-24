@@ -633,6 +633,7 @@ class ProcesosAdmin Extends Conexion
 
 	public static function cargar_datos_usuario_admin($idAdmin){
 		$datosUsuarioActual = self::consultar_datos_usuario($idAdmin);
+		$moderadores    = Self::saber_permiso_asociado(2);
 		$form = '
 			<div class="modal-body">
 				'.$datosUsuarioActual["mensaje"].'
@@ -643,17 +644,25 @@ class ProcesosAdmin Extends Conexion
 		';
 		if ($datosUsuarioActual["result"]) {
 			$form = '
-				<form class="form-horizontal" name="formAsignarRol"id="formAsignarRol" method="post">
+				<form class="form-horizontal" name="formEditarUsuario"id="formEditarUsuario" method="post">
 					<div class="modal-body">
 						<div class="form-group">
-							<input type="text" name="nombre" id="nombre" placeholder="Nombre" value="'.$datosUsuarioActual["nombre"].'">
+							<input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" value="'.$datosUsuarioActual["nombre"].'" '.((!$moderadores["editar"])?'disabled':'').'>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="correo" id="correo" placeholder="Correo" value="'.$datosUsuarioActual["correo"].'" '.((!$moderadores["editar"])?'disabled':'').'>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="telefono" id="telefono" placeholder="Teléfono" value="'.$datosUsuarioActual["telefono"].'" '.((!$moderadores["editar"])?'disabled':'').'>
 						</div>					
 					</div>
+					'.(($moderadores["editar"])?'
 					<div class="modal-footer">
-						<input type="hidden" value="asignarRolUsuario" name="entrada">
-						<button class="btn btn-primary" type="submit" name="btnAsignarRol"><i class="fa fa-users"></i>Asingar rol</button>
+						<input type="hidden" value="editarDatosUsuario" name="entrada">
+						<button class="btn btn-primary" type="submit" name="btnAsignarRol"><i class="fa fa-refresh"></i> Actualizar datos</button>
 						<a class="btn btn-secondary " type="button" data-dismiss="modal" aria-label="Close">Cerrar</a>
 					</div>
+					':'').'					
 				</form>
 			';
 		}
@@ -1210,6 +1219,34 @@ class ProcesosAdmin Extends Conexion
 		}
 
 		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function editar_datos_usuario($idUser, $nombre, $correo, $telefono){
+		try {
+			$sql = "UPDATE admin SET nombre = '$nombre', correo = '$correo', telefono = '$telefono' WHERE id = $idUser ";
+			$conexion = self::iniciar();
+			$conexion->query($sql);
+			$conexion->close();
+
+			return array("result"=>true, "mensaje"=>"Datos actualizados");
+		} catch (Exception $th) {
+			//throw $th;
+			return array("result"=>false, "mensaje"=>"Error al actualizar los datos del usuario. ".$th->getMessage());
+		}
+	}
+
+	public static function eliminar_usuario_admin($idUser){
+		try {
+			$sql = "UPDATE admin SET estado='0' WHERE id = $idUser ";
+			$conexion = self::iniciar();
+			$conexion->query($sql);
+			$conexion->close();
+
+			return array("result"=>true, "mensaje"=>"Usuario eliminado");
+		} catch (Exception $th) {
+			//throw $th;
+			return array("result"=>false, "mensaje"=>"Error al actualizar los datos del usuario. ".$th->getMessage());
+		}
 	}
 }
 ?>

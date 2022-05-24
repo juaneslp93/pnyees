@@ -498,7 +498,7 @@ $moderadoresPermisos    = Conexion::saber_permiso_asociado(2);
     <div class="modal fade" id="contentTableModal" tabindex="-1" role="dialog" aria-labelledby="contentTableMdl" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content" id="tableActionContent">
-                <div class="d-flex justify-content-center">asdf
+                <div class="d-flex justify-content-center">
                     <div class="spinner-grow text-primary m-5 " role="status">
                         <span class="sr-only">Cargando...</span>
                     </div>

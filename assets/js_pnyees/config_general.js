@@ -341,7 +341,7 @@ configGeneral = {
 			Swal.fire({
 				icon: 'warning',
 				title: '¡Atención!',
-				text: "¿Está realmente seguro que desea asignar este rol a este usuario?",
+				text: "¿Está realmente seguro que desea cambiar los datos a este usuario?",
 				showDenyButton: true,
 				showCancelButton: false,
 				confirmButtonText: 'Si, estoy seguro',
@@ -455,38 +455,46 @@ configGeneral = {
 		
 		$(".eliminarUsuario").on("click", function(e) {
 			e.preventDefault();
-			var control = $(this).attr("data-control");
-			$("#tableActionContent").html('<div class="d-flex justify-content-center"><div class="spinner-grow text-primary m-5 " role="status"><span class="sr-only">Cargando...</span></div></div>');
-			$("#contentTableModal").modal("show");
-			$.ajax({
-				url: '../controller/ctr_procesos_admin.php',
-				type: 'POST',
-				dataType: 'json',
-				data: {"entrada":'eliminarUsuario', "data-control":control}	
-			})
-			.done(function(result) {
-				if (result.continue) {
-					Swal.fire({
-					  icon: 'success',
-					  title: '¡Proceso exitoso!',
-					  html: result.mensaje
+			Swal.fire({
+				icon: 'warning',
+				title: '¡Atención!',
+				text: "¿Está realmente seguro que desea cambiar los datos a este usuario?",
+				showDenyButton: true,
+				showCancelButton: false,
+				confirmButtonText: 'Si, estoy seguro',
+				denyButtonText: 'No, cancela esta acción',
+			}).then((promised)=> {
+				if (promised.isConfirmed) {
+					var control = $(this).attr("data-control");
+					$.ajax({
+						url: '../controller/ctr_procesos_admin.php',
+						type: 'POST',
+						dataType: 'json',
+						data: {"entrada":'eliminarUsuario', "data-control":control}	
 					})
-				}else{
-					Swal.fire({
-					  icon: 'warning',
-					  title: '¡Proceso detenido!',
-					  html: result.mensaje
+					.done(function(result) {
+						if (result.continue) {
+							Swal.fire({
+							icon: 'success',
+							title: '¡Proceso exitoso!',
+							html: result.mensaje
+							})
+						}else{
+							Swal.fire({
+							icon: 'warning',
+							title: '¡Proceso detenido!',
+							html: result.mensaje
+							})
+						}
+						table.ajax.reload();
 					})
+					.fail(function() {
+						console.log("error");
+					});
+				}else if(promised.isDenied){
+					//
 				}
-				table.ajax.reload();
-				// $("#nuevoUsuarioModal").modal("hide");
-				// $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-				// $('.modal-backdrop').remove();//eliminamos el backdrop del modal
-				// document.getElementById("formNuevoUsuario").reset();
 			})
-			.fail(function() {
-				console.log("error");
-			});
 		});		
       });
 	},
