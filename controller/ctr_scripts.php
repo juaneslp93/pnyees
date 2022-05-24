@@ -113,6 +113,26 @@ class Scripts
 				$contenido.=$elementos["".$peticion[$i]];
 			}
 		}
+		$contenido .= '
+		<script>
+			window.onload = function(){
+				function init(){
+					//carga de documento
+					var carg = document.getElementById("carga-global");
+					var pa = document.getElementById("wrapper");
+					pa.removeAttribute("style");
+					carg.setAttribute("style", "display:none;")
+					// configuración del menu
+					var elem = document.getElementById("page-top");
+					elem.classList.add("sidebar-toggled");
+					var elem2 = document.getElementById("accordionSidebar");
+					elem2.classList.add("toggled");
+				}
+				init();
+				
+			}
+		</script>
+		';
 		return $contenido;
 	}
 

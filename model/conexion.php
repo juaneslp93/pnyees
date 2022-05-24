@@ -340,6 +340,23 @@ class Conexion
 	public static function formato_nro_factura($valor=0, $tam=10){
 		return str_pad($valor, $tam, "0", STR_PAD_LEFT);  // produce "00001"
 	}
+
+	public static function saber_permiso_asociado($idPermiso=0){
+		$permisos = array("ver"=>null, "crear"=>null, "editar"=>null, "eliminar"=>null, "modulo"=>null);
+		for ($i=0; $i <count($_SESSION["SYSTEM"]["PERMISOS"]) ; $i++) {
+			$idPermisoCargado = (int)$_SESSION["SYSTEM"]["PERMISOS"][$i]["id_modulo"];
+			if($idPermisoCargado==$idPermiso){# modulo
+				$ver = $_SESSION["SYSTEM"]["PERMISOS"][$i]["ver"];
+				$crear = $_SESSION["SYSTEM"]["PERMISOS"][$i]["crear"];
+				$editar = $_SESSION["SYSTEM"]["PERMISOS"][$i]["editar"];
+				$eliminar = $_SESSION["SYSTEM"]["PERMISOS"][$i]["eliminar"];
+				$modulo = $_SESSION["SYSTEM"]["PERMISOS"][$i]["modulo"];
+				$permisos = array("ver"=>$ver, "crear"=>$crear, "editar"=>$editar, "eliminar"=>$eliminar, "modulo"=>$modulo);
+				break;
+			}
+		}
+		return $permisos;
+	}
 }
 
 ?>

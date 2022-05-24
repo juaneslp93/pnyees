@@ -536,7 +536,7 @@ class ProcesosAdmin Extends Conexion
 
 	private static function cargar_permisos($idAdmin){
 		$conexion = self::iniciar();
-		$sql = "SELECT id, editar, crear, ver, eliminar FROM roles_permisos WHERE id_admin =  $idAdmin ";
+		$sql = "SELECT id, editar, crear, ver, eliminar, id_modulo FROM roles_permisos WHERE id_admin =  $idAdmin ";
 		$consu = $conexion->query($sql);
 		$datos["result"] = false;
 		$datos["mensaje"] = "Error al cargar los permisos";
@@ -547,6 +547,44 @@ class ProcesosAdmin Extends Conexion
 			}
 			$datos["result"] = true;
 			$datos["mensaje"] = "Permisos cargados";
+		}
+		
+		$conexion->close();
+		return $datos;
+	}
+
+	private static function datos_modulos(){
+		$conexion = self::iniciar();
+		$sql = "SELECT id, modulo, estado FROM modulos_activos ";
+		$consu = $conexion->query($sql);
+		$datos["result"] = false;
+		$datos["mensaje"] = "Error al cargar los modulos";
+		$datos["datos"] = array();
+		if ($consu->num_rows>0) {
+			while($data = $consu->fetch_array()){
+				array_push($datos["datos"], $data);
+			}
+			$datos["result"] = true;
+			$datos["mensaje"] = "Modulos cargados";
+		}
+		
+		$conexion->close();
+		return $datos;
+	}
+
+	public static function datos_roles(){
+		$conexion = self::iniciar();
+		$sql = "SELECT id, nombre, estado, fecha FROM roles ";
+		$consu = $conexion->query($sql);
+		$datos["result"] = false;
+		$datos["mensaje"] = "Error al cargar los roles";
+		$datos["datos"] = array();
+		if ($consu->num_rows>0) {
+			while($data = $consu->fetch_array()){
+				array_push($datos["datos"], $data);
+			}
+			$datos["result"] = true;
+			$datos["mensaje"] = "Roles cargados";
 		}
 		
 		$conexion->close();
@@ -688,107 +726,171 @@ class ProcesosAdmin Extends Conexion
 		}
 	}
 
-	public static function cargar_roles_y_administracion(){
-		$roles = self::consultar_roles();
-		$html = '';
-		if ($roles["result"]) {
-			foreach ($roles as $value) {
-				if (is_array($value)) {
-					for ($i=0; $i <count($value) ; $i++) {						
-						$idRol =  self::encriptTable($value[$i]["id"]);						
-						$nombre =  $value[$i]["nombre"];
-						$estado =  (($value[$i]["estado"])?'checked':'');
-						$fecha =  $value[$i]["fecha"];
-						$permisos = self::cargar_permisos($value[$i]["id"]);
-						if($permisos["result"]){
-							foreach ($permisos as $valuePermiso) {
-								if (is_array($valuePermiso)) {
-									for ($t=0; $t <count($valuePermiso) ; $t++) { 
-										$disabled = (($valuePermiso[$t]["id"]==1)) ? 'disabled="disabled"' : '' ;
-										$disabled2 = (($valuePermiso[$t]["id"]==1)) ? 'style="background-color:#6e707e"' : '' ;
-										$idPermiso =  self::encriptTable($valuePermiso[$t]["id"]);
-										$crear =  (($valuePermiso[$t]["crear"])?'checked '.$disabled:'');
-										$editar =  (($valuePermiso[$t]["editar"])?'checked '.$disabled:'');
-										$ver =  (($valuePermiso[$t]["ver"])?'checked '.$disabled:'');
-										$eliminar =  (($valuePermiso[$t]["eliminar"])?'checked '.$disabled:'');
+	private static function consultar_roles_y_permisos_modulos(){
+		$conexion = self::iniciar();
+		$sql = "SELECT 
+			rp.id, 
+			r.nombre, 
+			r.estado AS estado_rol, 
+			r.fecha, 
+			m.modulo, 
+			m.estado AS estado_modulo, 
+			rp.ver, 
+			rp.crear, 
+			rp.editar, 
+			rp.eliminar, 
+			rp.id_admin, 
+			rp.id_modulo 
+		FROM roles_permisos AS rp 
+		LEFT JOIN roles AS r ON r.id = rp.id_admin 
+		LEFT JOIN modulos_activos AS m ON m.id = rp.id_modulo ORDER BY rp.id ASC";
+		$consu = $conexion->query($sql);
+		$datos["result"] = false;
+		$datos["mensaje"] = "Error al cargar los permisos";
+		$datos["datos"] = array();
+		if ($consu->num_rows>0) {
+			while($data = $consu->fetch_array()){
+				array_push($datos["datos"], $data);
+			}
+			$datos["result"] = true;
+			$datos["mensaje"] = "Permisos cargados";
+		}
+		
+		$conexion->close();
+		return $datos;
+	}
 
-										$htmlPermisos = '
-											<div class="row">
-												<div class="col-sm-3"> 
-													<label class="form-label">  Ver 
-														<label class="switch ">
-															<input type="checkbox" '.$ver.' name="'.$idPermiso.'" data-control="ver" onchange="javascript:configGeneral.modificarPermisoVer(\''.$idPermiso.'\', this)">
-															<span class="slider round" '.$disabled2.'></span>
-														</label>
-													</label>
-												</div>
-												<div class="col-sm-3"> 
-													<label class="form-label">  Crear 
-														<label class="switch ">
-															<input type="checkbox" '.$crear.' name="'.$idPermiso.'" data-control="crear" onchange="javascript:configGeneral.modificarPermisoCrear(\''.$idPermiso.'\', this)">
-															<span class="slider round" '.$disabled2.'></span>
-														</label>
-													</label>
-												</div>
-												<div class="col-sm-3"> 
-													<label class="form-label">  Editar 
-														<label class="switch ">
-															<input type="checkbox" '.$editar.' name="'.$idPermiso.'" data-control="editar" onchange="javascript:configGeneral.modificarPermisoEditar(\''.$idPermiso.'\', this)">
-															<span class="slider round" '.$disabled2.'></span>
-														</label>
-													</label>
-												</div>
-												<div class="col-sm-3"> 
-													<label class="form-label">  Eliminar 
-														<label class="switch ">
-															<input type="checkbox" '.$eliminar.' name="'.$idPermiso.'" data-control="eliminar" onchange="javascript:configGeneral.modificarPermisoEliminar(\''.$idPermiso.'\', this)">
-															<span class="slider round" '.$disabled2.'></span>
-														</label>
-													</label>
-												</div>
-											</div>
-										';
-									}
-								}								
-							}
-							
-						}else{
-							$htmlPermisos = $permisos["mensaje"];
+	public static function cargar_roles_y_administracion($moderadoresPermisos){
+		$roles = self::consultar_roles_y_permisos_modulos();
+		$html = $estructura = $tr = '';
+		if ($roles["result"]) {
+			$nombre = '';
+			$modulo = '';
+			$struc = array();
+			$struc2 = array();
+			$struc3["nombre"] = array();
+			$struc3["rols"] = array();
+			for ($i=0; $i <count($roles["datos"]) ; $i++) {
+				foreach ($roles["datos"][$i] as $key => $value) {
+					if(!is_numeric($key)){
+						$base = ucfirst($roles["datos"][$i]["modulo"]);
+						switch ($key) {
+							case 'nombre':
+								$nombre = $value;								
+								if(!in_array($nombre, $struc)){
+									array_push($struc, $nombre);
+								}
+							break;
+							case 'modulo':
+								$modulo = $value;
+								if(!in_array($modulo, $struc2)){
+									array_push($struc2, $modulo);
+								}
+							break;
+							default:
+								# No detecta
+								break;
 						}
-						$html .= '
-							<div class="card shadow mb-4">
-								<!-- Card Header - Accordion -->
-								<a href="#collapseCard-'.$idRol.'" class="d-block card-header py-3 '/*.(($i!=0)?'collapsed':'')*/.'" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard-'.$idRol.'">
-									<h6 class="m-0 font-weight-bold text-primary"> Rol '.ucfirst($nombre).' (Activo desde '.$fecha.')</h6>
-								</a>
-								<!-- Card Content - Collapse -->
-								<div class="collapse show'/*.(($i!=0)?'':'show')*/.'" id="collapseCard-'.$idRol.'" >
-									<div class="card-body">
-										<div class="form-group">
-											
-											<label class="switch ">
-												<input type="checkbox" '.$estado.' name="'.$idRol.'" onchange="javascript:configGeneral.modificarEstadoRol(\''.$idRol.'\', this)">
-												<span class="slider round"></span>
-											</label>
-											<label class="form-label">  Activar/Desactivar Rol </label>
-										</div>
-										
-										<div class="card shadow mb-4">
-											<div class="card-header">Permisos</div>
-											<div class="card-body"> '.$htmlPermisos.' </div>
-										</div>
-									</div>
+					}
+				}				
+			}
+			for ($i=0; $i < count($roles["datos"]) ; $i++) { 
+				if(in_array($roles["datos"][$i]["nombre"], $struc)){
+					$nombre 		= $roles["datos"][$i]["nombre"];
+					$modulo 		= $roles["datos"][$i]["modulo"];
+					$estadoModulo 	= (($roles["datos"][$i]["estado_modulo"])?'checked':'');
+					$ver 			= (($roles["datos"][$i]["ver"]=="1")?'checked':'');
+					$crear 			= (($roles["datos"][$i]["crear"]=="1")?'checked':'');
+					$editar 		= (($roles["datos"][$i]["editar"]=="1")?'checked':'');
+					$eliminar 		= (($roles["datos"][$i]["eliminar"]=="1")?'checked':'');
+					$idAdmin 		= self::encriptar($roles["datos"][$i]["id_admin"], 'Rip');
+					$idModulo 		= self::encriptar($roles["datos"][$i]["id_modulo"], 'Rip');
+					$idRol 			= self::encriptar($roles["datos"][$i]["id"], 'Rip');
+					$estructura = '
+						<tr>
+							<th colspan="3">'.$modulo.'</th>
+							<td colspan="1">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" id="'.$i.$modulo.'" name="'.$i.$modulo.'" value="1" data-type="mod" '.$estadoModulo.' '.(($moderadoresPermisos["editar"])?'':'disabled').'>
+									<label class="custom-control-label" for="'.$i.$modulo.'"> </label>
 								</div>
-							</div>
-						';
+								<input type="hidden" name="data-control-'.$i.$modulo.'" value="'.$idAdmin.'">
+								<input type="hidden" name="data-type-'.$i.$modulo.'" value="'.$idModulo.'">
+								<input type="hidden" name="data-ref-'.$i.$modulo.'" value="'.$idRol.'">
+								<input type="hidden" name="nombre'.$i.'" value="'.$modulo.'">
+							</td>
+						</tr>
+						<tr>
+							<th>Ver</th>
+							<th>Crear</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+						</tr>
+						<tr>
+							<td>
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" id="ver'.$i.$modulo.'" name="ver'.$i.$modulo.'" data-type="sub" value="1" '.$ver.' '.(($moderadoresPermisos["editar"])?'':'disabled').'>
+									<label class="custom-control-label" for="ver'.$i.$modulo.'"> </label>
+								</div>
+							</td>
+							<td>
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" id="editar'.$i.$modulo.'" name="editar'.$i.$modulo.'" data-type="sub" value="1" '.$editar.' '.(($moderadoresPermisos["editar"])?'':'disabled').'>
+									<label class="custom-control-label" for="editar'.$i.$modulo.'"> </label>
+								</div>
+							</td>
+							<td>
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" id="crear'.$i.$modulo.'" name="crear'.$i.$modulo.'" data-type="sub" value="1" '.$crear.' '.(($moderadoresPermisos["editar"])?'':'disabled').'>
+									<label class="custom-control-label" for="crear'.$i.$modulo.'"> </label>
+								</div>
+							</td>
+							<td>
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" id="eliminar'.$i.$modulo.'" name="eliminar'.$i.$modulo.'" data-type="sub" value="1" '.$eliminar.' '.(($moderadoresPermisos["editar"])?'':'disabled').'>
+									<label class="custom-control-label" for="eliminar'.$i.$modulo.'"> </label>
+								</div>
+							</td> 
+						</tr>	
+					';
+
+					if(!in_array($roles["datos"][$i]["nombre"], $struc3["nombre"])){
+						array_push($struc3["nombre"], $roles["datos"][$i]["nombre"]);
+					}
+					array_push($struc3["rols"], array("nombreRol"=>$roles["datos"][$i]["nombre"], "esctr"=>$estructura));
+				}
+			}
+
+			for ($i=0; $i <count($struc3["nombre"]) ; $i++) {
+				$tr = '';
+				for ($r=0; $r <count($struc3["rols"]) ; $r++) { 
+					if($struc3["nombre"][$i]==$struc3["rols"][$r]["nombreRol"]){
+						$tr.= $struc3["rols"][$r]["esctr"];
 					}
 				}
-				
+				$html .= '	
+					<div class="form-group">
+						<label for="'.$i.'nombreRol">Nombre del rol:</label>
+						<input type="text" name="nombreRol'.$i.'" id="'.$i.'nombreRol" placeholder="Nombre del rol" class="form-control" value="'.$struc3["nombre"][$i].'" '.(($moderadoresPermisos["editar"])?'':'disabled').'>
+					</div>				
+					<div class="row">
+						<div class="col-lg-12">
+							<table class="table table-striped table-bordered">
+								<thead>
+									<th>Permisos</th>
+								</thead>
+								<tbody>
+									'.$tr.'
+								</tbody>
+							</table> 
+						</div>
+					</div>
+				';
 			}
 		}else{
-			$html = $roles["mensaje"];
+			$html .= $roles["mensaje"];
 		}
-		return '
+		return (($moderadoresPermisos["crear"])?'
 			<div class="card-header">
 				Gestión de roles y asignación de permisos 
 				<a class="btn btn-success fa-pull-right" href="#" data-toggle="modal" data-target="#rolModal">
@@ -796,7 +898,19 @@ class ProcesosAdmin Extends Conexion
 					Nuevo rol
 				</a>
 			</div>	
-            <div class="card-body">'.$html.'</div>
+			':'').'			
+            <div class="card-body">
+			<div class="row">
+				<div class="col-lg-12">
+					<form class="form-horizontal" name="formEditarRol" id="formEditarRol" method="post">
+						'.$html.'
+						'.(($moderadoresPermisos["editar"])?'
+						<input type="hidden" name="entrada"	value="actualizarRolesPermisos">
+						<button type="submit" class="btn btn-success btn-md"> <i class="fa fa-refresh"></i> Actualizar permisos</button>
+						':'').'
+					</form>
+				</div>
+			</div>
 		';
 	}
 
@@ -828,20 +942,20 @@ class ProcesosAdmin Extends Conexion
 		return array("result"=>$result, "mensaje"=>$mensaje, "id"=>$id);
 	}
 
-	private static function insetar_datos_rol_permisos($idRol=0, $ver=0, $crear=0, $editar=0, $eliminar=0){
+	private static function insetar_datos_rol_permisos($idRol=0, $ver=0, $crear=0, $editar=0, $eliminar=0, $id_modulo=0, $nombre=''){
 		try {
 			$conexion = self::iniciar();
-			$sql = "INSERT INTO roles_permisos (id_admin, ver, crear, editar, eliminar) VALUES (?,?,?,?,?)";
+			$sql = "INSERT INTO roles_permisos (id_admin, ver, crear, editar, eliminar, id_modulo) VALUES (?,?,?,?,?,?)";
 			$sentencia = $conexion->prepare($sql);
-			$sentencia->bind_param('issss', $v1, $v2, $v3, $v4, $v5);
 			$v1 = (int)$idRol;
 			$v2 = $ver;
 			$v3 = $crear;
 			$v4 = $editar;
 			$v5 = $eliminar;
-
+			$v6 = (int)$id_modulo;
+			$sentencia->bind_param('issssi', $v1, $v2, $v3, $v4, $v5, $v6);
 			$result = true;
-			$mensaje = " Rol creado ";
+			$mensaje = " Permiso para $nombre agregado ";
 			$sentencia->execute();
 			$conexion->close();
 			
@@ -853,14 +967,99 @@ class ProcesosAdmin Extends Conexion
 		return array("result"=>$result, "mensaje"=>$mensaje);
 	}
 
-	public static function registrar_rol($nombre='', $ver=0, $crear=0, $editar=0, $eliminar=0){
+	private static function saber_nombre_modulo_activo($idModulo){
+		$conexion = self::iniciar();
+		$sql = "SELECT modulo FROM  modulos_activos WHERE id =  $idModulo AND estado='1'";
+		$consu = $conexion->query($sql);
+		$result = array("existe"=>false, "nombre"=>'');
+		if($consu->num_rows>0){
+			$rConsu = $consu->fetch_assoc();
+			if($rConsu["modulo"]!=null){
+				$result = array("existe"=>true, "nombre"=>$rConsu["modulo"]);
+			}
+		}
+		$conexion->close();
+		return $result;
+	}
+
+	private static function saber_id_modulo_activo($nombreModulo){
+		$conexion = self::iniciar();
+		$sql = "SELECT id FROM  modulos_activos WHERE modulo LIKE '$nombreModulo' AND estado='1'";
+		$consu = $conexion->query($sql);
+		$result = array("existe"=>false, "id"=>'');
+		if($consu->num_rows>0){
+			$rConsu = $consu->fetch_assoc();
+			if($rConsu["id"]!=null){
+				$result = array("existe"=>true, "id"=>$rConsu["id"]);
+			}
+		}
+		$conexion->close();
+		return $result;
+	}
+
+	public static function registrar_rol($nombre='', $modulos=array()){
 		$datos = self::insetar_datos_rol($nombre);
 		$result = $datos["result"];
 		$mensaje = $datos["mensaje"];
+		$idRol = $datos["id"];
+		$mods = self::datos_modulos();
+		$modulosActivos = array();
+		$mensaje = '';
+		if($mods["result"]){
+			for ($i=0; $i <count($mods["datos"]) ; $i++) { 
+				array_push($modulosActivos, array("modulo"=>$mods["datos"][$i]["modulo"], "idModulo"=>$mods["datos"][$i]["id"]));
+			}
+		}
 		if($result){
-			$datos = self::insetar_datos_rol_permisos($datos["id"], $ver, $crear, $editar, $eliminar);
-			$result = $datos["result"];
-			$mensaje = $mensaje.' y '.$datos["mensaje"];
+			$ver = 0;
+			$crear = 0;
+			$editar = 0;
+			$eliminar = 0;
+			$permisoVer = 0;
+			$permisoCrear = 0;
+			$permisoEditar = 0;
+			$permisoEliminar = 0;
+			$mod = array();
+			// var_dump($modulos);
+			for ($t=0; $t <count($modulos) ; $t++) {#buscamos los modulos activos y validamos si están activos
+				for ($y=0; $y <count($modulosActivos) ; $y++) {
+					if($modulosActivos[$y]["modulo"]==$modulos[$t]["nombre"]){
+						array_push(
+							$mod, 
+							array(
+								"idModulo"=>$modulosActivos[$y]["idModulo"], 
+								"nombreMod"=>$modulosActivos[$y]["modulo"]
+							)
+						);
+					}
+				}
+				for ($l=0; $l <count($mod) ; $l++) { 
+					if($mod[$l]["nombreMod"]==$modulos[$t]["nombre"]){
+						$ver = "ver".ucfirst($mod[$l]["nombreMod"]);
+						$crear = "crear".ucfirst($mod[$l]["nombreMod"]);
+						$editar = "editar".ucfirst($mod[$l]["nombreMod"]);
+						$eliminar = "eliminar".ucfirst($mod[$l]["nombreMod"]);
+					}
+					if(@is_numeric($modulos[$t][$ver])){
+						@$permisoVer = $modulos[$t][$ver];
+					}
+					if(@is_numeric($modulos[$t][$crear])){
+						@$permisoCrear = $modulos[$t][$crear];
+					}
+					if(@is_numeric($modulos[$t][$editar])){
+						@$permisoEditar = $modulos[$t][$editar];
+					}
+					if(@is_numeric($modulos[$t][$eliminar])){
+						@$permisoEliminar = $modulos[$t][$eliminar];
+					}
+
+					if($mod[$l]["nombreMod"]==$modulos[$t]["nombre"]){
+						$datoIn = self::insetar_datos_rol_permisos($idRol, $permisoVer, $permisoCrear, $permisoEditar, $permisoEliminar, $mod[$l]["idModulo"], $mod[$l]["idModulo"]);
+						$result = $datoIn["result"];
+						$mensaje = $mensaje.','.$datoIn["mensaje"];
+					}		
+				}				
+			}
 		}
 
 		return array("result"=>$result, "mensaje"=>$mensaje);
@@ -897,6 +1096,118 @@ class ProcesosAdmin Extends Conexion
 		$datos = self::insetar_datos_usuario($usuario, $nombre, $correo, $telefono);
 		$result = $datos["result"];
 		$mensaje = $datos["mensaje"];		
+
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function proceso_actualizacion_roles($post){
+		$roles["nombreRol"] = array();
+		$roles["datos"] = array();
+		$result = false;
+		$mensaje = '';
+		$mod = array();
+		for ($i=0; $i <count($post) ; $i++) {#recorremos el post
+			$idRol = 0;	
+			if(!empty($post["nombreRol".$i])){
+				$rol = $post["nombreRol".$i];# obtenemos el nombre del rol
+				if(!in_array($rol, $roles["nombreRol"])){
+					array_push($roles["nombreRol"], $rol);
+				}
+			}
+			$mods = self::datos_modulos();
+			$modulosActivos = array();			
+			if($mods["result"]){				
+				for ($l=0; $l <count($mods["datos"]) ; $l++) { 					
+					if(!empty($post[$i.$mods["datos"][$l]["modulo"]])){
+						if (array_key_exists($i.$mods["datos"][$l]["modulo"], $post)) {
+							array_push($modulosActivos, array("modulo"=>$mods["datos"][$l]["modulo"], "idModulo"=>$mods["datos"][$l]["id"]));
+						}
+					}
+				}			
+				$ver = 0;
+				$crear = 0;
+				$editar = 0;
+				$eliminar = 0;
+				$permisoVer = 0;
+				$permisoCrear = 0;
+				$permisoEditar = 0;
+				$permisoEliminar = 0;
+				$mod = array();				
+				for ($y=0; $y <count($modulosActivos) ; $y++) {
+					if(in_array($modulosActivos[$y]["modulo"], $post)){
+						array_push(
+							$mod, 
+							array(
+								"idModulo"=>$modulosActivos[$y]["idModulo"], 
+								"nombreMod"=>$modulosActivos[$y]["modulo"]
+							)
+						);
+					}
+				}
+				for ($l=0; $l <count($mod) ; $l++) {
+					if($mod[$l]["nombreMod"]==$post["nombre".$i]){
+						$ver = "ver".$i.$mod[$l]["nombreMod"];
+						$crear = "crear".$i.$mod[$l]["nombreMod"];
+						$editar = "editar".$i.$mod[$l]["nombreMod"];
+						$eliminar = "eliminar".$i.$mod[$l]["nombreMod"];
+						$tipo = "data-type-".$i.$mod[$l]["nombreMod"];
+						$ref = "data-ref-".$i.$mod[$l]["nombreMod"];
+						$control = "data-control-".$i.$mod[$l]["nombreMod"];
+						if(!empty($post[$control])){
+							$idAdmin = self::desencriptar(@$post[$control],'Rip');
+						}
+						if(!empty($post[$ref])){
+							$idRol = self::desencriptar(@$post[$ref],'Rip');
+						}
+						if(!empty($post[$tipo])){
+							$idModulo = self::desencriptar(@$post[$tipo],'Rip');
+						}
+					}
+					if(@is_numeric($post[$ver])){
+						@$permisoVer = $post[$ver];
+					}
+					if(@is_numeric($post[$crear])){
+						@$permisoCrear = $post[$crear];
+					}
+					if(@is_numeric($post[$editar])){
+						@$permisoEditar = $post[$editar];
+					}
+					if(@is_numeric($post[$eliminar])){
+						@$permisoEliminar = $post[$eliminar];
+					}
+					if($mod[$l]["nombreMod"]==$post["nombre".$i]){
+						$datoIn = self::actualizar_datos_rol_permisos($idRol, $permisoVer, $permisoCrear, $permisoEditar, $permisoEliminar, $idAdmin, $idModulo);
+						$result = $datoIn["result"];
+						$mensaje = $datoIn["mensaje"];
+					}		
+				}
+			}
+		}
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	private static function actualizar_datos_rol_permisos($idRol=0, $ver=0, $crear=0, $editar=0, $eliminar=0, $idAdmin=0, $idModulo=0){
+		try {
+			$v1 = $ver;
+			$v2 = $crear;
+			$v3 = $editar;
+			$v4 = $eliminar;
+			$v5 = (int)$idRol;
+			$v6 = (int)$idAdmin;
+			$v7 = (int)$idModulo;
+			$conexion = self::iniciar();
+			$sql = "UPDATE roles_permisos SET ver=?, crear=?, editar=?, eliminar=? WHERE id=? AND id_admin=? AND id_modulo=? ";
+			$sentencia = $conexion->prepare($sql);			
+			$sentencia->bind_param('sssssii', $v1, $v2, $v3, $v4, $v5, $v6, $v7);
+			$result = true;
+			$mensaje = " Permisos actualizados ";
+			$sentencia->execute();
+			$conexion->close();
+			
+		} catch (Exception $e) {
+			$result = false;
+			$mensaje = "Error al insertar el nuevo rol ".$e->getMessage();
+		}
 
 		return array("result"=>$result, "mensaje"=>$mensaje);
 	}

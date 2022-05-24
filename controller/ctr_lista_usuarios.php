@@ -32,42 +32,72 @@ switch ($caso) {
 			array('db' => 'usuario', 'dt'=>0, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="usuarioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="U'.$idEncrip.'"></div>';
+				$clientes       = Conexion::saber_permiso_asociado(7);# permisos
+				if($clientes["editar"]){
+					$res = '<div class="usuarioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+						'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="U'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'nombre', 'dt'=>1, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="nombreEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="N'.$idEncrip.'"></div>';
+				$clientes       = Conexion::saber_permiso_asociado(7);# permisos
+				if($clientes["editar"]){
+					$res = '<div class="nombreEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+						'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="N'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'apellido', 'dt'=>2, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="apellidoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="A'.$idEncrip.'"></div>';
+				$clientes       = Conexion::saber_permiso_asociado(7);# permisos
+				if($clientes["editar"]){
+					$res = '<div class="apellidoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="A'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'correo', 'dt'=>3, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="correoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="C'.$idEncrip.'"></div>';
+				$clientes       = Conexion::saber_permiso_asociado(7);# permisos
+				if($clientes["editar"]){
+					$res = '<div class="correoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+						'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="C'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'telefono', 'dt'=>4, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="telefonoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="T'.$idEncrip.'"></div>';
+				$clientes       = Conexion::saber_permiso_asociado(7);# permisos
+				if($clientes["editar"]){
+					$res = '<div class="telefonoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+						'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="T'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'estado', 'dt'=>5, 'formatter'=>function($val, $fila){
 				return (($val)?'
@@ -79,6 +109,7 @@ switch ($caso) {
                     </i>');
 			}),
 			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
+				$clientes       = Conexion::saber_permiso_asociado(7);# permisos
 				return '
 					<div class="dropdown mb-4">
                         <button class="btn btn-primary dropdown-toggle" type="button"
@@ -90,8 +121,10 @@ switch ($caso) {
                             aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="detalles-usuarios-'.Conexion::encriptar($val, "Tbl1").'">Ver detalles</a>
                             <a class="dropdown-item" href="../tienda-'.Conexion::encriptar($val, "Tbl1").'&1">Ir a la tienda</a>
-                            <hr>
-                            <a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptar($val, "Tbl1").'">Eliminar</a>
+							'.(($clientes["eliminar"])?'
+                            	<hr>
+								<a class="dropdown-item eliminar_usuario" href="javascript:" data-control="'.Conexion::encriptar($val, "Tbl1").'">Eliminar</a>
+							':'').'
                         </div>
                     </div>
 				';

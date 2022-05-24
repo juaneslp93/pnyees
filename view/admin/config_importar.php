@@ -11,9 +11,13 @@ include "../../controller/ctr_scripts.php";
 </head>
 
 <body id="page-top">
-
+    <div class="text-center align-self-center" id="carga-global">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
     <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div id="wrapper" style="display:none;">
 
         <!-- Sidebar -->
         <?= $menu ?>

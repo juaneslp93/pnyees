@@ -3,13 +3,18 @@
 require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_compra.php';
+$comprasPermiso        = Conexion::saber_permiso_asociado(4);
+if($comprasPermiso["ver"]){
+	$casos = array(
+		"lista_compra",
+		"procesarCompra",
+		"detalleCompra",
+		"generar_pdf"
+	);
+}else{
+	$casos = array();
+}
 
-$casos = array(
-	"lista_compra",
-	"procesarCompra",
-	"detalleCompra",
-	"generar_pdf"
-);
 // entrada
 $caso = '';
 if (!empty($_POST)) {
@@ -112,29 +117,34 @@ switch ($caso) {
 		$conexion->close();
 		break;
 	case 'procesarCompra':
-		$opcion = @$_POST["opcion-compra"];
-		$compras = @$_POST["seleccionCompra"];
-		$continuar = true;
+		if($comprasPermiso["editar"]){
+			$opcion = @$_POST["opcion-compra"];
+			$compras = @$_POST["seleccionCompra"];
+			$continuar = true;
 
-		if (empty($opcion)) {
-			$continuar = false;
-			$mensaje = "No ha seleccionado una opción de procesamiento";
-		}
-
-		if ($continuar) {
-			if (empty($compras)) {
+			if (empty($opcion)) {
 				$continuar = false;
-				$mensaje = "No ha seleccionado una compra para procesar";
+				$mensaje = "No ha seleccionado una opción de procesamiento";
 			}
-		}
 
-		if ($continuar) {			
-			$datos = Compras::procesar_compra($compras, $opcion);
-			$continuar = $datos["result"];
-			$mensaje = $datos["mensaje"];
-		}
+			if ($continuar) {
+				if (empty($compras)) {
+					$continuar = false;
+					$mensaje = "No ha seleccionado una compra para procesar";
+				}
+			}
 
-		$result = array("continue" => $continuar, "mensaje"=> $mensaje);
+			if ($continuar) {			
+				$datos = Compras::procesar_compra($compras, $opcion);
+				$continuar = $datos["result"];
+				$mensaje = $datos["mensaje"];
+			}
+
+			$result = array("continue" => $continuar, "mensaje"=> $mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=> 'No tiene suficientes permisos');
+		}
+		
 		break;
 	case 'detalleCompra':
 		$idCompra = $_POST["idCompra"];		

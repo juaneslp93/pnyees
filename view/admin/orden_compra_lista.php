@@ -2,6 +2,7 @@
 include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
+$ordenes        = Conexion::saber_permiso_asociado(3);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +24,13 @@ include "../../controller/ctr_scripts.php";
 </head>
 
 <body id="page-top">
-
+    <div class="text-center align-self-center" id="carga-global">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
     <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div id="wrapper" style="display:none;">
 
         <!-- Sidebar -->
         <?= $menu ?>
@@ -53,18 +58,23 @@ include "../../controller/ctr_scripts.php";
                         </div>
                         <div class="card-body">
                             <form class="form-horizontal" id="formProcesarOrden">
-                                <div class="float-right">
+                                <?php  if($ordenes["editar"]){?>
+                                    <div class="float-right">
                                         <div class="form-group">
-                                            <label class="control-label">Negar orden(es)
-                                                <input type="radio" id="negar-orden" name="opcion-orden" value="1" class="form-control">
-                                            </label>
-                                            <label class="control-label">Aprobar orden(es)
-                                                <input type="radio" id="aprobar-orden" name="opcion-orden" value="2" class="form-control">
-                                            </label>
+                                            <?php  if($ordenes["eliminar"]){?>
+                                                <label class="control-label">Negar orden(es)
+                                                    <input type="radio" id="negar-orden" name="opcion-orden" value="1" class="form-control">
+                                                </label>
+                                            <?php } ?>
+                                                <label class="control-label">Aprobar orden(es)
+                                                    <input type="radio" id="aprobar-orden" name="opcion-orden" value="2" class="form-control">
+                                                </label>
+                                            
                                             <input type="hidden" name="entrada" value="procesarOrdenCompra" class="form-control">
                                             <button type="submit" class="btn btn-info">Procesar selección</button>
                                         </div>
-                                </div>
+                                    </div>
+                                <?php } ?>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="lista-orden-compra" width="100%" cellspacing="0">
                                         <thead>

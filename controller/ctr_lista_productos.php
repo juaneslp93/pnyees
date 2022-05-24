@@ -3,15 +3,19 @@
 require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_productos.php';
-
-$casos = array(
-	"lista_productos",
-	"eliminar_producto",
-	"editar_producto",
-	"crear_producto",
-	"cargarDescuentos",
-	"crear_descuento"
-);
+$productosPermiso      = Conexion::saber_permiso_asociado(5);
+if($productosPermiso["ver"]){
+	$casos = array(
+		"lista_productos",
+		"eliminar_producto",
+		"editar_producto",
+		"crear_producto",
+		"cargarDescuentos",
+		"crear_descuento"
+	);
+}else{
+	$casos = array();
+}
 // entrada
 $caso = '';
 if (!empty($_POST)) {
@@ -28,49 +32,78 @@ if (!empty($_POST)) {
 
 switch ($caso) {
 	case 'lista_productos':
-		# code...
 		$table = "productos";
 		$primaryKey = "id";
 		$columns  = array(
 			array('db' => 'nombre', 'dt'=>0, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="productoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="P'.$idEncrip.'"></div>';
+				$productos      = Conexion::saber_permiso_asociado(5);
+				if($productos["editar"]){
+					$res = '<div class="productoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="P'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'descripcion', 'dt'=>1, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="descripcionEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="D'.$idEncrip.'"></div>';
+				$productos      = Conexion::saber_permiso_asociado(5);
+				if($productos["editar"]){
+					$res = '<div class="descripcionEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="D'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'precio', 'dt'=>2, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="precioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="Pr'.$idEncrip.'"></div>';
+				$productos      = Conexion::saber_permiso_asociado(5);
+				if($productos["editar"]){
+					$res = '<div class="precioEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="Pr'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'impuesto', 'dt'=>3, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '<div class="impuestoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="I'.$idEncrip.'"></div>';
+				$productos      = Conexion::saber_permiso_asociado(5);
+				if($productos["editar"]){
+					$res = '<div class="impuestoEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="I'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'url_imagen', 'dt'=>4, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return'<div class="imagenEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
-					 '.((!empty($val))?$val:'------').'
-				</div>
-				<div id="M'.$idEncrip.'"></div>';
+				$productos      = Conexion::saber_permiso_asociado(5);
+				if($productos["editar"]){
+					$res = '<div class="imagenEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((!empty($val))?$val:'------').'
+					</div>
+					<div id="M'.$idEncrip.'"></div>';
+				}else{
+					$res = ((!empty($val))?$val:'------');
+				}
+				return $res;
 			}),
 			array('db' => 'estado', 'dt'=>5, 'formatter'=>function($val, $fila){
 				return (($val)?'
@@ -84,6 +117,7 @@ switch ($caso) {
 			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptar($val, "Pro1");
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
+				$productos      = Conexion::saber_permiso_asociado(5);
 				return '
 					<div class="dropdown mb-4">
                         <button class="btn btn-primary dropdown-toggle" type="button"
@@ -93,9 +127,13 @@ switch ($caso) {
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript:procesosListaProductos.cargarElementosAgregados(\''.$idEncrip.'\')">Descuentos</a>
-                            <hr>
-                            <a class="dropdown-item eliminar_producto" href="javascript:" data-control="'.$idEncrip.'">Eliminar</a>
+							'.(($productos["editar"])?'
+								<a class="dropdown-item" href="javascript:procesosListaProductos.cargarElementosAgregados(\''.$idEncrip.'\')">Descuentos</a>
+							':'').'
+							'.(($productos["eliminar"])?'
+								<hr>
+								<a class="dropdown-item eliminar_producto" href="javascript:" data-control="'.$idEncrip.'">Eliminar</a>
+							':'').'
                         </div>
                     </div>
 				';

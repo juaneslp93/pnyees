@@ -6457,6 +6457,14 @@ button.bg-dark:focus {
   background-color: #fff !important;
 }
 
+.bg-black {
+  background-color: #000 !important;
+}
+
+.bg-gray {
+  background-color: #60616f !important;
+}
+
 .bg-transparent {
   background-color: transparent !important;
 }
@@ -9552,6 +9560,10 @@ button.bg-dark:focus {
 
 .text-white {
   color: #fff !important;
+}
+
+.text-black {
+  color: #000 !important;
 }
 
 .text-primary {

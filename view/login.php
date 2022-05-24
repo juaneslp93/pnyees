@@ -45,7 +45,7 @@ include "controller/ctr_scripts.php";
                                         </div>
                                         
                                         <input type="hidden" name="entrada" value="ingresoSistema">
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-dark btn-user btn-block">
                                             <i class="fa fa-sign-in fa-lg"></i> Ingresar
                                         </button>
                                         <hr>

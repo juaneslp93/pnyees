@@ -2,6 +2,7 @@
 include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
+$productosPermiso      = Conexion::saber_permiso_asociado(5);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +24,13 @@ include "../../controller/ctr_scripts.php";
 </head>
 
 <body id="page-top">
-
+    <div class="text-center align-self-center" id="carga-global">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
     <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div id="wrapper" style="display:none;">
 
         <!-- Sidebar -->
         <?= $menu ?>
@@ -48,13 +53,15 @@ include "../../controller/ctr_scripts.php";
                     
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista de productos <a class="float-right btn btn-success btn-small" href="#" data-toggle="modal" data-target="#newProductoModal">
-                                    <i class="fas fa-plus-square  fa-sm fa-fw mr-2 text-white-400"></i>
-                                    Nuevo producto
-                                </a></h6>
+                        <?php if($productosPermiso["crear"]){ ?>
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Lista de productos <a class="float-right btn btn-success btn-small" href="#" data-toggle="modal" data-target="#newProductoModal">
+                                        <i class="fas fa-plus-square  fa-sm fa-fw mr-2 text-white-400"></i>
+                                        Nuevo producto
+                                    </a></h6>
 
-                        </div>
+                            </div>
+                        <?php } ?>                        
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="lista-productos" width="100%" cellspacing="0">

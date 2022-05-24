@@ -8,12 +8,13 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^$ index.php [L]
 
 #ERRORES
-ErrorDocument 404 /pnyees/view/404.php
-ErrorDocument 500 /pnyees/view/500.php
 ErrorDocument 400 /pnyees/view/400.php
 ErrorDocument 401 /pnyees/view/401.php
+RewriteRule   ^denegado /pnyees/view/403.php
+ErrorDocument 404 /pnyees/view/404.php
+ErrorDocument 500 /pnyees/view/500.php
 
-RewriteRule .*\.(jpg|gif|bmp|png)$ 404 [L]
+#RewriteRule .*\.(jpg|gif|bmp|png)$ 404 [L]
 
 # Registro
 RewriteRule ^registro$ view/register.php [L]
@@ -56,16 +57,16 @@ RewriteRule ^cerrar$ view/tienda/logout.php [L]
 RewriteRule ^user/category/(.+)$ /user/contacto.html?id=1 [R=301,L]
 
 # Restricted access to files
-<FilesMatch "((\.(lock|cache|db))|CHANGELOG.md|README.md|^(.*\.config|.*\.example)(.*?))$">
-	# Apache < 2.3
-	<IfModule !mod_authz_core.c>
-		Order allow,deny
-		Deny from all
-		Satisfy All
-	</IfModule>
-
-	# Apache ≥ 2.3
-	<IfModule mod_authz_core.c>
-		Require all denied
-	</IfModule>
-</FilesMatch>
+#<FilesMatch "((\.(lock|cache|db))|CHANGELOG.md|README.md|^(.*\.config|.*\.example)(.*?))$">
+#	# Apache < 2.3
+#	<IfModule !mod_authz_core.c>
+#		Order allow,deny
+#		Deny from all
+#		Satisfy All
+#	</IfModule>
+#
+#	# Apache ≥ 2.3
+#	<IfModule mod_authz_core.c>
+#		Require all denied
+#	</IfModule>
+#</FilesMatch>

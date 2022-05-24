@@ -2,6 +2,7 @@
 include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
+$compras        = Conexion::saber_permiso_asociado(4);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +24,13 @@ include "../../controller/ctr_scripts.php";
 </head>
 
 <body id="page-top">
-
+    <div class="text-center align-self-center" id="carga-global">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
     <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div id="wrapper" style="display:none;">
 
         <!-- Sidebar -->
         <?= $menu ?>
@@ -53,18 +58,22 @@ include "../../controller/ctr_scripts.php";
                         </div>
                         <div class="card-body">
                             <form class="form-horizontal" id="formProcesarCompra">
+                                <?php if($compras["editar"]){ ?>
                                 <div class="float-right">
-                                        <div class="form-group">
+                                    <div class="form-group">
+                                        <?php if($compras["eliminar"]){ ?>
                                             <label class="control-label">Anular compra(s)
                                                 <input type="radio" id="anular-compra" name="opcion-compra" value="1" class="form-control">
                                             </label>
-                                            <label class="control-label">Aprobar envío(s)
-                                                <input type="radio" id="aprobar-envio" name="opcion-compra" value="2" class="form-control">
-                                            </label>
-                                            <input type="hidden" name="entrada" value="procesarCompra" class="form-control">
-                                            <button type="submit" class="btn btn-info">Procesar selección</button>
-                                        </div>
+                                        <?php } ?>                                        
+                                        <label class="control-label">Aprobar envío(s)
+                                        <input type="radio" id="aprobar-envio" name="opcion-compra" value="2" class="form-control">
+                                        </label>                                        
+                                        <input type="hidden" name="entrada" value="procesarCompra" class="form-control">
+                                        <button type="submit" class="btn btn-info">Procesar selección</button>
+                                    </div>
                                 </div>
+                                <?php } ?>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="lista-compra" width="100%" cellspacing="0">
                                         <thead>

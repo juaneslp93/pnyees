@@ -4,28 +4,34 @@ require '../model/conexion.php';
 require "../model/ssp.php";
 require '../model/mdl_procesos_admin.php';
 #Definición de entradas
-$casos = array(
-	"datosInicio",
-	"notificaciones",
-	"cargarDatosGrafico",
-	"cargarInfoDetallesUsuarios",
-	"cargarMediosPagos",
-	"CrearBanco",
-	"actPasarela",
-	"cargarConfigGeneral",
-	"cargarTitulacionEmpresarial",
-	"cargarRolesAdministracion",
-	"actRoles",
-	"actPermiso",
-	"crearRol",
-	"listaRolesUsuarios",
-	"crearNuevoUsuario",
-	"cargarRoles",
-	"cargarEditarUsuario",
-	"editarUsuario",
-	"eliminarUsuario",
-	"asignarRolUsuario"
-);
+$administracionPermisos = Conexion::saber_permiso_asociado(6);
+if($administracionPermisos["ver"]){
+	$casos = array(
+		"datosInicio",
+		"notificaciones",
+		"cargarDatosGrafico",
+		"cargarInfoDetallesUsuarios",
+		"cargarMediosPagos",
+		"CrearBanco",
+		"actPasarela",
+		"cargarConfigGeneral",
+		"cargarTitulacionEmpresarial",
+		"cargarRolesAdministracion",
+		"actRoles",
+		"actPermiso",
+		"crearRol",
+		"listaRolesUsuarios",
+		"crearNuevoUsuario",
+		"cargarRoles",
+		"cargarEditarUsuario",
+		"editarUsuario",
+		"eliminarUsuario",
+		"asignarRolUsuario",
+		"actualizarRolesPermisos"
+	);
+}else{
+	$casos = array();
+}
 // entrada
 $caso = '';
 if (!empty($_POST)) {
@@ -142,7 +148,12 @@ switch ($caso) {
 		$result = array("continue" => true, "mensaje"=>"consulta realizada", "html"=>$html);
 		break;
 	case 'cargarRolesAdministracion':
-		$html = ProcesosAdmin::cargar_roles_y_administracion();
+		$moderadores    = Conexion::saber_permiso_asociado(2);
+		if($moderadores["ver"]){
+			$html = ProcesosAdmin::cargar_roles_y_administracion($moderadores);
+		}else{
+			$html = 'Sin permisos';
+		}
 		$result = array("continue" => true, "mensaje"=>"consulta realizada", "html"=>$html);
 		break;
 	case 'actRoles':
@@ -165,24 +176,118 @@ switch ($caso) {
 		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		break;
 	case 'crearRol':
-		$nombre = $_POST["nombre"];
-		$ver = (($_POST["ver"])?1:0);
-		$crear = (($_POST["crear"])?1:0);
-		$editar = (($_POST["editar"])?1:0);
-		$eliminar = (($_POST["eliminar"])?1:0);
-		$continue = true;
-
-		if (empty($nombre)) {
-			$continue = false;
-			$mensaje = "Por favor indique un nombre al nuevo rol ";
+		$moderadores    = Self::saber_permiso_asociado(2);
+		if($moderadores["crear"]){
+			$nombre = @$_POST["nombreRol"];
+			$moduloInicio = ((@$_POST["inicio"])?1:0);#inicio
+			$verInicio = ((@$_POST["verInicio"])?1:0);
+			$crearInicio = ((@$_POST["crearInicio"])?1:0);
+			$editarInicio = ((@$_POST["editarInicio"])?1:0);
+			$eliminarInicio = ((@$_POST["eliminarInicio"])?1:0);
+			$moduloModeradores = ((@$_POST["moderadores"])?1:0);#moderadores
+			$verModeradores = ((@$_POST["verModeradores"])?1:0);
+			$crearModeradores = ((@$_POST["crearModeradores"])?1:0);
+			$editarModeradores = ((@$_POST["editarModeradores"])?1:0);
+			$eliminarModeradores = ((@$_POST["eliminarModeradores"])?1:0);
+			$moduloClientes = ((@$_POST["clientes"])?1:0);#clientes
+			$verClientes = ((@$_POST["verClientes"])?1:0);
+			$crearClientes = ((@$_POST["crearClientes"])?1:0);
+			$editarClientes = ((@$_POST["editarClientes"])?1:0);
+			$eliminarClientes = ((@$_POST["eliminarClientes"])?1:0);
+			$moduloOrdenes = ((@$_POST["ordenes"])?1:0);#ordenes
+			$verOrdenes = ((@$_POST["verOrdenes"])?1:0);
+			$crearOrdenes = ((@$_POST["crearOrdenes"])?1:0);
+			$editarOrdenes = ((@$_POST["editarOrdenes"])?1:0);
+			$eliminarOrdenes = ((@$_POST["eliminarOrdenes"])?1:0);
+			$moduloCompras = ((@$_POST["compras"])?1:0);#compras
+			$verCompras = ((@$_POST["verCompras"])?1:0);
+			$crearCompras = ((@$_POST["crearCompras"])?1:0);
+			$editarCompras = ((@$_POST["editarCompras"])?1:0);
+			$eliminarCompras = ((@$_POST["eliminarCompras"])?1:0);
+			$moduloProductos = ((@$_POST["productos"])?1:0);#productos
+			$verProductos = ((@$_POST["verProductos"])?1:0);
+			$crearProductos = ((@$_POST["crearProductos"])?1:0);
+			$editarProductos = ((@$_POST["editarProductos"])?1:0);
+			$eliminarProductos = ((@$_POST["eliminarProductos"])?1:0);
+			$moduloAdministracion = ((@$_POST["administracion"])?1:0);#administracion
+			$verAdministracion = ((@$_POST["verAdministracion"])?1:0);
+			$crearAdministracion = ((@$_POST["crearAdministracion"])?1:0);
+			$editarAdministracion = ((@$_POST["editarAdministracion"])?1:0);
+			$eliminarAdministracion = ((@$_POST["eliminarAdministracion"])?1:0);
+			$continue = true;
+	
+			if (empty($nombre)) {
+				$continue = false;
+				$mensaje = "Por favor indique un nombre al nuevo rol ";
+			}
+	
+			$inicio = array(
+					"nombre"=>"inicio",
+					"inicio"=>$moduloInicio,
+					"verInicio"=>$verInicio,
+					"crearInicio"=>$crearInicio,
+					"editarInicio"=>$editarInicio,
+					"eliminarInicio"=>$eliminarInicio
+			);
+			$moderadores = array(
+					"nombre"=>"moderadores",
+					"moderadores"=>$moduloModeradores,
+					"verModeradores"=>$verModeradores,
+					"crearModeradores"=>$crearModeradores,
+					"editarModeradores"=>$editarModeradores,
+					"eliminarModeradores"=>$eliminarModeradores
+			);
+			$clientes = array(
+					"nombre"=>"clientes",
+					"clientes"=>$moduloClientes,
+					"verClientes"=>$verClientes,
+					"crearClientes"=>$crearClientes,
+					"editarClientes"=>$editarClientes,
+					"eliminarClientes"=>$eliminarClientes
+			);
+			$ordenes = array(
+					"nombre"=>"ordenes",
+					"ordenes"=>$moduloOrdenes,
+					"verOrdenes"=>$verOrdenes,
+					"crearOrdenes"=>$crearOrdenes,
+					"editarOrdenes"=>$editarOrdenes,
+					"eliminarOrdenes"=>$eliminarOrdenes
+			);
+			$compras = array(
+					"nombre"=>"compras",
+					"compras"=>$moduloCompras,
+					"verCompras"=>$verCompras,
+					"crearCompras"=>$crearCompras,
+					"editarCompras"=>$editarCompras,
+					"eliminarCompras"=>$eliminarCompras
+			);
+			$productos = array(
+					"nombre"=>"productos",
+					"productos"=>$moduloProductos,
+					"verProductos"=>$verProductos,
+					"crearProductos"=>$crearProductos,
+					"editarProductos"=>$editarProductos,
+					"eliminarProductos"=>$eliminarProductos
+			);
+			$administracion = array(
+					"nombre"=>"administracion",
+					"administracion"=>$moduloAdministracion,
+					"verAdministracion"=>$verAdministracion,
+					"crearAdministracion"=>$crearAdministracion,
+					"editarAdministracion"=>$editarAdministracion,
+					"eliminarAdministracion"=>$eliminarAdministracion
+			);
+	
+			if($continue){
+				$datos = ProcesosAdmin::registrar_rol($nombre, array($inicio, $moderadores, $clientes, $ordenes, $compras, $productos, $administracion));
+				$continue = $datos["result"];
+				$mensaje = $datos["mensaje"];
+			}
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene suficientes permisos");
 		}
-
-		if($continue){
-			$datos = ProcesosAdmin::registrar_rol($nombre, $ver, $crear, $editar, $eliminar);
-			$continue = $datos["result"];
-			$mensaje = $datos["mensaje"];
-		}
-		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		
 		break;
 	case 'listaRolesUsuarios':
 		$table = "admin";
@@ -215,16 +320,21 @@ switch ($caso) {
 			}),
 			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($val);
-				$idEncrip = Conexion::formato_encript($idEncrip, "con");
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");				
+				$moderadores    = Conexion::saber_permiso_asociado(2);
 				return '
 				<div class="dropdown mb-4 ">
 					<button class="btn btn-primary dropdown-toggle" type="button" id="accionesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						Acciones
 					</button>
 					<div class="dropdown-menu animated--fade-in " aria-labelledby="accionesMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-						<a class="dropdown-item asignarRol" href="#" data-control="'.$idEncrip.'"><i class="fa fa-users"></i> Asignar un rol</a>
-						<a class="dropdown-item editarUsuario" href="#" data-control="'.$idEncrip.'"><i class="fa fa-edit"></i> Editar</a>
-						<a class="dropdown-item eliminarUsuario" href="#" data-control="'.$idEncrip.'"><i class="fa fa-close"></i> Eliminar</a>
+						'.(($moderadores["editar"])?'
+							<a class="dropdown-item asignarRol" href="#" data-control="'.$idEncrip.'"><i class="fa fa-users"></i> Asignar un rol</a>
+							<a class="dropdown-item editarUsuario" href="#" data-control="'.$idEncrip.'"><i class="fa fa-edit"></i> Editar</a>
+						':'').'
+						'.(($moderadores["eliminar"])?'						
+							<a class="dropdown-item eliminarUsuario" href="#" data-control="'.$idEncrip.'"><i class="fa fa-close"></i> Eliminar</a>
+						':'').'
 					</div>
 				</div>';
 			})
@@ -235,25 +345,31 @@ switch ($caso) {
 		$conexion->close();
 		break;
 	case 'crearNuevoUsuario':
-		$usuario = trim($_POST["usuario"]);
-		$usuario = str_replace(' ', '', $usuario);
-		$usuario = strtolower($usuario);
-		$nombre = $_POST["nombre"];
-		$telefono = $_POST["telefono"];
-		$correo = $_POST["correo"];
-		$continue = true;
+		$moderadores    = Self::saber_permiso_asociado(2);
+		if($moderadores["crear"]){
+			$usuario = trim($_POST["usuario"]);
+			$usuario = str_replace(' ', '', $usuario);
+			$usuario = strtolower($usuario);
+			$nombre = $_POST["nombre"];
+			$telefono = $_POST["telefono"];
+			$correo = $_POST["correo"];
+			$continue = true;
 
-		if (empty($nombre) || empty($usuario) || empty($correo) || empty($telefono)) {
-			$continue = false;
-			$mensaje = "Todos los campos son obligatorios ";
-		}
+			if (empty($nombre) || empty($usuario) || empty($correo) || empty($telefono)) {
+				$continue = false;
+				$mensaje = "Todos los campos son obligatorios ";
+			}
 
-		if($continue){
-			$datos = ProcesosAdmin::registrar_nuevo_usuario($nombre, $usuario, $correo, $telefono);
-			$continue = $datos["result"];
-			$mensaje = $datos["mensaje"];
+			if($continue){
+				$datos = ProcesosAdmin::registrar_nuevo_usuario($nombre, $usuario, $correo, $telefono);
+				$continue = $datos["result"];
+				$mensaje = $datos["mensaje"];
+			}
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene suficientes permisos");
 		}
-		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		
 		break;
 	case 'cargarRoles':
 		$idEncrip = Conexion::formato_encript($_POST["data-control"], "des");
@@ -294,39 +410,69 @@ switch ($caso) {
 		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
 		break;
 	case 'editarUsuario':
-		$opcion =  $_POST["opcion"];
-		$opcion = str_replace('check', '', $opcion);
-		$id =  Conexion::decriptTable($opcion);
-		$valor =  $_POST["valor"];
-		$campo =  $_POST["campo"];
-		$continue = true;		
-		$result = ProcesosAdmin::editar_usuario_admin($id, $valor, $campo);
-		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		$moderadores    = Self::saber_permiso_asociado(2);
+		if($moderadores["editar"]){
+			$opcion =  $_POST["opcion"];
+			$opcion = str_replace('check', '', $opcion);
+			$id =  Conexion::decriptTable($opcion);
+			$valor =  $_POST["valor"];
+			$campo =  $_POST["campo"];
+			$continue = true;		
+			// $result = ProcesosAdmin::editar_usuario_admin($id, $valor, $campo);
+			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene suficientes permisos");
+		}
+		
 		break;
 	case 'eliminarUsuario':
-		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		$moderadores    = Self::saber_permiso_asociado(2);
+		if($moderadores["editar"]){
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene permisos");
+		}
 		break;
 	case 'asignarRolUsuario':
-		$idRol = $_POST["selectRol"];
-		$idAdmin = $_POST["id"];
-		$idRol = Conexion::formato_encript($idRol, "des");
-		$idRol = Conexion::decriptTable($idRol);
-		$idAdmin = Conexion::formato_encript($idAdmin, "des");
-		$idAdmin = Conexion::decriptTable($idAdmin);
-		$continue = true;
-		
-		if (!is_numeric($idRol) || !is_numeric($idAdmin)) {
-			$mensaje = "Error en los parametros enviados ";
-			$continue = false;
+		$moderadores    = Self::saber_permiso_asociado(2);
+		if($moderadores["editar"]){
+			$idRol = $_POST["selectRol"];
+			$idAdmin = $_POST["id"];
+			$idRol = Conexion::formato_encript($idRol, "des");
+			$idRol = Conexion::decriptTable($idRol);
+			$idAdmin = Conexion::formato_encript($idAdmin, "des");
+			$idAdmin = Conexion::decriptTable($idAdmin);
+			$continue = true;
+			
+			if (!is_numeric($idRol) || !is_numeric($idAdmin)) {
+				$mensaje = "Error en los parametros enviados ";
+				$continue = false;
+			}
+	
+			if ($continue) {
+				$data = ProcesosAdmin::actualizar_rol_usuario($idAdmin, $idRol);
+				$continue = $data["result"];
+				$mensaje = $data["mensaje"];
+			}
+	
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene suficientes permisos");
 		}
-
-		if ($continue) {
-			$data = ProcesosAdmin::actualizar_rol_usuario($idAdmin, $idRol);
+		
+		break;
+	case 'actualizarRolesPermisos':
+		$moderadores    = Self::saber_permiso_asociado(2);
+		if($moderadores["editar"]){
+			$post = @$_POST;
+			$data = ProcesosAdmin::proceso_actualizacion_roles($post);
 			$continue = $data["result"];
 			$mensaje = $data["mensaje"];
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$result = array("continue" => false, "mensaje"=>"No tiene permisos");
 		}
-
-		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		
 		break;
 	default:
 		$result = array("continue" => false, "mensaje"=>"Metodo erróneo");

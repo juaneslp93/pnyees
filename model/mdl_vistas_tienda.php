@@ -34,7 +34,7 @@ class Vistas Extends Conexion
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
+                            <span class="mr-2 d-none d-lg-inline text-white-50 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
                             <img class="img-profile rounded-circle"
                                 src="assets/img/undraw_profile.svg">
                         </a>
@@ -69,7 +69,7 @@ class Vistas Extends Conexion
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
+                            <span class="mr-2 d-none d-lg-inline text-white-50 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
                             <img class="img-profile rounded-circle"
                                 src="assets/img/undraw_profile.svg">
                         </a>
@@ -99,13 +99,13 @@ class Vistas Extends Conexion
             }
         }
         $result = '
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <nav class="navbar navbar-expand navbar-light bg-gray topbar mb-4 static-top shadow">
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-left">
                     <li class="nav-item dropdown no-arrow">
-                        <a class="btn btn-link text-black-50 rounded-circle mr-3" href="../">
-                            <i class="fa fa-dashboard"></i> Dashboard
+                        <a class="btn btn-link text-white rounded-circle mr-3" href="../pnyees">
+                            <i class="fa fa-dashboard"></i> Mi sucursal
                         </a>
                     </li>
                 </ul>    
@@ -120,7 +120,7 @@ class Vistas Extends Conexion
         
         // if (!isset($_SESSION["SYSTEM"])) {
                 $result = '
-                    <nav class="navbar navbar-expand navbar-light bg-info topbar text-white mb-4 static-top shadow">
+                    <nav class="navbar navbar-expand navbar-light bg-gray topbar text-white mb-4 static-top shadow">
 
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-left">

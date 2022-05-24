@@ -1,3 +1,6 @@
+$.fn.exists = function () {
+    return this.length !== 0;
+}
 configGeneral = {
     iniciarConfig: function () {
         this.cargaXdefecto();
@@ -5,6 +8,7 @@ configGeneral = {
         this.datosFacturacion();
         this.rolesAdministracion();    
 		this.crearRol();
+		this.editarRol();
 		var tableC = this.listaRolesUsuarios();
 		this.crearUsuario(tableC);
 		// this.procesar_compra(tableC);  
@@ -71,30 +75,16 @@ configGeneral = {
             });
         });        
     },
-    modificarEstadoRol:function (input, elemento) {
-        if ($(elemento).attr('checked')=="checked") {
+    modificarEstadoRol:function (elemento) {
+       /*  if ($(elemento).attr('checked')=="checked") {
 			$(elemento).removeAttr('checked').val('0');
 		}else{
 			$(elemento).attr({
 				checked: 'checked',
 				value: '1'
 			});			
-		}
-		var valor = $(elemento).val();
-
-		$.ajax({
-			url: '../controller/ctr_procesos_admin.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {"entrada": 'actRoles',"opcion":input, "valor":valor},
-		})
-		.done(function(result) {
-			console.log(result);
-		})
-		.fail(function() {
-			console.log("error");
-		});	
-    },
+		} */
+    },/* 
     modificarPermisoVer:function (input, elemento) {
         if ($(elemento).attr('checked')=="checked") {
 			$(elemento).removeAttr('checked').val('0');
@@ -194,7 +184,7 @@ configGeneral = {
 		.fail(function() {
 			console.log("error");
 		});	
-    },
+    }, */
 	crearRol: function () {
 		$("#formNuevoRol").submit(function (e) { 
 			e.preventDefault();
@@ -223,6 +213,71 @@ configGeneral = {
 				console.log("error");
 			});	
 		});
+	},
+	get_form_data: function ($form){
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+		console.log(unindexed_array)
+    
+        $.map(unindexed_array, function(n, i){
+            indexed_array[n['name']] = n['value'];
+        });
+        return indexed_array;
+    },
+	editarRol: function () {
+		var self = this;
+		$(document).on("change", "#formEditarRol  input[type='checkbox']", function() {		
+			var nombre = $(this).attr('name');
+			if ( $(this).prop('checked')) {
+				$(this).attr({
+					checked: 'true',
+					value: '1'
+				});
+				if ( $('input[name='+nombre+']').length >= 2) {
+					$('input[name='+nombre+']').each(function(index){
+						if(index==1)
+							$(this).remove();
+					});
+				}				
+			}else{
+				$(this).val('0');
+				$(this).removeAttr('checked');
+				if ( $('input[name='+nombre+']').length <= 1 ) {					
+					$("#formEditarRol").append('<input type="hidden" value="0" name="'+nombre+'">');
+				}
+			}
+		}).on('submit', '#formEditarRol', function (e) { 
+			e.preventDefault();
+			self.cargarFormEdit();
+		});
+	},
+	cargarFormEdit: function () {
+		form = this.get_form_data($("#formEditarRol"));
+		console.log(form);
+		$.ajax({
+			url: '../controller/ctr_procesos_admin.php',
+			type: 'POST',
+			dataType: 'json',
+			data: $("#formEditarRol").serialize(),
+		})
+		.done(function(result) {
+			if (result.continue) {
+				Swal.fire({
+				  icon: 'success',
+				  title: '¡Proceso exitoso!',
+				  html: result.mensaje
+				})
+			}else{
+				Swal.fire({
+				  icon: 'warning',
+				  title: '¡Proceso detenido!',
+				  html: result.mensaje
+				})
+			}
+		})
+		.fail(function() {
+			console.log("error");
+		});	
 	},
 	guardarRolUsuario: function (control, table) {
 		
