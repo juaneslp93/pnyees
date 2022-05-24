@@ -21,11 +21,11 @@ class ValidacionesIn
 			$carpetaElegida =  $carpeta2[0];
 			
 			if ($carpetaActual !== $carpetaElegida) {
-				$url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].'/'.$carpeta1[1].'/'.$_SESSION["SYSTEM"]["URL"];
+				$url = URL_ABSOLUTA.$_SESSION["SYSTEM"]["URL"];
 				header("Location: $url ");
 			}
 		}else{
-			$url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"];
+			$url = URL_ABSOLUTA;
 			header("Location: $url ");
 		}
 	}

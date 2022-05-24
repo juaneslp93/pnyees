@@ -8,7 +8,7 @@ $productosPermiso      = Conexion::saber_permiso_asociado(5);
 <html lang="en">
 
 <head>
-    <?= Scripts::headers('../', array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
     <style type="text/css" media="screen">
         div::selection {
         background: #fff;
@@ -172,5 +172,5 @@ $productosPermiso      = Conexion::saber_permiso_asociado(5);
         </div>
     </div>
 </div>
-<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system", "productos_lista")); ?> 
+<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "dataTables","system", "productos_lista")); ?> 
 </html>

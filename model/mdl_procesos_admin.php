@@ -469,9 +469,32 @@ class ProcesosAdmin Extends Conexion
 	}
 
 	public static function facturacion_titulo_empresa(){
+		$pasarela = self::consultaSystem("relacion", "config_facturacion");
+		$form = '';
+		if ($pasarela["estado"]) {
+			for ($i=0; $i <count($pasarela["datos"]) ; $i++) {
+				$nombre = $pasarela["datos"][$i]["nombre"];
+				$valor = $pasarela["datos"][$i]["valor"];
+				$form .= '
+					<div class="form-group">
+						<input class="form-control" type="text" name="'.$nombre.'" value="'.$valor.'">
+					</div>
+				';
+			}
+			$form .= '
+				<div class="form-group">
+					<input type="hidden" name="entrada" value="editarFactData">
+					<button type="submit" class="btn btn-success"><i class="fa fa-refresh"></i> Actualizar datos</button>
+				</div>
+			';
+		}
 		return '
 		<div class="card-header">Datos de la empresa y facturación</div>	
-		<div class="card-body">Facturación y titulo de la empresa</div>
+		<div class="card-body">
+			<form class="form-validate" name="formEditarFactData" id="formEditarFactData">
+			'.$form.'
+			</form>
+		</div>
 		';
 	}
 	public static function traer_nombre_rol_dt($idRol = null){

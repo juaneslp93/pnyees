@@ -154,7 +154,7 @@ class VistasAdmin Extends Conexion
 				<nav class="navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow">
                     <!-- Sidebar - Brand -->
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="inicio">
-                        <div class="sidebar-brand-text mx-3"><img src="../assets/img/icono.jfif" class="rounded mx-auto d-block img-fluid " width="80" /> </div>
+                        <div class="sidebar-brand-text mx-3"><img src="'.URL_ABSOLUTA.'assets/img/icono.jfif" class="rounded mx-auto d-block img-fluid " width="80" /> </div>
                     </a>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -223,7 +223,7 @@ class VistasAdmin Extends Conexion
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-50 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../assets/img/undraw_profile.svg">
+                                    src="'.URL_ABSOLUTA.'assets/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -322,10 +322,8 @@ class VistasAdmin Extends Conexion
                 }
             }
             if(!$continuar){
-                header("Location: ../denegado");
+                header("Location: ".URL_ABSOLUTA."denegado");
             }
-        }else{
-            header("Location: ../denegado");
         }
     }
 }

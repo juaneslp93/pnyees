@@ -9,8 +9,8 @@ class Scripts
 		# code...
 	}
 
-	public static function headers($ruta, $peticion=array("fontAwesome","fonts.googleapis","sb-admin-2"))	{
-		
+	public static function headers($peticion=array("fontAwesome","fonts.googleapis","sb-admin-2"))	{
+		$ruta = URL_ABSOLUTA;
 		$elementos = array(
 			"fontAwesome"=>'<link href="'.$ruta.'assets/vendor/fontawesome-free/css/all.min.css?'.self::keyCache(2).'" rel="stylesheet" type="text/css">
 				<link href="'.$ruta.'assets/vendor/fontawesome-free/css/v4-shims.min.css?'.self::keyCache(2).'" rel="stylesheet" type="text/css">',
@@ -37,8 +37,8 @@ class Scripts
 		return $contenido;
 	}
 
-	public static function footers($ruta, $peticion=array("jquery","bootstrap","sb-admin-2"))	{
-	
+	public static function footers($peticion=array("jquery","bootstrap","sb-admin-2"))	{
+		$ruta = URL_ABSOLUTA;
 		$elementos = array(
 			"jquery"=>'<script src="'.$ruta.'assets/vendor/jquery/jquery.min.js?'.self::keyCache(2).'"></script>
 						<script src="'.$ruta.'assets/vendor/jquery-easing/jquery.easing.min.js?'.self::keyCache(2).'"></script>',

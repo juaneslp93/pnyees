@@ -6,7 +6,7 @@ include "../../controller/ctr_scripts.php";
 <html lang="en">
 
 <head>
-	<?= Scripts::headers('', array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+	<?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
 </head>
 
 <body id="page-top">
@@ -51,5 +51,5 @@ include "../../controller/ctr_scripts.php";
     <!-- End of Page Wrapper -->
 
 </body>
-	<?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2", "proceso_tienda", "proceso_resumen")); ?> 
+	<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "proceso_tienda", "proceso_resumen")); ?> 
 </html>

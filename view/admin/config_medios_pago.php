@@ -7,7 +7,7 @@ include "../../controller/ctr_scripts.php";
 <html lang="en">
 
 <head>
-    <?= Scripts::headers('../', array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
 </head>
 
 <body id="page-top">
@@ -104,7 +104,7 @@ include "../../controller/ctr_scripts.php";
         </div>
     </div>
 
-    <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2","system","proceso_medios_pago")); ?> 
+    <?= Scripts::footers(array("jquery","bootstrap","sb-admin-2","system","proceso_medios_pago")); ?> 
 </body>
 
 </html>

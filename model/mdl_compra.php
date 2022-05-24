@@ -362,11 +362,13 @@ class Compras extends Conexion
 					<div class="card-body">
 						<div class="row ">
 							'.$datosComprador.'
-							<div class="col-lg-8">
+							<div class="col-lg-12">
 							'.$tablaH.'
 							</div>
-							<div class="col-lg-4">
+							<div class="pull-right">
+							<div class="col-lg-12">
 							'.$tablaT.'
+							</div>
 							</div>
 						</div>
 					</div>

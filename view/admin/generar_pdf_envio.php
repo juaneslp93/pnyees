@@ -1,6 +1,5 @@
 <?php
-header("Content-Type: application/pdf;charset=utf-8");
-session_start();
+// header("Content-Type: application/pdf;charset=utf-8");
 require "../../model/conexion.php";
 require '../../model/mdl_compra.php';
 include "../../plugins/fpdf183/fpdf.php";
@@ -11,9 +10,6 @@ class PDF extends FPDF
     protected $I = 0;
     protected $U = 0;
     protected $HREF = '';
-
-    
-
     function WriteHTML($html)
     {
         // IntÈrprete de HTML
@@ -93,7 +89,18 @@ class PDF extends FPDF
         $this->SetStyle('U',false);
         $this->SetTextColor(0);
     }
-    // Una tabla mùs completa
+    //limitar cadena
+    function limitar_cadena($cadena, $limite, $sufijo){
+        // Si la longitud es mayor que el lÌmite...
+        if(strlen($cadena) > $limite){
+            // Entonces corta la cadena y ponle el sufijo
+            return substr($cadena, 0, $limite) . $sufijo;
+        }
+        
+        // Si no, entonces devuelve la cadena normal
+        return $cadena;
+    }
+    // Una tabla m·s completa
     function ImprovedTable($header, $data, $nroCompra, $pagina)
     {
         // Anchuras de las columnas
@@ -101,27 +108,29 @@ class PDF extends FPDF
         // Cabeceras
         $this->SetY(120);
         $this->SetX(10);
-        $this->SetFillColor(204,204,204);
         for($i=0;$i<count($header);$i++){
-            $this->Cell($w[$i],8,$header[$i],1,0,'C');
+            $this->SetFillColor(0,0,0);
+            $this->SetTextColor(255,255,255);
+            $this->Cell($w[$i],8,$header[$i],1,0,'C', true);
         }
             
         $this->Ln();
         $this->SetY(128);
         $this->SetX(10);
         $this->SetFillColor(255,255,255);
+        $this->SetTextColor(0,0,0);
         // Datos
         $item = 0;        
         foreach($data as $row)
         {            
             $this->Cell($w[0],7,$row[0],'LR',0,'C');
-            $this->Cell($w[1],7,$row[1],'LR');
-            $this->Cell($w[2],7,$row[2],'LR');
-            $this->Cell($w[3],7,$row[3],'LR');
-            $this->Cell($w[4],7,$row[4],'LR');
-            $this->Cell($w[5],7,$row[5],'LR');
-            $this->Cell($w[6],7,$row[6],'LR');
-            $this->Cell($w[7],7,$row[7],'LR');
+            $this->Cell($w[1],7,$row[1],'LR',0,'C');
+            $this->Cell($w[2],7,$row[2],'LR',0,'C');
+            $this->Cell($w[3],7,$row[3],'LR',0,'C');
+            $this->Cell($w[4],7,$row[4],'LR',0,'C');
+            $this->Cell($w[5],7,$row[5],'LR',0,'C');
+            $this->Cell($w[6],7,$row[6],'LR',0,'C');
+            $this->Cell($w[7],7,$row[7],'LR',0,'C');
             $this->Ln();
             $item++;
             if($item==15){                
@@ -130,13 +139,13 @@ class PDF extends FPDF
                 $this->SetFont('Arial','',12);
                 $this->SetY(40);
                 $this->SetX(10);
-                // $this->SetFillColor(204,204,204);
+                $this->SetFillColor(0,0,204);
                 for($i=0;$i<count($header);$i++){
                     $this->Cell($w[$i],8,$header[$i],1,0,'C');
                 }
                 $this->SetY(25);
                 $this->SetX(10);
-                $this->Image('../../assets/img/pnyees_logo_1800x1520.png',10,12,30,0,'','#');
+                $this->Image(URL_ABSOLUTA.'assets/img/pnyees_logo_1800x1520.png',10,12,30,0,'','#');
                 $this->SetFontSize(14);
                 $this->SetY(10);
                 $this->SetX(143);
@@ -154,29 +163,55 @@ class PDF extends FPDF
             }
         }
         
-        // Lùnea de cierre
+        // LÌnea de cierre
         $this->Cell(array_sum($w),0,'','T');    
     }
 
     // Tabla simple
-    function BasicTable($header, $data)
+    function BasicTable($data)
     {
-        
-        // Cabecera
-        foreach($header as $col)
-            // $this->SetX(150);
-            $this->Cell(40,7,$col,1);
+        $base = $data[0]["base"];
+        $tUnit = $data[0]["total_unit"];
+        $descuento = $data[1]["descuento"];
+        $tDescuento = $data[1]["total_descuento"];
+        $iva = $data[2]["iva"];
+        $tIva = $data[2]["total_iva"];
+        $compra = $data[3]["compra"];
+        $tCompra = $data[3]["total_compra"];
+
         $this->Ln(4);
-        
-        // Datos
-        // $this->SetX(150);
-        foreach($data as $row)
-        {$this->SetX(116);
-            foreach($row as $col)
-                
-                $this->Cell(40,6,$col,1);
-            $this->Ln();
-        }
+        $this->SetX(126);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(255,255,255);             
+        $this->Cell(40,8,$base,1,0,'L',true);
+        $this->SetFillColor(255,255,255);
+        $this->SetTextColor(0,0,0); 
+        $this->Cell(30,8,$tUnit,1,0,'R',false);
+        $this->Ln();
+        $this->SetX(126);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(255,255,255);             
+        $this->Cell(40,8,$descuento,1,0,'L',true);
+        $this->SetFillColor(255,255,255);
+        $this->SetTextColor(0,0,0); 
+        $this->Cell(30,8,$tDescuento,1,0,'R',false);
+        $this->Ln();
+        $this->SetX(126);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(255,255,255);             
+        $this->Cell(40,8,$iva,1,0,'L',true);
+        $this->SetFillColor(255,255,255);
+        $this->SetTextColor(0,0,0); 
+        $this->Cell(30,8,$tIva,1,0,'R',false);
+        $this->Ln();
+        $this->SetX(126);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(255,255,255);             
+        $this->Cell(40,8,$compra,1,0,'L',true);
+        $this->SetFillColor(255,255,255);
+        $this->SetTextColor(0,0,0); 
+        $this->Cell(30,8,$tCompra,1,0,'R',false);
+        $this->Ln(15);
     }
 }
 
@@ -192,7 +227,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $nombreCompleto 		= $value["nombre_completo"];
             $correo 				= $value["correo"];
             $telefono 				= $value["telefono"];
-            #datos de facturaciùn
+            #datos de facturaciÛn
             $datosFacturacion 		= unserialize($value["datos_facturacion"]);
             $nombreDireccionFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["nombre"]:$datosFacturacion["nombre"]));
             $telefonoDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["telefono"]:$datosFacturacion["telefono"]));
@@ -201,7 +236,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $identificacionDirFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["identificacion"]:$datosFacturacion["identificacion"]));
             $departamentoDirFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["departamento"]:$datosFacturacion["departamento"]));
             $municipioDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["municipio"]:$datosFacturacion["municipio"]));
-            #datos de envùo
+            #datos de envÌo
             $datosEnvio 			= unserialize($value["datos_envio"]);
             $nombreDireccionEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["nombre"]:$datosEnvio["nombre"]));
             $telefonoDirEnv 		= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["telefono"]:$datosEnvio["telefono"]));
@@ -214,7 +249,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $datosP = array();
             for ($i=0; $i <count($value["datos"]) ; $i++) {
                 $item++;
-                $nombreProducto 		= $value["datos"][$i]["nombre"];
+                $nombreProducto 		= $pdf->limitar_cadena($value["datos"][$i]["nombre"], 16, "");
                 $precioProducto 		= Conexion::formato_decimal($value["datos"][$i]["precio"]);
                 $precioBase 			= Conexion::formato_decimal(($value["datos"][$i]["precio"]*$value["datos"][$i]["cantidad"]));
                 $impuestoProducto 		= Conexion::formato_decimal($value["datos"][$i]["impuesto"]);
@@ -228,69 +263,95 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
 
                 array_push($datosP, array($item, $nombreProducto, $precioProducto, $precioBase, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado));
             }
-            # Encabezado tabla detalle
-            $header = array('Item', 'Descripciùn', 'Precio U', 'Precio B', 'Iva', 'Desc', 'Cant', 'Subtotal');
+            # Encabezado tabla detalles
+            $header = array('Item', 'DescripciÛn', 'Precio U', 'Precio B', 'Iva', 'Desc', 'Cant', 'Subtotal');
             $pdf->AddPage();
             $pdf->SetFont('Arial','',12);
             $pdf->SetY(40);
-	        $pdf->SetFillColor(204,204,204);
+	        $pdf->SetFillColor(0,0,0);
+            $pdf->SetTextColor(255,255,255);
             #Datos del comprador
 	        $pdf->Cell(0,6,"Datos de Comprador",0,1,'L',true);
             $pdf->SetY(47);
             $pdf->SetFillColor(255,255,255);
+            $pdf->SetTextColor(0,0,0);
 	        $pdf->Cell(0,6,"Usuario: ".$usuario,0,1,'L',true);
 	        $pdf->Cell(0,6,"Nombre completo: ".$nombreCompleto,0,1,'L',true);
-	        $pdf->Cell(0,6,"Telùfono: ".$telefono,0,1,'L',true);
+	        $pdf->Cell(0,6,"TelÈfono: ".$telefono,0,1,'L',true);
 	        $pdf->Cell(0,6,"Correo: ".$correo,0,1,'L',true);
 	        $pdf->Ln(1);
-            #Datos de facturaciùn
+            #Datos de facturaciÛn
             $pdf->SetY(76);
-	        $pdf->SetFillColor(204,204,204);
-	        $pdf->Cell(0,6,"Datos de facturaciùn",0,1,'L',true);
+	        $pdf->SetFillColor(0,0,0);
+            $pdf->SetTextColor(255,255,255);
+	        $pdf->Cell(0,6,"Datos de facturaciÛn",0,1,'L',true);
             $pdf->SetY(83);
             $pdf->SetFillColor(255,255,255);
-	        $pdf->Cell(0,6,"Identificaciùn/Nit: ".$identificacionDirFac,0,1,'L',true);
-	        $pdf->Cell(0,6,"Telùfono: ".$telefonoDirFac,0,1,'L',true);
+            $pdf->SetTextColor(0,0,0);
+	        $pdf->Cell(0,6,"IdentificaciÛn/Nit: ".$identificacionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"TelÈfono: ".$telefonoDirFac,0,1,'L',true);
 	        $pdf->Cell(0,6,"Correo: ".$correoDirFac,0,1,'L',true);
-	        $pdf->Cell(0,6,"Direcciùn: ".$direccionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"DirecciÛn: ".$direccionDirFac,0,1,'L',true);
 	        $pdf->Cell(0,6,"Departamento: ".$departamentoDirFac,0,1,'L',true);
 	        $pdf->Cell(0,6,"Municipio: ".$municipioDirFac,0,1,'L',true);
-            #datos de Envùo
+            #datos de EnvÌo
             $pdf->SetY(76);
             $pdf->SetX(110);
-	        $pdf->SetFillColor(204,204,204);   
-	        $pdf->Cell(0,6,"Datos de envùo",0,1,'L',true);
+	        $pdf->SetFillColor(0,0,0);  
+            $pdf->SetTextColor(255,255,255); 
+	        $pdf->Cell(0,6,"Datos de envÌo",0,1,'L',true);
             $pdf->SetY(83);
             $pdf->SetFillColor(255,255,255);
+            $pdf->SetTextColor(0,0,0); 
             $pdf->SetX(110);
-	        $pdf->Cell(0,6,"Identificaciùn/Nit: ".$identificacionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"IdentificaciÛn/Nit: ".$identificacionDirFac,0,1,'L',true);
             $pdf->SetX(110);
-	        $pdf->Cell(0,6,"Telùfono: ".$telefonoDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"TelÈfono: ".$telefonoDirFac,0,1,'L',true);
             $pdf->SetX(110);
 	        $pdf->Cell(0,6,"Correo: ".$correoDirFac,0,1,'L',true);
             $pdf->SetX(110);
-	        $pdf->Cell(0,6,"Direcciùn: ".$direccionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"DirecciÛn: ".$direccionDirFac,0,1,'L',true);
             $pdf->SetX(110);
 	        $pdf->Cell(0,6,"Departamento: ".$departamentoDirFac,0,1,'L',true);
             $pdf->SetX(110);
 	        $pdf->Cell(0,6,"Municipio: ".$municipioDirFac,0,1,'L',true);
 	        $pdf->Ln(4);
             #Logo
-            $pdf->Image('../../assets/img/pnyees_logo_1800x1520.png',10,12,30,0,'','#');
+            $pdf->Image(URL_ABSOLUTA.'assets/img/pnyees_logo_1800x1520.png',10,12,30,0,'','#');
             $pdf->SetFontSize(14);
             $pdf->SetY(10);
             $pdf->SetX(143);
-            $pdf->Cell(0,6,"Factura Nro: ".$nroCompra,0,1,'L',true);
+            $pdf->Cell(0,6,"Factura Nro: ".$nroCompra,0,1,'R',true);
             $pdf->SetFontSize(8);
             // $pdf->SetY(10);
-            $pdf->SetX(45);
-            $pdf->Cell(0,6,"Piedras Naturales y enchapes el sur ",0,1,'L',true);
-            $pdf->SetX(45);
-            $pdf->Cell(0,6,"Nit : 0-123456789 ",0,1,'L',true);
-            $pdf->SetX(45);
-            $pdf->Cell(0,6,"Contacto : +57 3003334785 ",0,1,'L',true);
-            $pdf->SetX(45);
-            $pdf->Cell(0,6,"Direcciùn : Km 60, Caldas, Antioquia, Colombia ",0,1,'L',true);
+            $pasarela = Conexion::consultaSystem("relacion", "config_facturacion");
+            if ($pasarela["estado"]) {
+                for ($i=0; $i <count($pasarela["datos"]) ; $i++) { 
+                    $id = $pasarela["datos"][$i]["id"];
+                    $valor = $pasarela["datos"][$i]["valor"];
+                    if($id==1){
+                        $tituloEmpresa =  $valor;
+                    }else if($id==2){
+                        $nitEmpresa =  $valor;
+                    }else if($id==3){
+                        $contactoEmpresa = $valor;
+                    }else if($id==4){
+                        $direcionEmpresa = $valor;
+                    }else if($id==5){
+                        $correoEmpresa = $valor;
+                    }
+                }
+            }
+            $pdf->SetX(144);
+            $pdf->Cell(0,4,$tituloEmpresa,0,1,'R',true);
+            $pdf->SetX(144);
+            $pdf->Cell(0,4,"NIT: $nitEmpresa",0,1,'R',true);
+            $pdf->SetX(144);
+            $pdf->Cell(0,4,$contactoEmpresa,0,1,'R',true);
+            $pdf->SetX(144);
+            $pdf->Cell(0,4,$correoEmpresa,0,1,'R',true);
+            $pdf->SetX(144);
+            $pdf->Cell(0,4,$direcionEmpresa,0,1,'R',true);
 
             $pagina = 1;
             $pdf->SetFont('Arial','',8);
@@ -298,12 +359,26 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $pdf->SetX(173);
             $pdf->Cell(0,6,"Pag.".$pagina,0,1,'L',true);
             $pdf->SetFont('Arial','',12);
-            #Creaciùn de tabla detalle 
+            #CreaciÛn de tabla detalle 
             
             $pdf->ImprovedTable($header, $datosP, $nroCompra, $pagina);
-            $dataBasic = array(array("Total precio base", Conexion::formato_decimal($totalPrecioUni)), array("Total descuento", Conexion::formato_decimal($totalDescuento)), array("Total Iva", Conexion::formato_decimal($totalImpuesto)), array("Total compra", Conexion::formato_decimal($total)));
-            $pdf->BasicTable(array(), $dataBasic);
-            
+            $dataBasic = array(
+                array(
+                    "base"=>"Total precio base", 
+                    "total_unit"=>Conexion::formato_decimal($totalPrecioUni)), 
+                array(
+                    "descuento"=>"Total descuento", 
+                    "total_descuento"=>Conexion::formato_decimal($totalDescuento)
+                ), 
+                array(
+                    "iva"=>"Total Iva", 
+                    "total_iva"=>Conexion::formato_decimal($totalImpuesto)), 
+                array(
+                    "compra"=>"Total compra", 
+                    "total_compra"=>Conexion::formato_decimal($total)
+                )
+            );             
+            $pdf->BasicTable($dataBasic);            
         }    
     }
     $pdf->Output();

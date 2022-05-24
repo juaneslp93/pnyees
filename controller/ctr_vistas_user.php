@@ -1,5 +1,4 @@
 <?php 
-@session_start();
 require "../../model/mdl_vistas_user.php";
 
 # nabvar

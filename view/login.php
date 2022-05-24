@@ -6,7 +6,7 @@ include "controller/ctr_scripts.php";
 
 <head>
     <!-- Custom fonts for this template-->
-    <?= Scripts::headers('', array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
     <style type="text/css" media="screen">
         .bg-login-image{
             background: url(assets/img/login.jfif)
@@ -33,6 +33,7 @@ include "controller/ctr_scripts.php";
                                 <div class="p-5">
                                     <div class="text-center" id="mensaje">
                                         <h1 class="h4 text-gray-900 mb-4">¡Ingresa tus datos!</h1>
+                                        <hr>
                                     </div>
                                     <form class="user" name="FormLogin" id="FormLogin">
                                         <div class="form-group">
@@ -71,7 +72,7 @@ include "controller/ctr_scripts.php";
 
     </div>
 
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2", "login")); ?> 
+    <?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "login")); ?> 
 
 </body>
 

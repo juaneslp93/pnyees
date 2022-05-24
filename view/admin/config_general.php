@@ -11,7 +11,7 @@ $moderadoresPermisos    = Conexion::saber_permiso_asociado(2);
 <html lang="en">
 
 <head>
-    <?= Scripts::headers('../', array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
+    <?= Scripts::headers( array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
 </head>
 
 <body id="page-top">
@@ -506,7 +506,7 @@ $moderadoresPermisos    = Conexion::saber_permiso_asociado(2);
             </div>
         </div>
     </div>
-    <?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2","system","config-general", "dataTables")); ?> 
+    <?= Scripts::footers( array("jquery","bootstrap","sb-admin-2","system","config-general", "dataTables")); ?> 
 </body>
 
 </html>

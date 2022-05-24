@@ -104,7 +104,7 @@ class Vistas Extends Conexion
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-left">
                     <li class="nav-item dropdown no-arrow">
-                        <a class="btn btn-link text-white rounded-circle mr-3" href="../pnyees">
+                        <a class="btn btn-link text-white rounded-circle mr-3" href="'.URL_ABSOLUTA.'">
                             <i class="fa fa-dashboard"></i> Mi sucursal
                         </a>
                     </li>

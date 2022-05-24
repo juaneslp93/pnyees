@@ -1,4 +1,5 @@
 <?php 
+include "../model/setup.php";
 include "../controller/ctr_scripts.php";
 
  ?>
@@ -6,7 +7,7 @@ include "../controller/ctr_scripts.php";
 <html lang="en">
 
 <head>
-    <?= Scripts::headers('', array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
     <style type="text/css" media="screen">
         .bg-register-image{
             background: url('assets/img/register.jfif');
@@ -27,6 +28,7 @@ include "../controller/ctr_scripts.php";
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">¡Crear una cuenta!</h1>
+                                <hr>
                             </div>
                             <form class="user" id="FormRegistro">
                                 <div class="form-group">
@@ -66,16 +68,15 @@ include "../controller/ctr_scripts.php";
                                 <div class="form-group">
                                 </div>
                                 <input type="hidden" name="entrada" value="registroSistema">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-dark btn-user btn-block">
                                     Registrar cuenta
-                                </button>
-                                <hr>
-                                
+                                </button>                                
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="../">¿Ya tienes una cuenta? ¡Inicia sesión!</a>
+                                <a class="small" href="<?=URL_ABSOLUTA?>">¿Ya tienes una cuenta? ¡Inicia sesión!</a>
                             </div>
+                            <hr>
                         </div>
                     </div>
                 </div>
@@ -83,7 +84,7 @@ include "../controller/ctr_scripts.php";
         </div>
 
     </div>
-    <?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","system", "registro")); ?> 
+    <?= Scripts::footers(array("jquery","bootstrap","sb-admin-2","system", "registro")); ?> 
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <?php 
-@session_start();
+include "../../model/conexion.php";
 include "../../model/mdl_validacionesIn.php";
 
 #validar sesion existente;

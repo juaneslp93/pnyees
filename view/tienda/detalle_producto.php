@@ -6,7 +6,7 @@ $idProducto = $_GET["id"] ?>
 <html lang="en">
 
 <head>
-	<?= Scripts::headers('', array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+	<?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
 </head>
 
 <body id="page-top">
@@ -55,5 +55,5 @@ $idProducto = $_GET["id"] ?>
     <!-- End of Page Wrapper -->
 
 </body>
-	<?= Scripts::footers('', array("jquery","bootstrap","sb-admin-2","detalle_producto", "proceso_tienda")); ?> 
+	<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2","detalle_producto", "proceso_tienda")); ?> 
 </html>

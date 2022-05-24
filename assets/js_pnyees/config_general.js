@@ -11,7 +11,7 @@ configGeneral = {
 		this.editarRol();
 		var tableC = this.listaRolesUsuarios();
 		this.crearUsuario(tableC);
-		// this.procesar_compra(tableC);  
+		this.editarDatosFacturacion();  
     },
     cargaXdefecto: function () {
         $.ajax({
@@ -84,107 +84,7 @@ configGeneral = {
 				value: '1'
 			});			
 		} */
-    },/* 
-    modificarPermisoVer:function (input, elemento) {
-        if ($(elemento).attr('checked')=="checked") {
-			$(elemento).removeAttr('checked').val('0');
-		}else{
-			$(elemento).attr({
-				checked: 'checked',
-				value: '1'
-			});			
-		}
-		var valor = $(elemento).val();
-        var dataC = $(elemento).attr("data-control");
-
-		$.ajax({
-			url: '../controller/ctr_procesos_admin.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {"entrada": 'actPermiso',"opcion":input, "valor":valor, "campo":dataC},
-		})
-		.done(function(result) {
-			console.log(result);
-		})
-		.fail(function() {
-			console.log("error");
-		});	
     },
-    modificarPermisoCrear:function (input, elemento) {
-        if ($(elemento).attr('checked')=="checked") {
-			$(elemento).removeAttr('checked').val('0');
-		}else{
-			$(elemento).attr({
-				checked: 'checked',
-				value: '1'
-			});			
-		}
-		var valor = $(elemento).val();
-        var dataC = $(elemento).attr("data-control");
-
-		$.ajax({
-			url: '../controller/ctr_procesos_admin.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {"entrada": 'actPermiso',"opcion":input, "valor":valor, "campo":dataC},
-		})
-		.done(function(result) {
-			console.log(result);
-		})
-		.fail(function() {
-			console.log("error");
-		});	
-    },
-    modificarPermisoEditar:function (input, elemento) {
-        if ($(elemento).attr('checked')=="checked") {
-			$(elemento).removeAttr('checked').val('0');
-		}else{
-			$(elemento).attr({
-				checked: 'checked',
-				value: '1'
-			});			
-		}
-		var valor = $(elemento).val();
-        var dataC = $(elemento).attr("data-control");
-
-		$.ajax({
-			url: '../controller/ctr_procesos_admin.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {"entrada": 'actPermiso',"opcion":input, "valor":valor, "campo":dataC},
-		})
-		.done(function(result) {
-			console.log(result);
-		})
-		.fail(function() {
-			console.log("error");
-		});	
-    },
-    modificarPermisoEliminar:function (input, elemento) {
-        if ($(elemento).attr('checked')=="checked") {
-			$(elemento).removeAttr('checked').val('0');
-		}else{
-			$(elemento).attr({
-				checked: 'checked',
-				value: '1'
-			});			
-		}
-		var valor = $(elemento).val();
-        var dataC = $(elemento).attr("data-control");
-
-		$.ajax({
-			url: '../controller/ctr_procesos_admin.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {"entrada": 'actPermiso',"opcion":input, "valor":valor, "campo":dataC},
-		})
-		.done(function(result) {
-			console.log(result);
-		})
-		.fail(function() {
-			console.log("error");
-		});	
-    }, */
 	crearRol: function () {
 		$("#formNuevoRol").submit(function (e) { 
 			e.preventDefault();
@@ -526,6 +426,35 @@ configGeneral = {
 				$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
 				$('.modal-backdrop').remove();//eliminamos el backdrop del modal
 				document.getElementById("formNuevoUsuario").reset();
+			})
+			.fail(function() {
+				console.log("error");
+			});	
+		});
+	},
+	editarDatosFacturacion: function(){
+		$("body").on('submit', '#formEditarFactData', function (e) { 
+			e.preventDefault();
+			$.ajax({
+				url: '../controller/ctr_procesos_admin.php',
+				type: 'POST',
+				dataType: 'json',
+				data: $(this).serialize(),
+			})
+			.done(function(result) {
+				if (result.continue) {
+					Swal.fire({
+					  icon: 'success',
+					  title: '¡Proceso exitoso!',
+					  html: result.mensaje
+					})
+				}else{
+					Swal.fire({
+					  icon: 'warning',
+					  title: '¡Proceso detenido!',
+					  html: result.mensaje
+					})
+				}
 			})
 			.fail(function() {
 				console.log("error");

@@ -175,7 +175,7 @@ class Conexion
 		    // DO NOT USE $FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
 		    // On this example, obtain safe unique name from its binary data.
 		    $destino = sprintf(
-		    	'../uploads/%s.%s',
+		    	URL_ABSOLUTA.'uploads/%s.%s',
 		        sha1_file($FILES['upfile']['tmp_name']),
 		        $ext
 		        );
@@ -334,7 +334,11 @@ class Conexion
 
 	public static function formato_decimal($valor=0){
 		$decimal = self::consultaSystem("id",101)["datos"]["valor"];
-		return number_format($valor,$decimal,',','.');
+		if($decimal>0){
+			return number_format($valor,$decimal,',','.');
+		}else{
+			return number_format($valor,0,',','.');
+		}
 	}
 
 	public static function formato_nro_factura($valor=0, $tam=10){

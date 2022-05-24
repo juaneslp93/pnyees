@@ -8,7 +8,7 @@ $compras        = Conexion::saber_permiso_asociado(4);
 <html lang="en">
 
 <head>
-    <?= Scripts::headers('../', array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
+    <?= Scripts::headers( array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
     <style type="text/css" media="screen">
         div::selection {
         background: #fff;
@@ -118,6 +118,6 @@ $compras        = Conexion::saber_permiso_asociado(4);
     </a>
 
 </body>
-<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system","compra_lista")); ?> 
+<?= Scripts::footers( array("jquery","bootstrap","sb-admin-2", "dataTables","system","compra_lista")); ?> 
   
 </html>

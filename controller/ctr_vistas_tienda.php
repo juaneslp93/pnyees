@@ -1,5 +1,4 @@
-<?php 
-@session_start();
+<?php
 require "../../model/conexion.php";
 require "../../model/mdl_vistas_tienda.php";
 $sitio = explode("/", $_SERVER["REDIRECT_URL"]);

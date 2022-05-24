@@ -1,15 +1,14 @@
 <?php 
+include "../model/setup.php";
 include "../controller/ctr_scripts.php";
-$sitio = explode("/", $_SERVER["SERVER_NAME"]);
-$carpeta = explode("/", $_SERVER["REDIRECT_URL"]);
-$sitio = $_SERVER["REQUEST_SCHEME"].'://'.$sitio[0].':/'.$carpeta[1].'/';
+$sitio = URL_ABSOLUTA;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <?= Scripts::headers($sitio, array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")); ?> 
 
 </head>
 
@@ -47,7 +46,7 @@ $sitio = $_SERVER["REQUEST_SCHEME"].'://'.$sitio[0].':/'.$carpeta[1].'/';
     </div>
     <!-- End of Page Wrapper -->
 
-    <?= Scripts::footers($sitio, array("jquery","bootstrap","sb-admin-2","system")); ?> 
+    <?= Scripts::footers(array("jquery","bootstrap","sb-admin-2","system")); ?> 
     <script>
         Back = {
             page: function(){

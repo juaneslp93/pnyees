@@ -28,7 +28,8 @@ if($administracionPermisos["ver"]){
 		"eliminarUsuario",
 		"asignarRolUsuario",
 		"actualizarRolesPermisos",
-		"editarDatosUsuario"
+		"editarDatosUsuario",
+		"editarFactData"
 	);
 }else{
 	$casos = array();
@@ -85,7 +86,7 @@ switch ($caso) {
 		$html = '
 				<div class="row">
 			        <div class="col-sm-2 col-md-2">
-			            <img src="../assets/img/profile.jfif"
+			            <img src="'.URL_ABSOLUTA.'assets/img/profile.jfif"
 			            alt="" class="img-rounded img-responsive img-thumbnail" />
 			        </div>
 			        <div class="col-sm-4 col-md-4">
@@ -519,6 +520,32 @@ switch ($caso) {
 			$result = array("continue" => $continue, "mensaje"=>$mensaje);
 		}else{
 			$result = array("continue" => false, "mensaje"=>"No tiene permisos");
+		}
+		break;
+	case 'editarFactData':
+		$nombre = $_POST["nombre_empresa"];
+		$nit = $_POST["nit_empresa"];
+		$contacto = $_POST["contacto"];
+		$direccion = $_POST["direccion"];
+		$correo = $_POST["correo"];
+		$continue = true;
+		if(empty($nombre) || empty($nit) || empty($contacto) || empty($direccion) || empty($correo)){
+			$continue = false;
+			$mensaje = "Todos los campos son obligatorios";
+		}
+
+		if($continue){
+			$result = Conexion::editSystem("valor", $nombre, 'nombre', "nombre empresa");
+			if($result["estado"]){
+				$result = Conexion::editSystem("valor", $nit, 'nombre', "nit empresa");
+			}
+			if($result["estado"]){
+				$result = Conexion::editSystem("valor", $contacto, 'nombre', "contacto");
+			}
+			if($result["estado"]){
+				$result = Conexion::editSystem("valor", $direccion, 'nombre', "direccion");
+			}
+			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		}
 		break;
 	default:
