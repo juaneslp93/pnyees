@@ -149,7 +149,7 @@ $moderadoresPermisos    = Conexion::saber_permiso_asociado(2);
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form class="form-horizontal" name="formNuevoRol"id="formNuevoRol" method="post">
+                <form class="form-horizontal was-validated" name="formNuevoRol"id="formNuevoRol" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="text" name="nombreRol" id="nombreRol" placeholder="Nombre del rol" class="form-control" required>
@@ -470,7 +470,7 @@ $moderadoresPermisos    = Conexion::saber_permiso_asociado(2);
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form class="form-horizontal" name="formNuevoUsuario"id="formNuevoUsuario" method="post">
+                <form class="form-horizontal was-validated" name="formNuevoUsuario"id="formNuevoUsuario" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="text" name="usuario" id="usuario" placeholder="Usuario" class="form-control" required>

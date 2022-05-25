@@ -20,35 +20,44 @@ procesoMediosPagos = {
 		
 	},
 	guardar_banco: function(){
-		$("#FormRegistroBanco").submit(function(event){
-			$("button").attr("disabled","disabled");
+		$("body").on('submit', '#FormRegistroBanco', function(event){
 			event.preventDefault();
+			var form = new FormData(this);
+			$("button").attr("disabled","disabled");
 			$.ajax({
 				url: '../controller/ctr_procesos_admin.php',
 				type: 'POST',
 				dataType: 'json',
-				data: $(this).serialize(),
+				data: form,
+				processData: false,  // tell jQuery not to process the data
+  				contentType: false   // tell jQuery not to set contentType
 			})
 			.done(function(result) {
 				$("button").removeAttr("disabled");
 				if (result.continue) {
 					Swal.fire({
 					  icon: 'success',
-					  title: '¡Proceso exitoso!',
-					  text: result.mensaje
+					  title: '¡Proceso 	exitoso!',
+					  html: result.mensaje
 					})
 				}else{
 					Swal.fire({
 					  icon: 'warning',
 					  title: '¡Proceso detenido!',
-					  text: result.mensaje
+					  html: result.mensaje
 					})
 				}
 			})
 			.fail(function() {
 				console.log("error");
+			}).always(function() {
+				$("#newBancoModal").modal("hide");
+				$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+				$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+				document.getElementById("FormRegistroBanco").reset();
+				$("button").removeAttr("disabled");
 			});
-			
+			return false;
 		});
 	},
 	actDesBtn: function(input, elemento){

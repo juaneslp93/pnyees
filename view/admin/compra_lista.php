@@ -8,19 +8,7 @@ $compras        = Conexion::saber_permiso_asociado(4);
 <html lang="en">
 
 <head>
-    <?= Scripts::headers( array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
-    <style type="text/css" media="screen">
-        div::selection {
-        background: #fff;
-        color: black;
-    }
-
-    /* Firefox */
-    div::-moz-selection {
-        background: #fff;
-        color: black;
-    }
-    </style>
+    <?= Scripts::headers( array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?>
 </head>
 
 <body id="page-top">
@@ -57,7 +45,7 @@ $compras        = Conexion::saber_permiso_asociado(4);
                             <h6 class="m-0 font-weight-bold text-primary">Lista ordenes de compra</h6>
                         </div>
                         <div class="card-body">
-                            <form class="form-horizontal" id="formProcesarCompra">
+                            <form class="form-horizontal was-validated" id="formProcesarCompra">
                                 <?php if($compras["editar"]){ ?>
                                 <div class="float-right">
                                     <div class="form-group">

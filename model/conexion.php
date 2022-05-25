@@ -124,7 +124,7 @@ class Conexion
 		return $desencriptar;
 	}
 
-	public static function validar_archivo($FILES){
+	public static function validar_archivo($FILES, $folder="uploads"){
 		header('Content-Type: text/plain; charset=utf-8');
 
 		try {
@@ -175,7 +175,7 @@ class Conexion
 		    // DO NOT USE $FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
 		    // On this example, obtain safe unique name from its binary data.
 		    $destino = sprintf(
-		    	URL_ABSOLUTA.'uploads/%s.%s',
+		    	"../$folder/%s.%s",
 		        sha1_file($FILES['upfile']['tmp_name']),
 		        $ext
 		        );

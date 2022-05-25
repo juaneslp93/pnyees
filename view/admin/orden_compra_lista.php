@@ -8,19 +8,7 @@ $ordenes        = Conexion::saber_permiso_asociado(3);
 <html lang="en">
 
 <head>
-    <?= Scripts::headers('../', array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
-    <style type="text/css" media="screen">
-        div::selection {
-        background: #fff;
-        color: black;
-    }
-
-    /* Firefox */
-    div::-moz-selection {
-        background: #fff;
-        color: black;
-    }
-    </style>
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?>
 </head>
 
 <body id="page-top">
@@ -57,7 +45,7 @@ $ordenes        = Conexion::saber_permiso_asociado(3);
                             <h6 class="m-0 font-weight-bold text-primary">Lista ordenes de compra</h6>
                         </div>
                         <div class="card-body">
-                            <form class="form-horizontal" id="formProcesarOrden">
+                            <form class="form-horizontal was-validated" id="formProcesarOrden">
                                 <?php  if($ordenes["editar"]){?>
                                     <div class="float-right">
                                         <div class="form-group">
@@ -118,6 +106,6 @@ $ordenes        = Conexion::saber_permiso_asociado(3);
     </a>
 
 </body>
-<?= Scripts::footers('../', array("jquery","bootstrap","sb-admin-2", "dataTables","system","orden_compra_lista")); ?> 
+<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "dataTables","system","orden_compra_lista")); ?> 
   
 </html>

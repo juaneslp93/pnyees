@@ -66,32 +66,43 @@ class Pagos Extends Conexion
 				<p> Seleccione uno de los datos de facturación registrados para continuar </p><button type="button" class="btn btn-info float-right" id="regDirBtnSel">Registrar dirección</button>
 			</div>
 			<div class="card-body">
-				<form  name="formDireccionSelect" id="formDireccionSelect" accept-charset="utf-8">				
+				<form  name="formDireccionSelect" id="formDireccionSelect" accept-charset="utf-8" class="was-validated">				
 												
 		';
 		if (!empty($datos)) {
-			foreach ($datos as $array) {
+			$i=0;
+			foreach ($datos as $array) {				
 				foreach ($array as $key => $value) {
 					if ($key === "id") {
-						$html .= '<i class=" fa fa-edit fa-lg"></i><label class="switch float-right">
-							<input type="radio" name="'.$key.'" value="'.$value.'" >
-							<span class="slider round"></span>'.
-							'</label>
+						$i++;
+						$html .= '
+							<div class="bg-gradient-light">															
+								<label class="switch float-right">
+									<input type="radio" name="'.$key.'" value="'.$value.'" >
+									<span class="slider round"></span>
+								</label>
+								<a class="btn btn-default" data-toggle="collapse" href="#collapseExample'.$i.'" aria-expanded="false" aria-controls="collapseExample'.$i.'">
+									<i class=" fa fa-arrow-alt-circle-down fa-lg"></i> Dirección '.$i.'
+								</a>
+							</div>
 						';
 					}else if($key !== "result"){
 
 						$html .= '
-							<div class="form-group">
-								<label class="control-label" >
-								'.strtoupper($key).'
-								</label>
-								<label class="form-control" >
-								'.$value.'
-								</label>
-								
-							</div>
-								
-							';							
+							<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+								<div class="collapse" id="collapseExample'.$i.'">
+									<div class="form-group">
+										<label class="control-label" >
+										'.strtoupper($key).'
+										</label>
+										<label class="form-control" >
+										'.$value.'
+										</label>
+										
+									</div>
+								</div>
+							</div>	
+						';					
 					}
 				}
 				$html .= ' <br>';
@@ -108,7 +119,6 @@ class Pagos Extends Conexion
 				procesoPagos.cargar_datos_facturacion("regi");
 			});
 		</script>';
-
 		return $html;
 	}
 
@@ -283,7 +293,7 @@ class Pagos Extends Conexion
 				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					<p> Registre los datos de facturación requeridos </p><button type="button" class="btn btn-warning float-right" id="regDirBtnSel"><i class="fa fa-arrow-circle-left"></i> Volver</button>
 				</div>
-				<form  name="formDireccionCrear" id="formDireccionCrear" accept-charset="utf-8">
+				<form  name="formDireccionCrear" id="formDireccionCrear" accept-charset="utf-8" class="was-validated">
 					<div class="card-body">
 						<div class="form-group">
 							<label class="control-label" >Nombre de la direción</label>

@@ -27,13 +27,27 @@ class Scripts
 		    <meta name="description" content="">
 		    <meta name="author" content="">
 		    <link rel="icon" type="image/png" href="'.$ruta.'assets/img/icono.ico">
-		    <title>Pnyees</title>
+		    <title>Pnyees</title>			
     	';
 		for ($i=0; $i <count($peticion) ; $i++) { 
 			if (!empty($peticion[$i])) {
 				$contenido.=$elementos["".$peticion[$i]];
 			}
 		}
+		#estilos personalizados
+		$contenido.= '
+			<style type="text/css" media="screen">
+				::selection {
+					background: black !important;
+					color: white !important;
+				}
+				/* Firefox */
+				::-moz-selection {
+					background: black !important;
+					color: white !important;
+				}
+			</style>
+		';
 		return $contenido;
 	}
 
@@ -113,6 +127,7 @@ class Scripts
 				$contenido.=$elementos["".$peticion[$i]];
 			}
 		}
+		#scripts personalizados
 		$contenido .= '
 		<script>
 			window.onload = function(){

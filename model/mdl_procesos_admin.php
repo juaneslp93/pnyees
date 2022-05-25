@@ -275,18 +275,18 @@ class ProcesosAdmin Extends Conexion
 		return $result;
 	}
 
-	public static function registrar_banco($nombre='', $cuenta='', $tipo=''){
+	public static function registrar_banco($nombre='', $cuenta='', $tipo='', $imagen=''){
 		try {
 			$conexion = self::iniciar();
-			$sql = "INSERT INTO bancos (nombre, cuenta, tipo, estado, fecha) VALUES (?,?,?,?,?)";
+			$sql = "INSERT INTO bancos (nombre, cuenta, tipo, estado, fecha, qr_img) VALUES (?,?,?,?,?,?)";
 			$sentencia = $conexion->prepare($sql);
-			$sentencia->bind_param('sssss', $nombre, $cuenta, $tipo, $estado, $fecha_registro);
 			$nombre = $nombre;
 			$cuenta = $cuenta;
 			$tipo = $tipo;
 			$estado = '1';
 			$fecha_registro = date('Y-m-d H:m:s');
-
+			$imagen = $imagen;
+			$sentencia->bind_param('ssssss', $nombre, $cuenta, $tipo, $estado, $fecha_registro, $imagen);
 			$result = true;
 			$mensaje = '';
 			$sentencia->execute();
@@ -477,7 +477,7 @@ class ProcesosAdmin Extends Conexion
 				$valor = $pasarela["datos"][$i]["valor"];
 				$form .= '
 					<div class="form-group">
-						<input class="form-control" type="text" name="'.$nombre.'" value="'.$valor.'">
+						<input class="form-control" type="text" name="'.$nombre.'" value="'.$valor.'" required>
 					</div>
 				';
 			}
@@ -491,7 +491,7 @@ class ProcesosAdmin Extends Conexion
 		return '
 		<div class="card-header">Datos de la empresa y facturación</div>	
 		<div class="card-body">
-			<form class="form-validate" name="formEditarFactData" id="formEditarFactData">
+			<form class="form-validate was-validated" name="formEditarFactData" id="formEditarFactData">
 			'.$form.'
 			</form>
 		</div>
@@ -667,7 +667,7 @@ class ProcesosAdmin Extends Conexion
 		';
 		if ($datosUsuarioActual["result"]) {
 			$form = '
-				<form class="form-horizontal" name="formEditarUsuario"id="formEditarUsuario" method="post">
+				<form class="form-horizontal was-validated" name="formEditarUsuario"id="formEditarUsuario" method="post">
 					<div class="modal-body">
 						<div class="form-group">
 							<input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" value="'.$datosUsuarioActual["nombre"].'" '.((!$moderadores["editar"])?'disabled':'').'>
@@ -1270,6 +1270,24 @@ class ProcesosAdmin Extends Conexion
 			//throw $th;
 			return array("result"=>false, "mensaje"=>"Error al actualizar los datos del usuario. ".$th->getMessage());
 		}
+	}
+
+	public static function procesar_imagen_pasarela($FILES, $nombreFile){
+		$FILES['upfile'] = $FILES[''.$nombreFile];
+		unset($FILES[''.$nombreFile]);
+		$po = self::validar_archivo($FILES, "assets/img/qr");
+		$data = explode("//~",$po);
+		$continue = false;
+		$url = '';
+		$mensaje = $data[0];
+		if ($data[1]) {
+			$continue = true;
+			$exp = explode("/",@$data[1]);
+			$url = end($exp);
+			$mensaje = @$data[0];
+		}
+		$result = array("existe"=>$continue, 'url' => $url, "mensaje"=>$mensaje);			
+		return $result;
 	}
 }
 ?>

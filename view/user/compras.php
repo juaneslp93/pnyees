@@ -7,19 +7,7 @@ include "../../controller/ctr_scripts.php";
 <html lang="en">
 
 <head>
-    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?> 
-    <style type="text/css" media="screen">
-        div::selection {
-        background: #fff;
-        color: black;
-    }
-
-    /* Firefox */
-    div::-moz-selection {
-        background: #fff;
-        color: black;
-    }
-    </style>
+    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?>
 </head>
 
 <body id="page-top">

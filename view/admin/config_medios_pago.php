@@ -56,11 +56,11 @@ include "../../controller/ctr_scripts.php";
 
     </div>
     <!-- End of Page Wrapper -->
-    <div class="modal fade" id="newBancoModal" tabindex="-1" role="dialog" aria-labelledby="newProductoMdl" aria-hidden="true">
+    <div class="modal fade" id="newBancoModal" tabindex="-1" role="dialog" aria-labelledby="newBancoMdl" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="newProductoMdl">Agregar un banco</h5>
+                    <h5 class="modal-title" id="newBancoMdl">Agregar un banco</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -68,15 +68,15 @@ include "../../controller/ctr_scripts.php";
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="modal-body">
-                            <form class="user" id="FormRegistroBanco">
+                            <form class="user was-validated" id="FormRegistroBanco" >
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control"
                                             id="nombre" name="nombre" placeholder="Nombre del banco" required>
                                     </div>
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <select name="tipo" id="tipo" class="form-control ">
-                                            <option value="0">Tipo de cuenta</option>
+                                        <select name="tipo" id="tipo" class="form-control " required>
+                                            <option value="">Tipo de cuenta</option>
                                             <option value="1">Ahorros</option>
                                             <option value="2">Corriente</option>
                                         </select>
@@ -87,6 +87,7 @@ include "../../controller/ctr_scripts.php";
                                             placeholder="Numero de cuenta" required>
                                 </div>
                                 <div class="form-group">
+                                    <input type="file" name="qrCharge" id="qrCharge" accept="image/*" class="form-control-file" >
                                 </div>
                                 <input type="hidden" name="entrada" value="CrearBanco">
                                 <button type="submit" class="btn btn-primary btn-user btn-block">

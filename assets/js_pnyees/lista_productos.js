@@ -339,7 +339,7 @@ procesosListaProductos = {
 					<input type="hidden" value="editar_producto" name="entrada"/>\
 					<input type="hidden" value="url_imagen" name="caso"/>\
 					<input type="hidden" value="'+el+'" name="id"/>\
-					<input name="'+el+'" type="file" class="form-control" value="'+$(ele).html().trim()+'" accept="image/*"/>\
+					<input name="'+el+'" type="file" class="form-control-file" value="'+$(ele).html().trim()+'" accept="image/*"/>\
 					</form>');
 				$('input[name='+el+']').on('change',function(event){
 					var newVal = $(this).val();

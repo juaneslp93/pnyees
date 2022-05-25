@@ -45,7 +45,7 @@ class Catalogo extends Conexion
 			                            		$'.$precio.'<br>
 			                            		<div class="form-group has-feedback">
 												  <i class="fa form-control-feedback">M² </i>
-												  <input type="number" name="cantidad" class="form-control" value="0" min="1" pattern="^[0-9]+">
+												  <input type="number" name="cantidad" class="form-control" placeholder="Seleccione su cantidad" min="1" pattern="^[0-9]+">
 												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
 												  <input type="hidden" name="entrada" value="agregarProducto" >
 												</div>
@@ -121,7 +121,7 @@ class Catalogo extends Conexion
 			                            		$'.$precio.'<br>
 			                            		<div class="form-group has-feedback row col-lg-3">
 												  <i class="fa form-control-feedback">M² </i>
-												  <input type="number" name="cantidad" class="form-control" value="0" min="1" pattern="^[0-9]+">
+												  <input type="number" name="cantidad" class="form-control" placeholder="Seleccione su cantidad" min="1" pattern="^[0-9]+">
 												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
 												  <input type="hidden" name="entrada" value="agregarProducto" >
 												</div>
@@ -313,66 +313,87 @@ class Catalogo extends Conexion
 	private static function cargarBancos(){
 		
 		$conexion = self::iniciar();
-		$sql = "SELECT nombre, tipo, cuenta FROM  bancos WHERE estado = '1'";
+		$sql = "SELECT nombre, tipo, cuenta, qr_img FROM bancos WHERE estado = '1'";
 		$consu = $conexion->query($sql);		
 		$contenido = $datosBanco = '';
 		/////////////////////
 		// Info del banco  //
 		/////////////////////
 		
-		$contenido .= '<div class="modal fade" id="datosBanco" tabindex="-1" role="dialog" aria-labelledby="btnPasarela" aria-hidden="true" > ';
+		$contenido .= '<div class="modal fade bd-example-modal-lg" id="datosBanco" tabindex="-1" role="dialog" aria-labelledby="btnPasarela" aria-hidden="true" > ';
 		while ($rConsu = $consu->fetch_assoc()) {
 			$nombre = $rConsu["nombre"];
 			$tipo = (($rConsu["tipo"]==1)?'Ahorros':(($rConsu["tipo"]==2)?'Corriente':'Inválido'));
 			$cuenta = $rConsu["cuenta"];
-			$datosBanco .= '<div class="col-lg-6 col-md-6 " > Nombre : '.$nombre.' <br>';
-			$datosBanco .= ' Cuenta : '.$cuenta.'<br>';
-			$datosBanco .= ' Tipo : '.$tipo.'</div>';
-			$datosBanco .= '<img src="assets/img/qr.jpeg" alt="" width="80">';
+			$imgAsociada = $rConsu["qr_img"];
+			$datosBanco .= '
+				<table class="table table-striped ">
+					<tr>
+						<td> Nombre : '.$nombre.'</td>
+						<td> Cuenta : '.$cuenta.'</td>
+						<td> Tipo : '.$tipo.'</td>
+						<td> <img src="'.URL_ABSOLUTA.'assets/img/qr/'.$imgAsociada.'" alt="" width="120"></td>
+					</tr>
+					
+				</table>
+			';
 		}
-		$contenido .= '<div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newProductoMdl">Pago por Deposito Bancario</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="modal-body">
-                        	<div class="row" style="background-color:#9BD0FF; border-radius:1rem;">
-                        		'.$datosBanco.'
-                        	</div>
-                            <form class="user" id="FormRegistroOrdenCompra" autocomplete="off">
-                        		<br>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input class="form-control" type="text" name="numero_cuenta" value="" placeholder="numero de cuenta" required>
-                                    </div>
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                       <input class="form-control" type="date" name="fecha" value="" placeholder="fecha" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="soporte_pago" value="" placeholder="Soporte de pago" required>
-                                </div>
-                                <div class="form-group">
-                                </div>
-                                <input type="hidden" name="entrada" value="compraDepoBanc">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Finalizar Pago
-                                </button>
-                                <hr>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>';
+		$contenido .= '
+			<div class="modal-dialog modal-lg" >
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="newProductoMdl">Pago por Deposito Bancario</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-lg-7">
+										<legend>Cuentas asociadas</legend>
+										<hr>
+										'.$datosBanco.'
+									</div>
+									<div class="col-lg-5">
+										<legend>Datos de pago</legend>
+										<hr>
+										<form class="user was-validated" id="FormRegistroOrdenCompra" autocomplete="off">
+											<br>
+											<div class="form-group row">
+												<div class="col-sm-6 mb-3 mb-sm-0">
+													<label>Número de cuenta</label>
+													<input class="form-control" type="text" name="numero_cuenta" value="" placeholder="0123456789" required>
+												</div>
+												<div class="col-sm-6 mb-3 mb-sm-0">
+													<label>Fecha de pago</label>
+													<input class="form-control" type="date" name="fecha" value="" placeholder="01/01/2022" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Soporte de pago</label>
+												<input class="form-control" type="text" name="soporte_pago" value="" placeholder="987654321-0" required>
+											</div>
+											<div class="form-group">
+											</div>
+											<input type="hidden" name="entrada" value="compraDepoBanc">
+											<button type="submit" class="btn btn-primary btn-user btn-block">
+												Finalizar Pago
+											</button>
+											<hr>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		';
 		
 		
 		

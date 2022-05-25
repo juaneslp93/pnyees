@@ -110,7 +110,11 @@ switch ($caso) {
 		$cuenta = $_POST["cuenta"];
 		$tipo = $_POST["tipo"];
 		$continue = true;
-
+		$imagen = array("existe"=>false);
+		# procesamos la imagen
+		if($_FILES["qrCharge"]["size"]>0){
+			$imagen = ProcesosAdmin::procesar_imagen_pasarela($_FILES, "qrCharge");
+		}
 		if (empty($nombre) || empty($cuenta) || empty($tipo) ) {
 			$continue = false;
 			$mensaje = "El nombre, la cuenta y el tipo son obligatorios";
@@ -122,7 +126,7 @@ switch ($caso) {
 		}
 
 		if ($continue) {
-			$reg = ProcesosAdmin::registrar_banco($nombre, $cuenta, $tipo);
+			$reg = ProcesosAdmin::registrar_banco($nombre, $cuenta, $tipo, (($imagen["existe"])?$imagen["url"]:''));
 			$continue = $reg["estado"];
 			if ($reg["estado"]) {
 				$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span> ['.$imagen["mensaje"].']';

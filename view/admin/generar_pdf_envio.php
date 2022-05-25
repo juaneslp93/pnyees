@@ -12,7 +12,7 @@ class PDF extends FPDF
     protected $HREF = '';
     function WriteHTML($html)
     {
-        // Intérprete de HTML
+        // Intðrprete de HTML
         $html = str_replace("\n",' ',$html);
         $a = preg_split('/<(.*)>/U',$html,-1,PREG_SPLIT_DELIM_CAPTURE);
         foreach($a as $i=>$e)
@@ -91,7 +91,7 @@ class PDF extends FPDF
     }
     //limitar cadena
     function limitar_cadena($cadena, $limite, $sufijo){
-        // Si la longitud es mayor que el límite...
+        // Si la longitud es mayor que el lðmite...
         if(strlen($cadena) > $limite){
             // Entonces corta la cadena y ponle el sufijo
             return substr($cadena, 0, $limite) . $sufijo;
@@ -100,7 +100,7 @@ class PDF extends FPDF
         // Si no, entonces devuelve la cadena normal
         return $cadena;
     }
-    // Una tabla más completa
+    // Una tabla mðs completa
     function ImprovedTable($header, $data, $nroCompra, $pagina)
     {
         // Anchuras de las columnas
@@ -163,7 +163,7 @@ class PDF extends FPDF
             }
         }
         
-        // Línea de cierre
+        // Lðnea de cierre
         $this->Cell(array_sum($w),0,'','T');    
     }
 
@@ -227,7 +227,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $nombreCompleto 		= $value["nombre_completo"];
             $correo 				= $value["correo"];
             $telefono 				= $value["telefono"];
-            #datos de facturación
+            #datos de facturaciðn
             $datosFacturacion 		= unserialize($value["datos_facturacion"]);
             $nombreDireccionFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["nombre"]:$datosFacturacion["nombre"]));
             $telefonoDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["telefono"]:$datosFacturacion["telefono"]));
@@ -236,7 +236,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $identificacionDirFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["identificacion"]:$datosFacturacion["identificacion"]));
             $departamentoDirFac 	= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["departamento"]:$datosFacturacion["departamento"]));
             $municipioDirFac 		= ((isset($datosFacturacion["datos"])?$datosFacturacion["datos"][0]["municipio"]:$datosFacturacion["municipio"]));
-            #datos de envío
+            #datos de envðo
             $datosEnvio 			= unserialize($value["datos_envio"]);
             $nombreDireccionEnv 	= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["nombre"]:$datosEnvio["nombre"]));
             $telefonoDirEnv 		= ((isset($datosEnvio["datos"])?$datosEnvio["datos"][0]["telefono"]:$datosEnvio["telefono"]));
@@ -264,7 +264,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
                 array_push($datosP, array($item, $nombreProducto, $precioProducto, $precioBase, $impuestoProducto, $descuentoProducto, $cantidad, $precioCalculado));
             }
             # Encabezado tabla detalles
-            $header = array('Item', 'Descripción', 'Precio U', 'Precio B', 'Iva', 'Desc', 'Cant', 'Subtotal');
+            $header = array('Item', 'Descripciðn', 'Precio U', 'Precio B', 'Iva', 'Desc', 'Cant', 'Subtotal');
             $pdf->AddPage();
             $pdf->SetFont('Arial','',12);
             $pdf->SetY(40);
@@ -277,40 +277,40 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $pdf->SetTextColor(0,0,0);
 	        $pdf->Cell(0,6,"Usuario: ".$usuario,0,1,'L',true);
 	        $pdf->Cell(0,6,"Nombre completo: ".$nombreCompleto,0,1,'L',true);
-	        $pdf->Cell(0,6,"Teléfono: ".$telefono,0,1,'L',true);
+	        $pdf->Cell(0,6,"Telðfono: ".$telefono,0,1,'L',true);
 	        $pdf->Cell(0,6,"Correo: ".$correo,0,1,'L',true);
 	        $pdf->Ln(1);
-            #Datos de facturación
+            #Datos de facturaciðn
             $pdf->SetY(76);
 	        $pdf->SetFillColor(0,0,0);
             $pdf->SetTextColor(255,255,255);
-	        $pdf->Cell(0,6,"Datos de facturación",0,1,'L',true);
+	        $pdf->Cell(0,6,"Datos de facturaciðn",0,1,'L',true);
             $pdf->SetY(83);
             $pdf->SetFillColor(255,255,255);
             $pdf->SetTextColor(0,0,0);
-	        $pdf->Cell(0,6,"Identificación/Nit: ".$identificacionDirFac,0,1,'L',true);
-	        $pdf->Cell(0,6,"Teléfono: ".$telefonoDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"Identificaciðn/Nit: ".$identificacionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"Telðfono: ".$telefonoDirFac,0,1,'L',true);
 	        $pdf->Cell(0,6,"Correo: ".$correoDirFac,0,1,'L',true);
-	        $pdf->Cell(0,6,"Dirección: ".$direccionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"Direcciðn: ".$direccionDirFac,0,1,'L',true);
 	        $pdf->Cell(0,6,"Departamento: ".$departamentoDirFac,0,1,'L',true);
 	        $pdf->Cell(0,6,"Municipio: ".$municipioDirFac,0,1,'L',true);
-            #datos de Envío
+            #datos de Envðo
             $pdf->SetY(76);
             $pdf->SetX(110);
 	        $pdf->SetFillColor(0,0,0);  
             $pdf->SetTextColor(255,255,255); 
-	        $pdf->Cell(0,6,"Datos de envío",0,1,'L',true);
+	        $pdf->Cell(0,6,"Datos de envðo",0,1,'L',true);
             $pdf->SetY(83);
             $pdf->SetFillColor(255,255,255);
             $pdf->SetTextColor(0,0,0); 
             $pdf->SetX(110);
-	        $pdf->Cell(0,6,"Identificación/Nit: ".$identificacionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"Identificaciðn/Nit: ".$identificacionDirFac,0,1,'L',true);
             $pdf->SetX(110);
-	        $pdf->Cell(0,6,"Teléfono: ".$telefonoDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"Telðfono: ".$telefonoDirFac,0,1,'L',true);
             $pdf->SetX(110);
 	        $pdf->Cell(0,6,"Correo: ".$correoDirFac,0,1,'L',true);
             $pdf->SetX(110);
-	        $pdf->Cell(0,6,"Dirección: ".$direccionDirFac,0,1,'L',true);
+	        $pdf->Cell(0,6,"Direcciðn: ".$direccionDirFac,0,1,'L',true);
             $pdf->SetX(110);
 	        $pdf->Cell(0,6,"Departamento: ".$departamentoDirFac,0,1,'L',true);
             $pdf->SetX(110);
@@ -359,7 +359,7 @@ if (isset($_SESSION["GENERAR_PDF_ENVIO"]) && !empty($_SESSION["GENERAR_PDF_ENVIO
             $pdf->SetX(173);
             $pdf->Cell(0,6,"Pag.".$pagina,0,1,'L',true);
             $pdf->SetFont('Arial','',12);
-            #Creación de tabla detalle 
+            #Creaciðn de tabla detalle 
             
             $pdf->ImprovedTable($header, $datosP, $nroCompra, $pagina);
             $dataBasic = array(
