@@ -60,7 +60,7 @@ include "../../controller/ctr_scripts.php";
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="newBancoMdl">Agregar un banco</h5>
+                    <h5 class="modal-title" id="newBancoMdl">Agregar cuenta de banco</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -91,11 +91,31 @@ include "../../controller/ctr_scripts.php";
                                 </div>
                                 <input type="hidden" name="entrada" value="CrearBanco">
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Registrar nuevo banco
+                                    Registrar cuenta
                                 </button>
                                 <hr>
                             </form>
                         </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editBancoModal" tabindex="-1" role="dialog" aria-labelledby="editBancoMdl" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBancoMdl">Editar cuenta banco</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="modal-body" id="contentEditBanco"></div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                         </div>

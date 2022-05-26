@@ -312,19 +312,28 @@ class ProcesosAdmin Extends Conexion
 			$Drop=0;
 			while ($rConsu = $consu->fetch_assoc()) {
 				// BANCOS
-				$Drop++;
+				$Drop++;				
+				$idEcnript = self::encriptTable($rConsu["id"]);
 				$row .= '	<tr>
 								<td>'.$rConsu["nombre"].'</td>
 								<td>'.$rConsu["cuenta"].'</td>
 								<td>'.(($rConsu["tipo"]=='1')?'Ahorros':'Corriente').'</td>
+								<td>'.(($rConsu["estado"]=='1')?'
+									<i class="btn btn-success btn-circle btn-lg">
+										<i class="fa fa-check"></i>
+									</i>':'
+									<i class="btn btn-danger btn-circle btn-lg">
+										<i class="fa fa-close"></i>
+									</i>').'
+								</td>
 								<td>
 									<div class="dropdown">
 									  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton'.$Drop.'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									   Acciones
 									  </button>
 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton'.$Drop.'">
-									   <a class="dropdown-item" href="#"><i class="fa fa-edit"></i> Editar</a>
-									   <a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Eliminar</a>
+									   <a class="dropdown-item" href="javascript:procesoMediosPagos.editarBanco(\''.$idEcnript.'\')"><i class="fa fa-edit"></i> Editar</a>
+									   <a class="dropdown-item" href="javascript:procesoMediosPagos.eliminarBanco(\''.$idEcnript.'\')""><i class="fa fa-trash"></i> Eliminar</a>
 									  </div>
 									</div>
 								</td>
@@ -366,6 +375,7 @@ class ProcesosAdmin Extends Conexion
 													<th>Cuenta</th>
 													<th>Tipo</th>
 													<th>Estado</th>											
+													<th>Opciones</th>											
 												</tr>
 											</thead>
 								
@@ -1258,7 +1268,15 @@ class ProcesosAdmin Extends Conexion
 		}
 	}
 
-	public static function eliminar_usuario_admin($idUser){
+	public static function eliminar_usuario_admin($idUser=0){
+		if($idUser>0){
+			return self::eliminar_usuario_admin_($idUser);
+		}else{
+			return array("result"=>false, "mensaje"=>"No se reconoce el identificador. ");
+		}
+	}
+
+	private static function eliminar_usuario_admin_($idUser){
 		try {
 			$sql = "UPDATE admin SET estado='0' WHERE id = $idUser ";
 			$conexion = self::iniciar();
@@ -1271,11 +1289,16 @@ class ProcesosAdmin Extends Conexion
 			return array("result"=>false, "mensaje"=>"Error al actualizar los datos del usuario. ".$th->getMessage());
 		}
 	}
-
-	public static function procesar_imagen_pasarela($FILES, $nombreFile){
+	public static function procesar_imagen_pasarela($FILES, $nombreFile, $eliminarOld = true, $imgOld){
+		$folder = "assets/img/qr";
+		if($eliminarOld){
+			if(!empty($imgOld)){
+				@unlink("../$folder/$imgOld");
+			}			
+		}		
 		$FILES['upfile'] = $FILES[''.$nombreFile];
 		unset($FILES[''.$nombreFile]);
-		$po = self::validar_archivo($FILES, "assets/img/qr");
+		$po = self::validar_archivo($FILES, $folder);
 		$data = explode("//~",$po);
 		$continue = false;
 		$url = '';
@@ -1288,6 +1311,127 @@ class ProcesosAdmin Extends Conexion
 		}
 		$result = array("existe"=>$continue, 'url' => $url, "mensaje"=>$mensaje);			
 		return $result;
+	}
+
+	public static function cargar_datos_banco($idBanco){
+		$html = '';
+		$continue = false;
+		$mensaje = 'Hubo un problema al tratar de cargar los datos';
+		if($idBanco>0){
+			$datos = self::cargar_datos_banco_($idBanco);
+			$continue = $datos["existe"];
+			if($datos["existe"]){
+				$mensaje = 'Datos cargados';
+				$nombre = $datos["datos"]["nombre"];
+				$tipo = $datos["datos"]["tipo"];
+				$cuenta = $datos["datos"]["cuenta"];
+				$fecha = $datos["datos"]["fecha"];
+				$estado = $datos["datos"]["estado"];
+				$qr_img = $datos["datos"]["qr_img"];
+
+				$html .= '
+					<div class="row">
+						<div class="col-lg-12">
+							<form class="user was-validated" id="formEditarBanco" >
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control"
+											id="nombre" name="nombre" placeholder="Nombre del banco" value="'.$nombre.'" required>
+									</div>
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<select name="tipo" id="tipo" class="form-control " required>
+											<option '.(($tipo=='')?'selected':'').' value="">Tipo de cuenta</option>
+											<option '.(($tipo=='1')?'selected':'').' value="1">Ahorros</option>
+											<option '.(($tipo=='2')?'selected':'').' value="2">Corriente</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" name="cuenta" value="'.$cuenta.'" id="cuenta"
+											placeholder="Numero de cuenta" required>
+								</div>
+								<div class="form-group">
+									<input type="hidden" name="img_qr" value="'.$qr_img.'">
+									<input type="file" name="qrCharge" id="qrCharge" placeholder="Editar Qr" accept="image/*" class="form-control-file" >
+								</div>
+								<div class=" text-center align-self-center align-items-center">
+									<img class="img-thumbnail" src="'.URL_ABSOLUTA.'assets/img/qr/'.$qr_img.'" alt="'.$qr_img.'" >		
+								</div>
+								<input type="hidden" name="entrada" value="editarBanco">
+								<input type="hidden" name="banco" value="'.self::encriptTable($idBanco).'">
+								<button type="submit" class="btn btn-warning btn-user btn-block">
+									<i class="fa fa-refresh"></i> Actualizar cuenta
+								</button>
+								<hr>
+							</form>
+						</div>
+					</div>
+				';
+			}else{
+				$html .= '<i class="fa fa-warning text-warning"></i> Sin datos';
+			}
+		}else{
+			$html .= '<i class="fa fa-close text-danger"></i> No se reconoce el banco';
+		}
+		return array("result"=>$continue, "html"=>$html, "mensaje"=>$mensaje);
+	}
+
+	private static function cargar_datos_banco_($idBanco){
+		$conexion = self::iniciar();
+		$sql = "SELECT nombre, tipo, cuenta, fecha, estado, qr_img FROM bancos WHERE id = $idBanco ";
+		$consu = $conexion->query($sql);
+		if($consu->num_rows>0){
+			$datos["existe"] = true;
+			$datos["datos"] = $consu->fetch_array();
+		}else{
+			$datos["existe"] = false;
+		}
+		$conexion->close();
+		return $datos;
+	}
+
+	public static function actualizar_banco($nombre='', $cuenta='', $tipo='', $imagen='', $id){
+		try {
+			$conexion = self::iniciar();
+			$sql = "UPDATE bancos SET nombre=?, cuenta=?, tipo=?, estado=?, qr_img=? WHERE id=?";
+			$sentencia = $conexion->prepare($sql);
+			$nombre = $nombre;
+			$cuenta = $cuenta;
+			$tipo = $tipo;
+			$estado = '1';
+			$imagen = $imagen;
+			$sentencia->bind_param('sssssi', $nombre, $cuenta, $tipo, $estado, $imagen, $id);
+			$result = true;
+			$mensaje = 'Cuenta actualizada';
+			$sentencia->execute();
+					
+			$conexion->close();
+			
+		} catch (Exception $e) {
+			$result = false;
+			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. ['.$e->getMessage().']</h1></span>';
+		}
+		return array("estado"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function eliminar_banco($id=0){
+		try {
+			$conexion = self::iniciar();
+			$sql = "UPDATE bancos SET estado=? WHERE id=?";
+			$sentencia = $conexion->prepare($sql);
+			$estado = '0';
+			$sentencia->bind_param('si', $estado, $id);
+			$result = true;
+			$mensaje = 'Cuenta eliminada';
+			$sentencia->execute();
+					
+			$conexion->close();
+			
+		} catch (Exception $e) {
+			$result = false;
+			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. ['.$e->getMessage().']</h1></span>';
+		}
+		return array("estado"=>$result, "mensaje"=>$mensaje);
 	}
 }
 ?>

@@ -332,7 +332,7 @@ class Catalogo extends Conexion
 						<td> Nombre : '.$nombre.'</td>
 						<td> Cuenta : '.$cuenta.'</td>
 						<td> Tipo : '.$tipo.'</td>
-						<td> <img src="'.URL_ABSOLUTA.'assets/img/qr/'.$imgAsociada.'" alt="" width="120"></td>
+						<td> <img src="'.URL_ABSOLUTA.'assets/img/qr/'.$imgAsociada.'" alt="" class="img-thumbnail" ></td>
 					</tr>
 					
 				</table>

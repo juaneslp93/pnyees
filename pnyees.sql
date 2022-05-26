@@ -42,7 +42,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'root','$2y$10$ZwJIPtUyfn4yefA1hKlI3.r.rBegXb3ZCfacQroBlz3miqpBtpQcK','system',12345,'system@mail.com','1','0000-00-00 00:00:00',1),(2,'prueba','','pureba sistema',2332323,'1','0','2021-09-02 10:10:24',0),(3,'asdf','','usuario pitch',777,'333','1','2021-09-02 10:14:21',1),(4,'user','','userr sadfa',0,'bba@mail.com','1','2021-09-02 10:14:59',0),(5,'user2','','userr sadfa2',0,'b2ba@mail.com','1','2021-09-02 10:15:21',0),(6,'moderador','','moderar sistema',2787364,'moderar@mail.com','1','2021-09-02 10:16:58',2),(7,'ortroUsuario','','asdfa',0,'asdfa','1','2021-09-02 10:18:26',6),(8,'Sub Admin','','dfasdf asdf',3243242,'as@mail.com','0','2021-09-02 10:26:10',0),(9,'otronuevousuario','','Otro usuario',2983873,'otro@mail.com','1','2021-09-02 10:37:27',0);
+INSERT INTO `admin` VALUES (1,'root','$2y$10$ZwJIPtUyfn4yefA1hKlI3.r.rBegXb3ZCfacQroBlz3miqpBtpQcK','system',12345,'system@mail.com','1','0000-00-00 00:00:00',1),(2,'prueba','','pureba sistema',2332323,'1','0','2021-09-02 10:10:24',0),(3,'asdf','','usuario pitch',777,'333','1','2021-09-02 10:14:21',1),(4,'user','','userr sadfa',0,'bba@mail.com','0','2021-09-02 10:14:59',0),(5,'user2','','userr sadfa2',0,'b2ba@mail.com','1','2021-09-02 10:15:21',0),(6,'moderador','','moderar sistema',2787364,'moderar@mail.com','1','2021-09-02 10:16:58',2),(7,'ortroUsuario','','asdfa',0,'asdfa','1','2021-09-02 10:18:26',6),(8,'Sub Admin','','dfasdf asdf',3243242,'as@mail.com','0','2021-09-02 10:26:10',0),(9,'otronuevousuario','','Otro usuario',2983873,'otro@mail.com','1','2021-09-02 10:37:27',0);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,8 +60,9 @@ CREATE TABLE `bancos` (
   `cuenta` varchar(45) NOT NULL,
   `estado` enum('0','1') NOT NULL DEFAULT '0',
   `fecha` datetime NOT NULL,
+  `qr_img` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +71,7 @@ CREATE TABLE `bancos` (
 
 LOCK TABLES `bancos` WRITE;
 /*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
-INSERT INTO `bancos` VALUES (1,'Prueba','1','098787656','1','2021-06-21 15:06:18');
+INSERT INTO `bancos` VALUES (1,'Prue','2','09878762','0','2021-06-21 15:06:18','84fb978c1ac1435f3adc48c21e595833b1a883e5.jpg'),(2,'Banco','1','23222323','0','2022-05-25 14:05:56','565cd0583f4d446f628f44626095b3907d66e10c.jpg'),(3,'Mijo','2','04949223432','1','2022-05-25 14:05:45','8a57fe02bc9d7ef06678d06e9cd1e9bbab958560.png'),(4,'asdf','1','asdff','1','2022-05-25 14:05:28',''),(5,'24324','1','asdfasf','1','2022-05-25 14:05:26',''),(6,'asdfasf','1','asdf','1','2022-05-25 14:05:03',''),(7,'asdf','2','d','1','2022-05-25 14:05:14',''),(8,'asdfadaa','1','werwera','0','2022-05-25 15:05:32','9e57f1b8f82d8bbf12eb6998f34edd148b063e2d.jpg');
 /*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,7 +314,7 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,'prueba9',1921.00,19.00,'d44c2b12a815eb568c327d3de7b2916b3685684c.jpg','1','asdfaaa','2021-06-17 19:06:54'),(2,'prueba34',1921.00,19.00,'d44c2b12a815eb568c327d3de7b2916b3685684c.jpg','1','asdfaaa','2021-06-17 19:06:54'),(3,'prueba1',1921.00,19.00,'d44c2b12a815eb568c327d3de7b2916b3685684c.jpg','1','asdf','2021-06-17 19:06:54'),(4,'Prueba2',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(5,'Prueba23',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(6,'Prueba12s',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(7,'Prueba212asdas',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(8,'Pru22a',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(9,'Prueba3433',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(10,'Pr8i94212',1900.00,19.00,'9b627bbc9ee3868919a6cf937827d2ea95ea3172.jpg','1','asdfads','2021-06-30 19:06:16'),(11,'Pru09oi832',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(12,'prdodutcot',1900.00,19.00,'07f08ae7cb5abf6780641405c006cad3a0e22609.jpg','1','asdfads','2021-06-30 19:06:16'),(13,'Prjju767u',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16');
+INSERT INTO `productos` VALUES (1,'prueba9',1921.00,19.00,'d44c2b12a815eb568c327d3de7b2916b3685684c.jpg','1','asdfaaa','2021-06-17 19:06:54'),(2,'prueba34',1921.00,19.00,'d44c2b12a815eb568c327d3de7b2916b3685684c.jpg','1','asdfaaa','2021-06-17 19:06:54'),(3,'prueba1',1921.00,19.00,'d44c2b12a815eb568c327d3de7b2916b3685684c.jpg','1','asdf','2021-06-17 19:06:54'),(4,'Prueba2',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(5,'Prueba23',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(6,'Prueba12s',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(7,'Prueba212asdas',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(8,'Pru22a',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(9,'Prueba3433',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(10,'Pr8i94212',1900.00,19.00,'9b627bbc9ee3868919a6cf937827d2ea95ea3172.jpg','1','asdfads','2021-06-30 19:06:16'),(11,'Pru09oi832',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16'),(12,'prdodutcot',1900.00,19.00,'cccb0d76789d5459fa749e4c8dbcf565b556f615.jpg','1','asdfads','2021-06-30 19:06:16'),(13,'Prjju767u',1900.00,19.00,'3381115f3bee4efad599a1a8e3f340556c127e0f.jpg','1','asdfads','2021-06-30 19:06:16');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -482,7 +483,7 @@ CREATE TABLE `usuarios_direcciones` (
   `departamento` int(11) NOT NULL,
   `municipio` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -491,7 +492,7 @@ CREATE TABLE `usuarios_direcciones` (
 
 LOCK TABLES `usuarios_direcciones` WRITE;
 /*!40000 ALTER TABLE `usuarios_direcciones` DISABLE KEYS */;
-INSERT INTO `usuarios_direcciones` VALUES (1,'puebla',2334,'a@m.co','lejos muy lejos',1,'2021-06-29 15:34:47','1','',5,1),(2,'camargo',2434,'g@m.co','otro lejos muy lejos',1,'2021-06-29 15:35:47','1','',5,2),(3,'puebla',2334,'a@m.co','lejos muy lejos',1,'2021-06-29 15:34:47','1','',5,4),(4,'Dirección',2342,'23@kao.co','asdf',1,'2021-07-27 19:18:29','1','Asdfa',91,263),(5,'Dirección',2342,'23@kao.co','asdf',1,'2021-07-27 19:27:15','1','Asdfa',91,263);
+INSERT INTO `usuarios_direcciones` VALUES (1,'puebla',2334,'a@m.co','lejos muy lejos',1,'2021-06-29 15:34:47','1','',5,1),(2,'camargo',2434,'g@m.co','otro lejos muy lejos',1,'2021-06-29 15:35:47','1','',5,2),(3,'puebla',2334,'a@m.co','lejos muy lejos',1,'2021-06-29 15:34:47','1','',5,4),(4,'Dirección',2342,'23@kao.co','asdf',1,'2021-07-27 19:18:29','1','Asdfa',91,263),(5,'Dirección',2342,'23@kao.co','asdf',1,'2021-07-27 19:27:15','1','Asdfa',91,263),(6,'asfasdf',2342,'2344@mail.c','asdfa',2,'2022-05-25 15:12:18','1','asdfas',27,245);
 /*!40000 ALTER TABLE `usuarios_direcciones` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -504,4 +505,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-24 17:04:05
+-- Dump completed on 2022-05-26 16:58:08

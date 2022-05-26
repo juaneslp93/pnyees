@@ -29,7 +29,10 @@ if($administracionPermisos["ver"]){
 		"asignarRolUsuario",
 		"actualizarRolesPermisos",
 		"editarDatosUsuario",
-		"editarFactData"
+		"editarFactData",
+		"cargarDatosEditBanco",
+		"editarBanco",
+		"eliminarBanco"
 	);
 }else{
 	$casos = array();
@@ -106,44 +109,143 @@ switch ($caso) {
 		$result = array("continue" => true, "html"=>$html);
 		break;
 	case 'CrearBanco':
-		$nombre = $_POST["nombre"];
-		$cuenta = $_POST["cuenta"];
-		$tipo = $_POST["tipo"];
-		$continue = true;
-		$imagen = array("existe"=>false);
-		# procesamos la imagen
-		if($_FILES["qrCharge"]["size"]>0){
-			$imagen = ProcesosAdmin::procesar_imagen_pasarela($_FILES, "qrCharge");
-		}
-		if (empty($nombre) || empty($cuenta) || empty($tipo) ) {
-			$continue = false;
-			$mensaje = "El nombre, la cuenta y el tipo son obligatorios";
-		}
-
-		if (ProcesosAdmin::validar_cuenta_existe($cuenta, $tipo)) {
-			$continue = false;
-			$mensaje = "El numero de cuenta ya se encuentra registrada";
-		}
-
-		if ($continue) {
-			$reg = ProcesosAdmin::registrar_banco($nombre, $cuenta, $tipo, (($imagen["existe"])?$imagen["url"]:''));
-			$continue = $reg["estado"];
-			if ($reg["estado"]) {
-				$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span> ['.$imagen["mensaje"].']';
-			}else{
-				$mensaje = $reg["mensaje"];
+		if($administracionPermisos["crear"]){
+			$nombre = $_POST["nombre"];
+			$cuenta = $_POST["cuenta"];
+			$tipo = $_POST["tipo"];
+			$continue = true;
+			$imagen = array("existe"=>false);
+			# procesamos la imagen
+			if($_FILES["qrCharge"]["size"]>0){
+				$imagen = ProcesosAdmin::procesar_imagen_pasarela($_FILES, "qrCharge");
 			}
+			if (empty($nombre) || empty($cuenta) || empty($tipo) ) {
+				$continue = false;
+				$mensaje = "El nombre, la cuenta y el tipo son obligatorios";
+			}
+
+			if (ProcesosAdmin::validar_cuenta_existe($cuenta, $tipo)) {
+				$continue = false;
+				$mensaje = "El numero de cuenta ya se encuentra registrada";
+			}
+
+			if ($continue) {
+				$reg = ProcesosAdmin::registrar_banco($nombre, $cuenta, $tipo, (($imagen["existe"])?$imagen["url"]:''));
+				$continue = $reg["estado"];
+				if ($reg["estado"]) {
+					$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span> ['.$imagen["mensaje"].']';
+				}else{
+					$mensaje = $reg["mensaje"];
+				}
+			}
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+		}
+		
+		$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		break;
+	case 'cargarDatosEditBanco':
+		$html = '';
+		$mensaje = '';
+		$continue = true;
+		if($administracionPermisos["editar"]){
+			$idBanco = Conexion::decriptTable($_POST["opcion"]);
+			if(empty($idBanco)){
+				$continue = false;
+				$mensaje = "Falla al reconocer el banco";
+			}
+			if($continue){
+				$datos = ProcesosAdmin::cargar_datos_banco($idBanco);
+				$html = $datos["html"];
+				$continue = $datos["result"];
+				$mensaje = $datos["mensaje"];
+			}
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+		}
+		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
+		break;
+	case 'editarBanco':
+		if($administracionPermisos["editar"]){
+			$nombre = $_POST["nombre"];
+			$cuenta = $_POST["cuenta"];
+			$tipo = $_POST["tipo"];
+			$imgOld = $_POST["img_qr"];
+			$idBanco = Conexion::decriptTable($_POST["banco"]);
+			$continue = true;
+			$imagen = array("existe"=>true, "url"=>$imgOld);
+			# procesamos la imagen
+			if($_FILES["qrCharge"]["size"]>0){
+				$imagen = ProcesosAdmin::procesar_imagen_pasarela($_FILES, "qrCharge", true, $imgOld);
+			}
+			if (empty($nombre) || empty($cuenta) || empty($tipo) ) {
+				$continue = false;
+				$mensaje = "El nombre, la cuenta y el tipo son obligatorios";
+			}
+
+			if($continue){
+				if(!is_numeric($idBanco) || empty($idBanco)){
+					$continue = false;
+					$mensaje = "Identificador no válido";
+				}
+			}			
+
+			if ($continue) {
+				$reg = ProcesosAdmin::actualizar_banco($nombre, $cuenta, $tipo, (($imagen["existe"])?$imagen["url"]:''), $idBanco);
+				$continue = $reg["estado"];
+				if ($reg["estado"]) {
+					$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Actualización exitosa!</h1></span> ['.$imagen["mensaje"].']';
+				}else{
+					$mensaje = $reg["mensaje"];
+				}
+			}
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";			
 		}
 		$result = array("continue" => $continue, "mensaje"=>$mensaje);
 		break;
+	case 'eliminarBanco':
+			if($administracionPermisos["eliminar"]){
+				$idBanco = Conexion::decriptTable($_POST["banco"]);
+				$continue = true;
+
+				if(!is_numeric($idBanco) || empty($idBanco)){
+					$continue = false;
+					$mensaje = "Identificador no válido";
+				}
+	
+				if ($continue) {
+					$reg = ProcesosAdmin::eliminar_banco($idBanco);
+					$continue = $reg["estado"];
+					if ($reg["estado"]) {
+						$mensaje = $reg["mensaje"];
+					}else{
+						$mensaje = $reg["mensaje"];
+					}
+				}
+			}else{
+				$continue = false;
+				$mensaje = "Permisos insuficientes";			
+			}
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+			break;
 	case 'actPasarela':
-		$opcion =  $_POST["opcion"];
-		$opcion = str_replace('check', '', $opcion);
-		$opcion =  Conexion::decriptTable($opcion);
-		$valor =  $_POST["valor"];
-		
-		$result = Conexion::editSystem("estado", $valor, 'id', $opcion);
-		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		if($administracionPermisos["editar"]){
+			$opcion =  $_POST["opcion"];
+			$opcion = str_replace('check', '', $opcion);
+			$opcion =  Conexion::decriptTable($opcion);
+			$valor =  $_POST["valor"];
+			
+			$result = Conexion::editSystem("estado", $valor, 'id', $opcion);
+			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}
 		break;
 	case 'cargarConfigGeneral':
 		$html = ProcesosAdmin::cargar_config_general();
@@ -163,23 +265,35 @@ switch ($caso) {
 		$result = array("continue" => true, "mensaje"=>"consulta realizada", "html"=>$html);
 		break;
 	case 'actRoles':
-		$opcion =  $_POST["opcion"];
-		$opcion = str_replace('check', '', $opcion);
-		$id =  Conexion::decriptTable($opcion);
-		$valor =  $_POST["valor"];
-		
-		$result = ProcesosAdmin::editar_estado_rol($id, $valor);
-		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		if($administracionPermisos["editar"]){
+			$opcion =  $_POST["opcion"];
+			$opcion = str_replace('check', '', $opcion);
+			$id =  Conexion::decriptTable($opcion);
+			$valor =  $_POST["valor"];
+			
+			$result = ProcesosAdmin::editar_estado_rol($id, $valor);
+			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}
 		break;
 	case 'actPermiso':
-		$opcion =  $_POST["opcion"];
-		$opcion = str_replace('check', '', $opcion);
-		$id =  Conexion::decriptTable($opcion);
-		$valor =  $_POST["valor"];
-		$campo =  $_POST["campo"];
-		$continue = true;		
-		$result = ProcesosAdmin::editar_estado_permiso($id, $valor, $campo);
-		$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		if($administracionPermisos["editar"]){
+			$opcion =  $_POST["opcion"];
+			$opcion = str_replace('check', '', $opcion);
+			$id =  Conexion::decriptTable($opcion);
+			$valor =  $_POST["valor"];
+			$campo =  $_POST["campo"];
+			$continue = true;		
+			$result = ProcesosAdmin::editar_estado_permiso($id, $valor, $campo);
+			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}
 		break;
 	case 'crearRol':
 		$moderadores    = Conexion::saber_permiso_asociado(2);
@@ -440,7 +554,6 @@ switch ($caso) {
 			if (!is_numeric($id) || $id==1) {
 				$continue = false;
 				$mensaje = "Error al tomar el identificador del elemento ";
-				$html = "No hay un identificador válido";
 			}
 
 			if ($continue) {
