@@ -157,16 +157,28 @@ chartTorta = {
     this.cargarDatos();
   },
   cargarDatos: function () {
-    this.crearGrafico();
+    var self = this;
+    $.ajax({
+      url: '../controller/ctr_procesos_admin.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {'entrada': 'cargarDatosGlobales'},
+    })
+    .done(function(result) {
+      self.crearGrafico(result);
+    })
+    .fail(function() {
+      console.log("error");
+    });
   },
   crearGrafico: function(result){ 
     var ctx = document.getElementById("myPieChart");
     var myPieChart = new Chart(ctx, {
       type: 'polarArea',
       data: {
-        labels: ["Direct", "Referral", "Social"],
+        labels: ["Clientes", "Compras", "Envíos"],
         datasets: [{
-          data: [55, 30, 15],
+          data: [result.datos.usuarios, result.datos.compras, result.datos.envios],
           backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
           hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
           hoverBorderColor: "rgba(234, 236, 244, 1)",

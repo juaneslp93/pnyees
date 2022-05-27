@@ -42,9 +42,12 @@ RewriteRule ^admin/importar$ view/admin/config_importar.php [L]
 #User
 RewriteRule ^user/inicio$ view/user/inicio.php [L]
 RewriteRule ^user/cerrar$ view/user/logout.php [L]
-RewriteRule ^user/compras$ view/user/compras.php [L]
-RewriteRule ^user/ordenes$ view/user/ordenes.php [L]
+RewriteRule ^user/lista-compras$ view/user/compras.php [L]
+RewriteRule ^user/orden-compra-detalle-(.+)$ view/user/orden_compra_detalle.php?id=$1 [L]
+RewriteRule ^user/lista-orden-compras$ view/user/ordenes.php [L]
+RewriteRule ^user/compra-detalle-(.+)$ view/user/compra_detalle.php?id=$1 [L]
 RewriteRule ^user/reporte-general$ view/user/reporte-general.php [L]
+RewriteRule ^user/generar-pdf-envio$ view/user/generar_pdf_envio.php [L]
 
 #tienda
 RewriteRule ^tienda-(.+)&(.+)$ view/tienda/catalogo.php?id=$1&pagina=$2 [QSA,L]

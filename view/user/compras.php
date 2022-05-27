@@ -48,12 +48,7 @@ include "../../controller/ctr_scripts.php";
                                 <table class="table table-bordered" id="lista-compra" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="all">
-                                                <label class="switch">
-                                                    <input type="checkbox" name="selectAllSwitch" id="selectAllSwitch" value="1">
-                                                    <span class="slider round"></span>
-                                                </label></th>
-                                            <th>Nro Compra</th>
+                                            <th class="all">Nro Compra</th>
                                             <th>Usuario</th>
                                             <th>Total compra</th>
                                             <th>Total descuento</th>
@@ -87,6 +82,6 @@ include "../../controller/ctr_scripts.php";
     </a>
 
 </body>
-<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "dataTables","system-user","compra_lista")); ?> 
+<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "dataTables","system-user","compra_lista_cliente")); ?> 
   
 </html>

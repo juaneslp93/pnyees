@@ -2,12 +2,13 @@
 include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_user.php";
 include "../../controller/ctr_scripts.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?= Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?>
+    <?= Scripts::headers( array("fontAwesome","fonts.googleapis","sb-admin-2", "dataTables")); ?>
 </head>
 
 <body id="page-top">
@@ -39,27 +40,12 @@ include "../../controller/ctr_scripts.php";
                     <!-- Page Heading -->
                     
                     <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista ordenes de compra</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="lista-orden-compra" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th class="all">Orden</th>
-                                            <th>Usuario</th>
-                                            <th>Total compra</th>
-                                            <th>Total descuento</th>
-                                            <th>Total impuesto</th>
-                                            <th>Metodo pago</th>
-                                            <th>Fecha</th>
-                                            <th>procesado</th>
-                                            <th>Aprobado</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                    <div class="card shadow mb-4">                        
+                        <div class="card-body" id="contenidoCompra">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-grow text-primary m-5 " role="status">
+                                    <span class="sr-only">Cargando...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,6 +67,10 @@ include "../../controller/ctr_scripts.php";
     </a>
 
 </body>
-<?= Scripts::footers(array("jquery","bootstrap","sb-admin-2", "dataTables","system-user","orden_compra_lista_cliente")); ?> 
-  
+<?= Scripts::footers( array("jquery","bootstrap","sb-admin-2", "dataTables","system","compra_detalle_cliente")); ?> 
+  <script>
+      $(document).ready(function () {
+        Detalle_compra.iniciarDetalleCompra('<?= $_GET["id"] ?>');
+      });
+  </script>
 </html>

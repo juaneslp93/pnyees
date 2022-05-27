@@ -162,10 +162,10 @@ include "../../controller/ctr_scripts.php";
                                             <i class="fas fa-circle text-primary"></i> Clientes
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Cotizaciones
+                                            <i class="fas fa-circle text-success"></i> Compras
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Compras
+                                            <i class="fas fa-circle text-info"></i> Envíos
                                         </span>
                                     </div>
                                 </div>

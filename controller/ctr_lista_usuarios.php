@@ -3,12 +3,16 @@
 require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_usuarios.php';
-
-$casos = array(
-	"lista_usuarios",
-	"eliminar_usuario",
-	"editar_usuario"
-);
+$clientesPermiso      = Conexion::saber_permiso_asociado(7);
+if($clientesPermiso["ver"]){
+	$casos = array(
+		"lista_usuarios",
+		"eliminar_usuario",
+		"editar_usuario"
+	);
+}else{
+	$casos = array();
+}
 // entrada
 $caso = '';
 if (!empty($_POST)) {
@@ -101,10 +105,10 @@ switch ($caso) {
 			}),
 			array('db' => 'estado', 'dt'=>5, 'formatter'=>function($val, $fila){
 				return (($val)?'
-					<i class="btn btn-success btn-circle btn-lg">
+					<i class="btn btn-success btn-circle">
                         <i class="fa fa-check"></i>
                     </i>':'
-                    <i class="btn btn-danger btn-circle btn-lg">
+                    <i class="btn btn-danger btn-circle">
                     	<i class="fa fa-close"></i>
                     </i>');
 			}),

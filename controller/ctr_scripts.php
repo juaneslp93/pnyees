@@ -82,9 +82,13 @@ class Scripts
     		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js?'.self::keyCache(2).'"></script>',
     		"orden_compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra.js?'.self::keyCache(2).'"></script>',
 			"orden_compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra.js?'.self::keyCache(2).'"></script>',
+			"orden_compra_detalle_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra_cliente.js?'.self::keyCache(2).'"></script>',
 			"compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra.js?'.self::keyCache(2).'"></script>',
 			"compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_compra.js?'.self::keyCache(2).'"></script>',
+			"compra_detalle_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_compra_cliente.js?'.self::keyCache(2).'"></script>',
 			"config-general"=>'<script src="'.$ruta.'assets/js_pnyees/config_general.js?'.self::keyCache(2).'"></script>',
+			"compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra_cliente.js?'.self::keyCache(2).'"></script>',
+    		"orden_compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra_cliente.js?'.self::keyCache(2).'"></script>',
 		);
 
 		$contenido = '

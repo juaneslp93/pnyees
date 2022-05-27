@@ -226,14 +226,14 @@ class Compras extends Conexion
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Enviada</div>
+									<div class="text-black small"><i class="btn btn-success btn-circle"><i class="fa fa-check"></i></i> Enviada</div>
 								</div>
 							</div>
 						</div>':'
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-danger btn-circle btn-lg"><i class="fa fa-close"></i></i> NO enviada</div>
+									<div class="text-black small"><i class="btn btn-danger btn-circle"><i class="fa fa-close"></i></i> NO enviada</div>
 								</div>
 							</div>
 						</div>').'

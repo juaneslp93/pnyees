@@ -32,7 +32,8 @@ if($administracionPermisos["ver"]){
 		"editarFactData",
 		"cargarDatosEditBanco",
 		"editarBanco",
-		"eliminarBanco"
+		"eliminarBanco",
+		"cargarDatosGlobales"
 	);
 }else{
 	$casos = array();
@@ -664,6 +665,11 @@ switch ($caso) {
 			}
 			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 		}
+		break;
+	case 'cargarDatosGlobales':
+		$datos = ProcesosAdmin::datos_grafico_global();
+
+		$result = array("continue" => true, "datos"=>$datos);
 		break;
 	default:
 		$result = array("continue" => false, "mensaje"=>"Metodo erróneo");

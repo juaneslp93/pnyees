@@ -118,6 +118,7 @@ class Login Extends Conexion
 			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Falló la validación del tipo de usuario!<h1></span>';
 		}
 		$_SESSION["SYSTEM"]["URL"] = $url;
+		$_SESSION["SYSTEM"]["PERMISOS"] = array();
 		if(@$validacion["permisos"]["result"]){
 			$_SESSION["SYSTEM"]["PERMISOS"] = $validacion["permisos"]["datos"];
 

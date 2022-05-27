@@ -3,17 +3,11 @@
 require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_compra.php';
-$comprasPermiso        = Conexion::saber_permiso_asociado(4);
-if($comprasPermiso["ver"]){
-	$casos = array(
-		"lista_compra",
-		"procesarCompra",
-		"detalleCompra",
-		"generar_pdf"
-	);
-}else{
-	$casos = array();
-}
+$casos = array(
+	"lista_compra",
+	"detalleCompra",
+	"generar_pdf"
+);
 
 // entrada
 $caso = '';
@@ -34,16 +28,7 @@ switch ($caso) {
 		$table = "compras";
 		$primaryKey = "id";
 		$columns  = array(
-			array('db' => 'id', 'dt'=>0, 'formatter'=>function($val, $fila){
-				$idEncrip = Conexion::encriptTable($fila["id"]);
-				$idEncrip = Conexion::formato_encript($idEncrip, "con");
-				return '
-				<label class="switch">
-					<input type="checkbox" class="all-switch" name="seleccionCompra[]" id="SelCom'.$idEncrip.'" value="'.$idEncrip.'" data-control="'.$idEncrip.'" >
-					<span class="slider round"></span>
-				</label>';
-			}),
-			array('db' => 'nro_compra', 'dt'=>1, 'formatter'=>function($val, $fila){
+			array('db' => 'nro_compra', 'dt'=>0, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				return '
@@ -52,19 +37,19 @@ switch ($caso) {
 					</div>
 				';
 			}),
-			array('db' => 'id_usuario', 'dt'=>2, 'formatter'=>function($val, $fila){
+			array('db' => 'id_usuario', 'dt'=>1, 'formatter'=>function($val, $fila){
 				$usuario = Compras::saber_nombre_usuario($fila["id_usuario"]);
 				return $usuario;
 			}),
-			array('db' => 'total_compra', 'dt'=>3),
-			array('db' => 'total_descuento', 'dt'=>4),
-			array('db' => 'total_impuesto', 'dt'=>5),
-			array('db' => 'metodo_pago', 'dt'=>6, 'formatter'=>function($val, $fila){
+			array('db' => 'total_compra', 'dt'=>2),
+			array('db' => 'total_descuento', 'dt'=>3),
+			array('db' => 'total_impuesto', 'dt'=>4),
+			array('db' => 'metodo_pago', 'dt'=>5, 'formatter'=>function($val, $fila){
 				$metodo = Compras::saber_metodo_pago($fila["metodo_pago"]);
 				return $metodo;
 			}),
-			array('db' => 'fecha_compra', 'dt'=>7),
-			array('db' => 'estado_proceso', 'dt'=>8, 'formatter'=>function($val, $fila){
+			array('db' => 'fecha_compra', 'dt'=>6),
+			array('db' => 'estado_proceso', 'dt'=>7, 'formatter'=>function($val, $fila){
 				return '
 					<div>
 						'.(($fila["estado_proceso"]=='1')?'
@@ -78,7 +63,7 @@ switch ($caso) {
 						').'
 					</div>';
 			}),
-			array('db' => 'estado_aprobacion', 'dt'=>9, 'formatter'=>function($val, $fila){
+			array('db' => 'estado_aprobacion', 'dt'=>8, 'formatter'=>function($val, $fila){
 				return '
 					<div>
 						'.(($fila["estado_aprobacion"]=='1')?'
@@ -92,7 +77,7 @@ switch ($caso) {
 						').'
 					</div>';
 			}),
-			array('db' => 'estado_envio', 'dt'=>10, 'formatter'=>function($val, $fila){
+			array('db' => 'estado_envio', 'dt'=>9, 'formatter'=>function($val, $fila){
 				return '
 					<div>
 						'.(($fila["estado_envio"]=='1')?'
@@ -105,15 +90,16 @@ switch ($caso) {
 							</i>
 						').'
 					</div>';
-			})
+			}),			
+			array('db' => 'id', 'dt'=>10),
 		);
 		$conexion = Conexion::iniciar();
 		$sql_details = Conexion::dataTable(KEYGEN_DATATBLE);
-		$where = '';
+		$where = ' id_usuario ='.Conexion::desencriptar($_SESSION["SYSTEM"]["ID"], "Tbl1");
 		$data = SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $where, '' );
 		$conexion->close();
 		break;
-	case 'procesarCompra':
+	
 		if($comprasPermiso["editar"]){
 			$opcion = @$_POST["opcion-compra"];
 			$compras = @$_POST["seleccionCompra"];

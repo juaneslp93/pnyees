@@ -339,21 +339,21 @@ class OrdenesCompra extends Conexion
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Orden aprobada</div>
+									<div class="text-black small"><i class="btn btn-success btn-circle"><i class="fa fa-check"></i></i> Orden aprobada</div>
 								</div>
 							</div>
 						</div>':'
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-danger btn-circle btn-lg"><i class="fa fa-close"></i></i> Orden negada</div>
+									<div class="text-black small"><i class="btn btn-danger btn-circle"><i class="fa fa-close"></i></i> Orden negada</div>
 								</div>
 							</div>
 						</div>').'
 						<div class="float-right">						
 							<div class="card bg-light text-black ">
 								<div class="card-body">
-									<div class="text-black small"><i class="btn btn-success btn-circle btn-lg"><i class="fa fa-check"></i></i> Orden procesada</div>
+									<div class="text-black small"><i class="btn btn-success btn-circle"><i class="fa fa-check"></i></i> Orden procesada</div>
 								</div>
 							</div>
 						</div>').'
@@ -477,11 +477,13 @@ class OrdenesCompra extends Conexion
 					<div class="card-body">
 						<div class="row ">
 							'.$datosComprador.'
-							<div class="col-lg-8">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							'.$tablaH.'
-							</div>
-							<div class="col-lg-4">
-							'.$tablaT.'
+							</div>							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div style="float:right">
+									'.$tablaT.'
+								</div>
 							</div>
 						</div>
 					</div>

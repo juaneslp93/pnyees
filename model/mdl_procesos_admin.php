@@ -1289,7 +1289,7 @@ class ProcesosAdmin Extends Conexion
 			return array("result"=>false, "mensaje"=>"Error al actualizar los datos del usuario. ".$th->getMessage());
 		}
 	}
-	public static function procesar_imagen_pasarela($FILES, $nombreFile, $eliminarOld = true, $imgOld){
+	public static function procesar_imagen_pasarela($FILES, $nombreFile, $eliminarOld = false, $imgOld=''){
 		$folder = "assets/img/qr";
 		if($eliminarOld){
 			if(!empty($imgOld)){
@@ -1432,6 +1432,32 @@ class ProcesosAdmin Extends Conexion
 			$mensaje = '<span class="text text-danger"><h1 class="h4 text-gray-900 mb-4">¡Hubo un problema al insertar los datos. ['.$e->getMessage().']</h1></span>';
 		}
 		return array("estado"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function datos_grafico_global()	{		
+		$grafica = array();
+		$conexion = self::iniciar();
+		#consultamos la cantidad de usuarios registrados no eliminados
+		$sql = "SELECT count(id) AS cant_usuarios FROM usuarios WHERE estado='1' ";
+		$consu = $conexion->query($sql);
+		$rConsu = $consu->fetch_assoc();
+		$cantUser = $rConsu["cant_usuarios"];
+		$grafica["usuarios"] = $cantUser;
+		# consultamos la cantidad de compras aprobadas
+		$sql = "SELECT count(id) AS cant_compras FROM compras WHERE estado_proceso='1' AND estado_aprobacion='1' ";
+		$consu = $conexion->query($sql);
+		$rConsu = $consu->fetch_assoc();
+		$cantCompras = $rConsu["cant_compras"];
+		$grafica["compras"] = $cantCompras;
+		# consultamos las compras con envíos aprobados
+		$sql = "SELECT count(id) AS cant_envio FROM compras WHERE estado_proceso='1' AND estado_aprobacion='1' AND estado_envio='1'";
+		$consu = $conexion->query($sql);
+		$rConsu = $consu->fetch_assoc();
+		$cantEnvio = $rConsu["cant_envio"];
+		$grafica["envios"] = $cantEnvio;
+		$conexion->close();
+
+		return $grafica;
 	}
 }
 ?>
