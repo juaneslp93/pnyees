@@ -79,8 +79,13 @@ class ProcesosAdmin Extends Conexion
 			$consu = $conexion->query($sql);
 			$rConsu = $consu->fetch_assoc();
 			$compras = (($rConsu["compras"]>0)?$rConsu["compras"]:0);
+
+			$sql = "SELECT count(id) as ordenes FROM ordenes_compras WHERE estado_proceso='0' ";
+			$consu = $conexion->query($sql);
+			$rConsu = $consu->fetch_assoc();
+			$ordenes = (($rConsu["ordenes"]>0)?$rConsu["ordenes"]:0);
 			
-			#contenido
+			#contenido compras
 			$contenido = '<h6 class="dropdown-header">
                             Compras sin procesar 
                         </h6>';
@@ -104,13 +109,51 @@ class ProcesosAdmin Extends Conexion
             }
                                 
             $contenido .= '<a class="dropdown-item text-center small text-gray-500" href="lista-compras">Ver todos</a>';
-			$conexion->close();
 
-			$result = array('bell' => $compras, "notif_content"=>$contenido);
+			# contenido ordenes
+			$contenido .= '<h6 class="dropdown-header">
+                            Ordenes de compras sin procesar 
+                        </h6>';
+			$sql = "SELECT id, numero_orden, fecha FROM ordenes_compras WHERE estado_proceso='0'";
+            $consu = $conexion->query($sql);
+            while ($rConsu = $consu->fetch_assoc()) {
+				$idEncrip = Conexion::encriptTable($rConsu["id"]);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
+            	$nroOrden = $rConsu["numero_orden"];
+            	$fechaOrden = $rConsu["fecha"];
+            	$contenido .= '<a class="dropdown-item d-flex align-items-center" href="orden-compra-detalle-'.$idEncrip.'">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-shopping-cart text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">'.$fechaOrden.'</div>
+                                        <span class="font-weight-bold">'.$nroOrden.'</span>
+                                    </div>
+                                </a>';
+            }
+			$existe = false;
+			if($compras>0 && $ordenes==0){
+				$existe = true;
+				$contenido .= '<a class="dropdown-item text-center small text-gray-500" href="lista-compras">Ver todos</a>';
+			}else if($ordenes>0 && $compras==0){
+				$existe = true;
+				$contenido .= '<a class="dropdown-item text-center small text-gray-500" href="lista-orden-compras">Ver todos</a>';
+			}
+            
+			$html = '';
+			if($existe){
+				$html .= $contenido;
+			}
+			
+			$conexion->close();
+			$totalBell = $compras+$ordenes;
+			$result = array('bell' => $totalBell, "notif_content"=>$html);
 
 			return $result;
 		}else{
-			$result = array('bell' => 0);
+			$result = array('bell' => 0, "notif_content"=>'');
 			return $result;
 		}
 	}

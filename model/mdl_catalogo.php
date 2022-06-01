@@ -285,20 +285,21 @@ class Catalogo extends Conexion
 		$htmlPendiente = self::cargar_botones_pago();
 
 		# contenido html para el contenedor
-		$html .= '<div class="card shadow mb-4">
+		$html .= '
+		<div class="card shadow mb-4 text-center align-self-center">
 			<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 				<p> Medios de pago </p>
 				<div class="pull-right" id="direEdit">'.((!empty($_SESSION["DATOS_FACTURACION"]))?'<button class="btn btn-warning btn-xs" onclick="procesoPagos.editDirSel();"><i class="fa fa-edit"></i> Seleccionar otra dirección</button>':'').'</div>
 			</div>
 			<div class="card-body">				
-			';
+		';
 		$contenido = '<div class="card shadow mb-4">';
 		
 		# se carga el botón de DB si existe
 		$pasarela = self::consultaSystem("id", "102");//Activación pagos por Deposito Bancario
 		if ($pasarela["estado"]) {
 			$html .= '<div class="card-body">
-							<button type="button" class="btn btn-success" name="metodo_pago" id="bancoBtn" ><i class="fa fa-bank"></i> Banco </button>
+							<button type="button" class="btn btn-success btn-lg" name="metodo_pago" id="bancoBtn" ><i class="fa fa-bank fa-lg"></i> Banco </button>
 						</div>
 			';
 			$html .= self::cargarBancos();

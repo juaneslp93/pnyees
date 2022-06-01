@@ -89,6 +89,7 @@ class Scripts
 			"config-general"=>'<script src="'.$ruta.'assets/js_pnyees/config_general.js?'.self::keyCache(2).'"></script>',
 			"compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra_cliente.js?'.self::keyCache(2).'"></script>',
     		"orden_compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra_cliente.js?'.self::keyCache(2).'"></script>',
+    		"forgot"=>'<script src="'.$ruta.'assets/js_pnyees/forgot.js?'.self::keyCache(2).'"></script>',
 		);
 
 		$contenido = '
@@ -98,34 +99,35 @@ class Scripts
 			</a>
 			
 			<!-- Footer -->
-				<footer class="sticky-footer bg-white">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright &copy; Sykeyns software &reg; '.date('Y').'</span>
-						</div>
+			<footer class="sticky-footer bg-white">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span>Copyright &copy; Sykeyns software &reg; '.date('Y').'</span>
 					</div>
-				</footer>
+				</div>
+			</footer>
 
-				<!-- Logout Modal-->
-				<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutMdl"
-					aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="logoutMdl">¿Seguro de cerrar la sesión actual?</h5>
-								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">×</span>
-								</button>
-							</div>
-							<div class="modal-body">Seleccione "Cerrar" si está seguro de continuar.</div>
-							<div class="modal-footer">
-								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-								<a class="btn btn-primary" href="cerrar">Cerrar</a>
-							</div>
+			'.((!empty($_SESSION["SYSTEM"]["TIPO"]))?'
+			<!-- Logout Modal-->
+			<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutMdl"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="logoutMdl">¿Seguro de cerrar la sesión actual?</h5>
+							<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">Seleccione "Cerrar" si está seguro de continuar.</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+							<a class="btn btn-primary" href="cerrar">Cerrar</a>
 						</div>
 					</div>
 				</div>
-		';
+			</div>
+		':'');
 		for ($i=0; $i <count($peticion) ; $i++) { 
 			if (!empty($peticion[$i])) {
 				$contenido.=$elementos["".$peticion[$i]];

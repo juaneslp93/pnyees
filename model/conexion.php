@@ -361,6 +361,98 @@ class Conexion
 		}
 		return $permisos;
 	}
+
+	protected static function enviar_correo($html = '', $para = array(), $titulo='', $cc='', $bcc=''){
+		/**
+		 * $para puede ser con varios destinatarios separados por ","
+		 * $titulo es el "asunto" del correo
+		 * $html el es texto en html
+		 * $cabeceras el tipo de contenido y encabezados como tal.
+		 */
+		$pasarela = Conexion::consultaSystem("relacion", "config_facturacion");		
+		if ($pasarela["estado"]) {
+			for ($i=0; $i <count($pasarela["datos"]) ; $i++) { 
+				$id = $pasarela["datos"][$i]["id"];
+				$valor = $pasarela["datos"][$i]["valor"];
+				if($id==1){
+					$tituloEmpresa =  $valor;
+				}else if($id==2){
+					$nitEmpresa =  $valor;
+				}else if($id==3){
+					$contactoEmpresa = $valor;
+				}else if($id==4){
+					$direcionEmpresa = $valor;
+				}else if($id==5){
+					$correoEmpresa = $valor;
+				}
+			}
+            }
+		// mensaje
+		$mensaje = '
+			<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<!-- Custom fonts for this template-->
+				'.Scripts::headers(array("fontAwesome","fonts.googleapis","sb-admin-2")).'
+			</head>
+			<body class="bg-gradient-default">
+				<div class="container">
+					<!-- Outer Row -->
+					<div class="row justify-content-center">
+						<div class="col-xl-10 col-lg-12 col-md-9">
+							<div class="card o-hidden border-0 shadow-lg my-5">
+								<div class="card-body p-0">
+									<!-- Nested Row within Card Body -->
+									<div class="row">
+										<div class="col-lg-12 col-md-12">
+											'.$html.'
+										</div>
+										<hr>
+										<div class="col-lg-12 col-md-12">
+											<p class="col-lg-12">
+												'.$tituloEmpresa.'<br>
+												Nit: '.$nitEmpresa.'<br>
+												Teléfono: '.$contactoEmpresa.'<br>
+												Correo: '.$correoEmpresa.'<br>
+												Dirección: '.$direcionEmpresa.'<br>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				'.Scripts::footers(array("jquery","bootstrap","sb-admin-2", "forgot")).' 
+			</body>
+			</html>
+		';
+
+		// Para enviar un correo HTML, debe establecerse la cabecera Content-type
+		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		// Cabeceras adicionales
+		$to = 'To: ';
+		$cont = 0;
+		$cantDest = count($para);
+		for ($i=0; $i <$cantDest ; $i++) { 
+			$cont++;
+			$to .= '<'.$para[$i].(($cont<$cantDest)?', ':'').'>';
+		}
+		$cabeceras .= $to . "\r\n";
+		$cabeceras .= "From: $tituloEmpresa <$correoEmpresa>" . "\r\n";
+		$cabeceras .= ((!empty($cc))?"Cc: $cc" . "\r\n":'');
+		$cabeceras .= ((!empty($cc))?"Bcc: $bcc" . "\r\n":'');
+
+		// Enviarlo
+		$para = implode(', ',$para);
+		// echo $mensaje;
+		if(@mail($para, $titulo, $mensaje, $cabeceras)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 ?>

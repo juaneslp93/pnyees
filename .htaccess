@@ -18,6 +18,7 @@ ErrorDocument 500 /pnyees/view/500.php
 
 # Registro
 RewriteRule ^registro$ view/register.php [L]
+RewriteRule ^recuperar(.+)$ view/forgot.php?user=$1 [L]
 
 # Admin
 RewriteRule ^admin/inicio$ view/admin/inicio.php [L]

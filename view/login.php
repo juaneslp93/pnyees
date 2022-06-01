@@ -55,7 +55,7 @@ include "controller/ctr_scripts.php";
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">¿olvidó la contraseña?</a>
+                                        <a class="small" href="recuperar-">¿olvidó la contraseña?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="registro">¡Crea una cuenta!</a>

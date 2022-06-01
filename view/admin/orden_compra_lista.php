@@ -45,7 +45,7 @@ $ordenes        = Conexion::saber_permiso_asociado(3);
                             <h6 class="m-0 font-weight-bold text-primary">Lista ordenes de compra</h6>
                         </div>
                         <div class="card-body">
-                            <form class="form-horizontal was-validated" id="formProcesarOrden">
+                            <form class="form-horizontal" id="formProcesarOrden">
                                 <?php  if($ordenes["editar"]){?>
                                     <div class="float-right">
                                         <div class="form-group">

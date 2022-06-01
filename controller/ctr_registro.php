@@ -5,7 +5,8 @@ require '../model/mdl_registro.php';
 #Definición de entradas
 $casos = array(
 	"registroSistema",
-	"claveSeguraValidar"
+	"claveSeguraValidar",
+	"regPass"
 );
 // entrada
 
@@ -79,7 +80,22 @@ switch ($caso) {
 		}
 		$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
 		break;
-	
+	case 'regPass':
+		$correo = $_POST["correo"];
+		$continue = true;
+		if(empty($correo)){
+			$continue = false;
+			$mensaje = "Por favor suministre un correo";
+		}
+
+		if($continue){
+			include "../controller/ctr_scripts.php";
+			$datos = Registro::validar_correo_existe($correo);
+			$mensaje = $datos["mensaje"];
+			$continue = $datos["result"];
+		}
+		$result = array("continue" => $continue, "mensaje"=> $mensaje, "url"=>'');
+		break;
 	default:
 		echo 'NADA';
 		break;

@@ -42,10 +42,10 @@ $compras        = Conexion::saber_permiso_asociado(4);
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista ordenes de compra</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Lista de compras</h6>
                         </div>
                         <div class="card-body">
-                            <form class="form-horizontal was-validated" id="formProcesarCompra">
+                            <form class="form-horizontal" id="formProcesarCompra">
                                 <?php if($compras["editar"]){ ?>
                                 <div class="float-right">
                                     <div class="form-group">
