@@ -515,9 +515,34 @@ class ProcesosAdmin Extends Conexion
 	}
 
 	public static function cargar_config_general(){
+		$datos = self::consultaSystem("relacion", "config_general");
+		$form = '';
+		if ($datos["estado"]) {
+			for ($i=0; $i <count($datos["datos"]) ; $i++) {
+				$nombre = $datos["datos"][$i]["nombre"];
+				$nombreCampo = str_replace(' ', '_', $datos["datos"][$i]["nombre"]);
+				$valor = $datos["datos"][$i]["valor"];
+				$form .= '
+					<div class="form-group">
+						<label for="'.$nombreCampo.'">'.ucfirst($nombre).':</label>
+						<input class="form-control" type="text" id="'.$nombreCampo.'" name="'.$nombreCampo.'" value="'.$valor.'" required>
+					</div>
+				';
+			}
+			$form .= '
+				<div class="form-group">
+					<input type="hidden" name="entrada" value="editarConfigGeneral">
+					<button type="submit" class="btn btn-success"><i class="fa fa-refresh"></i> Actualizar datos</button>
+				</div>
+			';
+		}
 		return '
 			<div class="card-header">Configuración del sistema</div>	
-			<div class="card-body">Config General del sistema</div>	
+			<div class="card-body">
+				<form class="form-validate was-validated" name="formEditarConfigGeneral" id="formEditarConfigGeneral">
+				'.$form.'
+				</form>
+			</div>	
 		';
 	}
 
@@ -1501,6 +1526,226 @@ class ProcesosAdmin Extends Conexion
 		$conexion->close();
 
 		return $grafica;
+	}
+
+	public static function cargar_datos_diseno(){
+		$datos = self::consultaSystem("relacion", "config_diseno");
+		$form = '';
+		$ul = $nav = $text = '';
+		if ($datos["estado"]) {
+			$form = '<form class="form-vertical" id="formEditDiseno">';
+			for ($i=0; $i <count($datos["datos"]) ; $i++) {
+				$ul = $nav = '';
+				$id = (int)$datos["datos"][$i]["id"];
+				$nombre = $datos["datos"][$i]["nombre"];
+				$nombreCampo = ucfirst($datos["datos"][$i]["nombre"]);
+				$valor = $datos["datos"][$i]["valor"];
+				$togled = ' toggled';
+				$opcionesMenu = array(
+					'navbar-nav bg-gradient-default sidebar sidebar-light accordion',
+					'navbar-nav bg-gradient-light sidebar sidebar-light accordion', 
+					'navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion', 
+					'navbar-nav bg-gradient-dark sidebar sidebar-dark accordion', 
+					'navbar-nav bg-gradient-info sidebar sidebar-dark accordion',
+					'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion', 
+					'navbar-nav bg-gradient-success sidebar sidebar-dark accordion', 
+					'navbar-nav bg-gradient-warning sidebar sidebar-dark accordion',
+					'navbar-nav bg-gradient-danger sidebar sidebar-dark accordion',
+				);
+				$opcionesTopbar = array(
+					'navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-secondary text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-dark text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-info text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-success text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-primary text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-warning text-black-50 topbar mb-4 static-top shadow',
+					'navbar navbar-expand navbar-dark bg-danger text-black-50 topbar mb-4 static-top shadow',
+
+				);
+
+				$opcionesTexto = array(
+					'text-white',
+					'text-white-500',
+					'text-black',
+					'text-black-50',
+					'text-success',
+					'text-info',
+					'text-warning',
+					'text-danger',
+				);
+				
+				if($id==20){#menu
+					$ul .= "<legend>$nombreCampo</legend>";
+					for ($t=0; $t <count($opcionesMenu) ; $t++) { 
+						$clase = $opcionesMenu[$t];
+						$checked = '';
+						if($clase===$valor) $checked = 'checked';
+						$ul .= '
+							<div class="col-lg-1 text-center align-self-center align-items-center card-body">
+								<ul	class="'.$clase.$togled.'" id="">
+									<!-- Divider -->
+									<hr class="sidebar-divider my-0">
+
+									
+										<!-- Nav Item - Dashboard -->
+										<li class="nav-item active">
+											<a class="nav-link" href="#">
+												<label for="'.$nombre.'">menu '.($t+1).'</label>
+												<input type="radio" class="form-radio switch" id="'.$nombre.'" name="'.$nombre.'" value="'.$clase.'" '.$checked.'><hr class="sidebar-divider">
+												<i class="fas fa-fw fa-tachometer-alt"></i>
+												<span>Opción</span>
+											</a>
+										</li>
+														
+
+									<!-- Divider -->
+									<hr class="sidebar-divider">
+
+									<!-- Heading -->
+									<div class="sidebar-heading">
+										Elemento
+									</div>
+
+									
+										<!-- Nav Item - Pages Collapse Menu -->
+										<li class="nav-item">
+											<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEx'.$t.'" aria-expanded="true" aria-controls="collapseEx'.$t.'">
+												<i class="fas fa-fw fa-user"></i>
+												<span>Opción</span>
+											</a>
+											<div id="collapseEx'.$t.'" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+												<div class="bg-white py-2 collapse-inner rounded">
+													<h6 class="collapse-header">Elemento:</h6>
+													<a class="collapse-item" href="#">Opción</a>
+												</div>
+											</div>
+										</li>												
+
+									<!-- Divider -->
+									<hr class="sidebar-divider">
+
+									<!-- Sidebar Toggler (Sidebar) -->
+									<div class="text-center d-none d-md-inline">
+										<button class="rounded-circle border-0" id="sidebarToggle"></button>
+									</div>
+								</ul>
+							</div>
+						';
+					}
+				}
+				if($id==21){#topbar
+					$nav .= "<legend>$nombreCampo</legend>";
+					for ($t=0; $t <count($opcionesTopbar) ; $t++) { 
+						$clase = $opcionesTopbar[$t];
+						$checked = '';
+						// echo "$clase===$valor <br>";
+						if($clase===$valor) $checked = 'checked';
+						$nav .= '
+							<div class="col-lg-12 text-center align-self-center align-items-center card-body row">
+								<div class="col-lg-1">									
+									<input type="radio" class="form-radio switch" id="'.$nombre.'" name="'.$nombre.'" value="'.$clase.'" '.$checked.'><hr class="sidebar-divider">
+								</div>
+								<div class="col-lg-11">
+									<nav class="'.$clase.'">
+										<!-- Sidebar - Brand -->
+										<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+											<div class="sidebar-brand-text mx-3"><img src="'.URL_ABSOLUTA.'assets/img/icono.jfif" class="rounded mx-auto d-block img-fluid " width="80"> </div>
+										</a>
+										<!-- Sidebar Toggle (Topbar) -->
+										<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+											<i class="fa fa-bars"></i>
+										</button>
+					
+										<!-- Topbar Navbar -->
+										<ul class="navbar-nav ml-auto">
+					
+											<!-- Nav Item - Alerts -->
+											<li class="nav-item dropdown no-arrow mx-1">
+												<a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<i class="fas fa-bell fa-fw"></i>
+													<!-- Counter - Alerts -->
+													<span class="badge badge-danger badge-counter" id="notif-bel">0</span>
+												</a>
+												<!-- Dropdown - Alerts -->
+												<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown" id="notif-content"></div>
+											</li>
+					
+											<div class="topbar-divider d-none d-sm-block"></div>
+					
+											<!-- Nav Item - User Information -->
+											<li class="nav-item dropdown no-arrow">
+												<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<span class="mr-2 d-none d-lg-inline text-gray-50 small">Administrador</span>
+													<img class="img-profile rounded-circle" src="'.URL_ABSOLUTA.'assets/img/undraw_profile.svg">
+												</a>
+												<!-- Dropdown - User Information -->
+												<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+													<a class="dropdown-item" href="#">
+														<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+														Perfil
+													</a>
+													<a class="dropdown-item" href="#">
+														<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+														Configuración
+													</a>
+													<a class="dropdown-item" href="#">
+														<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+														Registro de actividades
+													</a>
+													<div class="dropdown-divider"></div>
+													<a class="dropdown-item" href="#" data-toggle="modal" data-target="#">
+														<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+														Salir
+													</a>
+												</div>
+											</li>					
+										</ul>										
+									</nav>
+								</div>
+							</div>
+						';
+					}
+				}
+				if($id==22){;
+					$text .= "<legend>$nombreCampo tienda</legend>";
+					$text .= '<div class="col-lg-12 text-center align-self-center align-items-center card-body row">';
+					
+					for ($t=0; $t <count($opcionesTexto) ; $t++) { 
+						$clase = $opcionesTexto[$t];
+						$checked = '';
+						// echo "$clase===$valor <br>";
+						if($clase===$valor) $checked = 'checked';
+						$text .= '
+							
+								<div class="col-lg-3">		
+									<label for="'.$nombre.'">'.$clase.'</label>							
+									<input type="radio" class="form-radio switch" id="'.$nombre.'" name="'.$nombre.'" value="'.$clase.'" '.$checked.'>
+								
+									<p class="'.$clase.' '.(($clase==="text-white")?'bg-gray':'').'">
+										Esto es un texto.									
+									</p>
+								</div>
+						';
+					}
+					$text .= '</div>';
+				}
+
+				$form .= '
+					<div class="col-lg-12"><div class="row">'.$ul.'</div></div>
+					<div class="col-lg-12">'.$nav.'</div>
+					<div class="col-lg-12"> '.$text.'</div>
+				';
+			}
+			$form .= '
+					<div class="form-group">
+						<input type="hidden" name="entrada" value="editarDiseno">
+						<button type="submit" class="btn btn-success"><i class="fa fa-refresh"></i> Actualizar datos</button>
+					</div>
+				</form>
+			';
+		}
+		return array("result"=>$datos["estado"], "mensaje"=>$datos["mensaje"], "html"=>$form);
 	}
 }
 ?>

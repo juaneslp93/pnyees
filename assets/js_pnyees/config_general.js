@@ -11,7 +11,8 @@ configGeneral = {
 		this.editarRol();
 		var tableC = this.listaRolesUsuarios();
 		this.crearUsuario(tableC);
-		this.editarDatosFacturacion();  
+		this.editarDatosFacturacion();
+		this.editarConfigGeneral();
     },
     cargaXdefecto: function () {
         $.ajax({
@@ -74,16 +75,6 @@ configGeneral = {
                 }
             });
         });        
-    },
-    modificarEstadoRol:function (elemento) {
-       /*  if ($(elemento).attr('checked')=="checked") {
-			$(elemento).removeAttr('checked').val('0');
-		}else{
-			$(elemento).attr({
-				checked: 'checked',
-				value: '1'
-			});			
-		} */
     },
 	crearRol: function () {
 		$("#formNuevoRol").submit(function (e) { 
@@ -399,7 +390,8 @@ configGeneral = {
       });
 	},
 	crearUsuario: function (table) {
-		$("#formNuevoUsuario").submit(function (e) { 
+		$("#formNuevoUsuario").submit(function (e) {
+			$("button").attr('disabled', 'disabled');
 			e.preventDefault();
 			$.ajax({
 				url: '../controller/ctr_procesos_admin.php',
@@ -429,11 +421,15 @@ configGeneral = {
 			})
 			.fail(function() {
 				console.log("error");
+			})
+			.always(function(){
+				$("button").removeAttr('disabled');
 			});	
 		});
 	},
 	editarDatosFacturacion: function(){
 		$("body").on('submit', '#formEditarFactData', function (e) { 
+			$("button").attr('disabled', 'disabled');
 			e.preventDefault();
 			$.ajax({
 				url: '../controller/ctr_procesos_admin.php',
@@ -458,6 +454,42 @@ configGeneral = {
 			})
 			.fail(function() {
 				console.log("error");
+			})
+			.always(function(){
+				$("button").removeAttr('disabled');
+			});
+		});
+	},
+	editarConfigGeneral: function(){
+		$("body").on('submit', '#formEditarConfigGeneral', function (e) { 
+			$("button").attr('disabled', 'disabled');
+			e.preventDefault();
+			$.ajax({
+				url: '../controller/ctr_procesos_admin.php',
+				type: 'POST',
+				dataType: 'json',
+				data: $(this).serialize(),
+			})
+			.done(function(result) {
+				if (result.continue) {
+					Swal.fire({
+					  icon: 'success',
+					  title: '¡Proceso exitoso!',
+					  html: result.mensaje
+					})
+				}else{
+					Swal.fire({
+					  icon: 'warning',
+					  title: '¡Proceso detenido!',
+					  html: result.mensaje
+					})
+				}
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function(){
+				$("button").removeAttr('disabled');
 			});	
 		});
 	}

@@ -10,6 +10,20 @@ class Vistas Extends Conexion
 	}
 
 	public static function navBar()	{
+        $datos = self::consultaSystem("relacion", "config_diseno");
+        $text = "text-white";
+        $clase = "navbar navbar-expand navbar-light bg-gray topbar '.$text.' mb-4 static-top shadow";
+        if ($datos["estado"]) {
+            for ($i=0; $i <count($datos["datos"]) ; $i++) {
+                $id = (int)$datos["datos"][$i]["id"];
+                if($id==21){
+                    $clase = $datos["datos"][$i]["valor"];
+                }
+                if($id==22){
+                    $text = $datos["datos"][$i]["valor"];
+                }
+            }
+        }
         $sesionActiva = '<ul class="navbar-nav ml-auto">
 
                     <div class="topbar-divider d-none d-sm-block"></div>
@@ -17,15 +31,14 @@ class Vistas Extends Conexion
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Invitado</span>
+                            <span class="mr-2 d-none d-lg-inline '.$text.' small">Invitado</span>
                             <img class="img-profile rounded-circle"
                                 src="assets/img/undraw_profile.svg">
                         </a>
                     </li>
                 </ul>';
         
-		if (isset($_SESSION["SYSTEM"])) {
-
+		if (isset($_SESSION["SYSTEM"])) {            
             if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"||$_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
                 $sesionActiva = '<ul class="navbar-nav ml-auto">
 
@@ -34,29 +47,29 @@ class Vistas Extends Conexion
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-white-50 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
+                            <span class="mr-2 d-none d-lg-inline '.$text.' small">'.$_SESSION["SYSTEM"]["USER"].'</span>
                             <img class="img-profile rounded-circle"
                                 src="assets/img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            <!-- <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Profile
                             </a>
                             <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Settings
                             </a>
                             <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-list fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Activity Log
-                            </a>
+                            </a> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 '.$text.'"></i>
+                                Salir
                             </a>
                         </div>
                     </li>
@@ -69,7 +82,7 @@ class Vistas Extends Conexion
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-white-50 small">'.$_SESSION["SYSTEM"]["USER"].'</span>
+                            <span class="mr-2 d-none d-lg-inline '.$text.' small">'.$_SESSION["SYSTEM"]["USER"].'</span>
                             <img class="img-profile rounded-circle"
                                 src="assets/img/undraw_profile.svg">
                         </a>
@@ -77,20 +90,20 @@ class Vistas Extends Conexion
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-user fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Profile
                             </a>
                             <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Settings
                             </a>
                             <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-list fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Activity Log
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 '.$text.'"></i>
                                 Logout
                             </a>
                         </div>
@@ -99,12 +112,12 @@ class Vistas Extends Conexion
             }
         }
         $result = '
-            <nav class="navbar navbar-expand navbar-light bg-gray topbar mb-4 static-top shadow">
+            <nav class="'.$clase.$text.'">
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-left">
                     <li class="nav-item dropdown no-arrow">
-                        <a class="btn btn-link text-white rounded-circle mr-3" href="'.URL_ABSOLUTA.'">
+                        <a class="btn btn-link '.$text.' rounded-circle mr-3" href="'.URL_ABSOLUTA.'">
                             <i class="fa fa-dashboard"></i> Mi sucursal
                         </a>
                     </li>
@@ -117,76 +130,87 @@ class Vistas Extends Conexion
 	}
 
     public static function navBarTienda($ref='') {
-        
-        // if (!isset($_SESSION["SYSTEM"])) {
-                $result = '
-                    <nav class="navbar navbar-expand navbar-light bg-gray topbar text-white mb-4 static-top shadow">
+        $datos = self::consultaSystem("relacion", "config_diseno");
+        $text = "text-white";
+        $clase = "navbar navbar-expand navbar-light bg-gray topbar '.$text.' mb-4 static-top shadow";
+        if ($datos["estado"]) {
+            for ($i=0; $i <count($datos["datos"]) ; $i++) {
+                $id = (int)$datos["datos"][$i]["id"];
+                if($id==21){
+                    $clase = $datos["datos"][$i]["valor"];
+                }
+                if($id==22){
+                    $text = $datos["datos"][$i]["valor"];
+                }
+            }
+        }
+        $result = '
+            <nav class="'.$clase.$text.'">
 
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-left">
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="btn btn-link text-white rounded-circle mr-3" href="tienda-'.$ref.'&1">
-                                    <i class="fa fa-home"></i> Inicio
-                                </a>
-                            </li>
-                            <div class="topbar-divider d-none d-sm-block"></div>
-                        </ul>
-                        <ul class="navbar-nav ml-left">
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-left">
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="btn btn-link '.$text.' rounded-circle mr-3" href="tienda-'.$ref.'&1">
+                            <i class="fa fa-home"></i> Inicio
+                        </a>
+                    </li>
+                    <div class="topbar-divider d-none d-sm-block"></div>
+                </ul>
+                <ul class="navbar-nav ml-left">
 
-                            <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="categorias" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-white small"><i class="fa fa-tags"></i> Categorias </span>
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                    aria-labelledby="categorias">
-                                    <a class="dropdown-item" href="#">
-                                       <i class="fa fa-tag" aria-hidden="true"></i>
-                                        Categoria 1 
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                       <i class="fa fa-tag" aria-hidden="true"></i>
-                                        Categoria 2
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                       <i class="fa fa-tag" aria-hidden="true"></i>
-                                        Categoria 3
-                                    </a>
-                                </div>
-                            </li>
-                            <div class="topbar-divider d-none d-sm-block"></div>
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="categorias" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline '.$text.' small"><i class="fa fa-tags"></i> Categorias </span>
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="categorias">
+                            <a class="dropdown-item" href="#">
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                                Categoria 1 
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                                Categoria 2
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                                Categoria 3
+                            </a>
+                        </div>
+                    </li>
+                    <div class="topbar-divider d-none d-sm-block"></div>
 
-                        </ul> 
-                        <ul class="navbar-nav ml-auto">
-                            <div class="topbar-divider d-none d-sm-block"></div>
-                            <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="cotizado" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-white small"><i class="fa fa-edit"></i> Cotizado actualmente</span>
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                    aria-labelledby="cotizado" id="contentCotizado">
-                                    
-                                </div>
-                            </li>
-                            <div class="topbar-divider d-none d-sm-block"></div>
-                        </ul>
-                        <ul class="navbar-nav ml-left">
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="btn btn-link text-white rounded-circle mr-3" href="resumen">
-                                    <i class="fa fa-shopping-cart"></i> Resumen de compra
-                                </a>
-                            </li>
-                        
-                        </ul> 
+                </ul> 
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="cotizado" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline '.$text.' small"><i class="fa fa-edit"></i> Cotizado actualmente</span>
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="cotizado" id="contentCotizado">
+                            
+                        </div>
+                    </li>
+                    <div class="topbar-divider d-none d-sm-block"></div>
+                </ul>
+                <ul class="navbar-nav ml-left">
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="btn btn-link '.$text.' rounded-circle mr-3" href="resumen">
+                            <i class="fa fa-shopping-cart"></i> Resumen de compra
+                        </a>
+                    </li>
+                
+                </ul> 
 
-                    </nav>
-                ';
-        // }
+            </nav>
+        ';
         return $result;
     }
 

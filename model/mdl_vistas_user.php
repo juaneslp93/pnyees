@@ -11,8 +11,19 @@ class Vistas
 
 	public static function menu()	{
 		if ($_SESSION["SYSTEM"]["TIPO"]==="USER") {
+			$datos = self::consultaSystem("relacion", "config_diseno");
+            $clase = "navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion";
+            if ($datos["estado"]) {
+                for ($i=0; $i <count($datos["datos"]) ; $i++) {
+                    $id = (int)$datos["datos"][$i]["id"];
+                    if($id==20){
+                        $clase = $datos["datos"][$i]["valor"];
+                        break;
+                    }
+                }
+            }
 			$result = '
-		        <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+		        <ul class="'.$clase.'" id="accordionSidebar">
 
 		            <!-- Divider -->
 		            <hr class="sidebar-divider my-0">
@@ -63,8 +74,19 @@ class Vistas
 
 	public static function navBar()	{
 		if ($_SESSION["SYSTEM"]["TIPO"]==="USER") {
+			$datos = self::consultaSystem("relacion", "config_diseno");
+            $clase = "navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow";
+            if ($datos["estado"]) {
+                for ($i=0; $i <count($datos["datos"]) ; $i++) {
+                    $id = (int)$datos["datos"][$i]["id"];
+                    if($id==21){
+                        $clase = $datos["datos"][$i]["valor"];
+                        break;
+                    }
+                }
+            }
 			$result = '
-                <nav class="navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow">
+                <nav class="'.$clase.'">
                     <!-- Sidebar - Brand -->
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="inicio">
                         <div class="sidebar-brand-text mx-3"><img src="'.URL_ABSOLUTA.'assets/img/icono.jfif" class="rounded mx-auto d-block img-fluid " width="80" /> </div>

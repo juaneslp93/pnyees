@@ -96,6 +96,7 @@ class Scripts
     		"orden_compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra_cliente.js?'.self::keyCache(2).'"></script>',
     		"forgot"=>'<script src="'.$ruta.'assets/js_pnyees/forgot.js?'.self::keyCache(2).'"></script>',
 			"usuarios-editar"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_editar_clientes.js?'.self::keyCache(2).'"></script>',
+			"config-diseno"=>'<script src="'.$ruta.'assets/js_pnyees/config_diseno.js?'.self::keyCache(2).'"></script>',
 		);
 
 		$contenido = '

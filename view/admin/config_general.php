@@ -2,9 +2,6 @@
 include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
-$cadena = " frase frase frase ";
-$cadena_formateada = trim($cadena);
-$cadena_formateada = str_replace(' ', '', $cadena_formateada);
 $moderadoresPermisos    = Conexion::saber_permiso_asociado(2);
 ?>
 <!DOCTYPE html>

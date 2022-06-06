@@ -26,12 +26,14 @@ class Catalogo extends Conexion
 			}
 		</style>';
 		if ($consu->num_rows>0) {
+			$datosConfig = self::consulta_datos_config();
 			while ($rConsu = $consu->fetch_assoc()) {
 				$precio = ($rConsu["precio"]*$rConsu["impuesto"])/100;
 				$precio = $precio+$rConsu["precio"];
+				$precio = number_format($precio, $datosConfig["cantidad_decimales"], ',','.');
 				$idProductoEncrip = self::encriptar($rConsu["id"], "Det1");
 				$idProductoEncrip = self::formato_encript($idProductoEncrip, "con");
-				$ruta = "uploads/";
+				$ruta = URL_ABSOLUTA."uploads/";
 				$imagen = $ruta.((!empty($rConsu["url_imagen"]))?$rConsu["url_imagen"]:'default.png');
 				$cont .= '<div class="col-lg-3 col-md-6 col-sm-12">
 		                    <div class="card shadow mb-4">
@@ -42,9 +44,9 @@ class Catalogo extends Conexion
 			                            		<a href="detalle-'.$idProductoEncrip.'" ><img src="'.$imagen.'" class="img-responsive img-rounded img-fluid" style="max-height: 300px;" alt="">
 			                            		</a>
 			                            		<h3>'.$rConsu["nombre"].'</h3>
-			                            		$'.$precio.'<br>
+			                            		'.$datosConfig["simbolo_moneda"].$precio.'<br>
 			                            		<div class="form-group has-feedback">
-												  <i class="fa form-control-feedback">M² </i>
+												  <i class="fa form-control-feedback">'.$datosConfig["simbolo_cantidad"].' </i>
 												  <input type="number" name="cantidad" class="form-control" placeholder="Seleccione su cantidad" min="1" pattern="^[0-9]+">
 												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
 												  <input type="hidden" name="entrada" value="agregarProducto" >
@@ -57,8 +59,6 @@ class Catalogo extends Conexion
 														<a href="detalle-'.self::encriptar($rConsu["id"], "Det1").'" class="btn btn-warning btn-sm"><i class="fa fa-external-link"></i> Ver detalle</a>
 													</div>
 												</div>
-			                            		
-			                            		
 			                            	</form>
 		                            	</div>
 		                            </div>
@@ -103,36 +103,38 @@ class Catalogo extends Conexion
 			}
 		</style>';
 		if ($consu->num_rows>0) {
-			while ($rConsu = $consu->fetch_assoc()) {
-				$precio = ($rConsu["precio"]*$rConsu["impuesto"])/100;
-				$precio = $precio+$rConsu["precio"];
-				$ruta = "uploads/";
-				$imagen = $ruta.((!empty($rConsu["url_imagen"]))?$rConsu["url_imagen"]:'default.png');
-				$cont .= '<div class="col-lg-12 col-md-12 col-sm-12">
-		                    <div class="card shadow mb-12">
-		                        <div class="card-body">
-		                            <div class="row ">
-		                            	<div class="col-lg-12">
-		                            		<form method="post" name="FormAgregarCarrito" class="agregarCarrito" accept-charset="utf-8">
-			                            		<img src="'.$imagen.'" class="img-responsive img-rounded img-fluid" style="width: 35rem;" alt="">
+			$datosConfig = self::consulta_datos_config();
+			$rConsu = $consu->fetch_assoc();
+			$precio = ($rConsu["precio"]*$rConsu["impuesto"])/100;
+			$precio = $precio+$rConsu["precio"];
+			$precio = number_format($precio, $datosConfig["cantidad_decimales"], ',','.');
+			$ruta = URL_ABSOLUTA."uploads/";
+			$imagen = $ruta.((!empty($rConsu["url_imagen"]))?$rConsu["url_imagen"]:'default.png');
+			$cont .= '<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="card shadow mb-12">
+							<div class="card-body">
+								<div class="row ">
+									<div class="col-lg-12">
+										<form method="post" name="FormAgregarCarrito" class="agregarCarrito" accept-charset="utf-8">
+											<img src="'.$imagen.'" class="img-responsive img-rounded img-fluid" style="width: 35rem;" alt="">
 
-			                            		<h3>'.$rConsu["nombre"].'</h3>
-			                            		<h6>'.$rConsu["descripcion"].'</h6>
-			                            		$'.$precio.'<br>
-			                            		<div class="form-group has-feedback row col-lg-3">
-												  <i class="fa form-control-feedback">M² </i>
-												  <input type="number" name="cantidad" class="form-control" placeholder="Seleccione su cantidad" min="1" pattern="^[0-9]+">
-												  <input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
-												  <input type="hidden" name="entrada" value="agregarProducto" >
-												</div>
-			                            		<button type="submit" class="btn btn-info "><i class="fa fa-plus"></i> Agregar al carrito</button>
-		                            		</form>
-		                            	</div>
-		                            </div>
-		                        </div>
-		                    </div>                    		
-                    	</div>';
-			}
+											<h3>'.$rConsu["nombre"].'</h3>
+											<h6>'.$rConsu["descripcion"].'</h6>
+											'.$datosConfig["simbolo_moneda"].$precio.'<br>
+											<div class="form-group has-feedback row col-lg-3">
+												<i class="fa form-control-feedback">'.$datosConfig["simbolo_cantidad"].' </i>
+												<input type="number" name="cantidad" class="form-control" placeholder="Seleccione su cantidad" min="1" pattern="^[0-9]+">
+												<input type="hidden" name="data-control" value="'.$idProductoEncrip.'" >
+												<input type="hidden" name="entrada" value="agregarProducto" >
+											</div>
+											<button type="submit" class="btn btn-info "><i class="fa fa-plus"></i> Agregar al carrito</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>                    		
+					</div>';
+			
 		}else{
 			$cont .= '<div class="col-lg-12 col-md-12 col-sm-12">
 		                    <div class="card shadow mb-4 align-self-center text-center">
@@ -412,6 +414,29 @@ class Catalogo extends Conexion
 					</div>';
 		$contenido .= '</div>';
 		return $contenido;
+	}
+
+	private static function consulta_datos_config(){
+		$data["simbolo_moneda"] = '$';
+		$data["simbolo_cantidad"] = 'Cant';
+		$data["cantidad_decimales"] = 0;
+		$datos = self::consultaSystem("relacion", "config_general");
+		if ($datos["estado"]) {
+			for ($i=0; $i <count($datos["datos"]) ; $i++) {
+				$id = (int)$datos["datos"][$i]["id"];
+				$valor = $datos["datos"][$i]["valor"];
+				if($id==10){# moneda
+					$data["simbolo_moneda"] = $valor;
+				}
+				if($id==11){# cantidad
+					$data["simbolo_cantidad"] = $valor;
+				}
+				if($id==101){# cantidad
+					$data["cantidad_decimales"] = $valor;
+				}
+			}
+		}
+		return $data;
 	}
 }
  ?>

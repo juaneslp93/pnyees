@@ -39,6 +39,7 @@ RewriteRule ^admin/generar-pdf-envio$ view/admin/generar_pdf_envio.php [L]
 RewriteRule ^admin/reporte-compras$ view/admin/reporte_compra.php [L]
 
 RewriteRule ^admin/importar$ view/admin/config_importar.php [L]
+RewriteRule ^admin/config-diseno$ view/admin/config_diseno.php [L]
 
 #User
 RewriteRule ^user/inicio$ view/user/inicio.php [L]

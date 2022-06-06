@@ -11,6 +11,17 @@ class VistasAdmin Extends Conexion
 
 	public static function menu()	{
 		if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"||$_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
+            $datos = self::consultaSystem("relacion", "config_diseno");
+            $clase = "navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion";
+            if ($datos["estado"]) {
+                for ($i=0; $i <count($datos["datos"]) ; $i++) {
+                    $id = (int)$datos["datos"][$i]["id"];
+                    if($id==20){
+                        $clase = $datos["datos"][$i]["valor"];
+                        break;
+                    }
+                }
+            }
             $inicio         = Self::saber_permiso_asociado(1);
             // $moderadores    = Self::saber_permiso_asociado(2);
             $ordenes        = Self::saber_permiso_asociado(3);
@@ -19,7 +30,7 @@ class VistasAdmin Extends Conexion
             $administracion = Self::saber_permiso_asociado(6);
             $clientes       = Self::saber_permiso_asociado(7);
 			$result = '
-		        <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+		        <ul class="'.$clase.'" id="accordionSidebar">
 
 		            <!-- Divider -->
 		            <hr class="sidebar-divider my-0">
@@ -150,8 +161,19 @@ class VistasAdmin Extends Conexion
 
 	public static function navBar()	{
 		if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"||$_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
+            $datos = self::consultaSystem("relacion", "config_diseno");
+            $clase = "navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow";
+            if ($datos["estado"]) {
+                for ($i=0; $i <count($datos["datos"]) ; $i++) {
+                    $id = (int)$datos["datos"][$i]["id"];
+                    if($id==21){
+                        $clase = $datos["datos"][$i]["valor"];
+                        break;
+                    }
+                }
+            }
 			$result = '
-				<nav class="navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow">
+				<nav class="'.$clase.'">
                     <!-- Sidebar - Brand -->
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="inicio">
                         <div class="sidebar-brand-text mx-3"><img src="'.URL_ABSOLUTA.'assets/img/icono.jfif" class="rounded mx-auto d-block img-fluid " width="80" /> </div>
@@ -270,30 +292,31 @@ class VistasAdmin Extends Conexion
             $continuar      = false;
             $archivosRegistrados = array(
                 "inicio"=>array(
-                    "/pnyees/view/admin/inicio.php"
+                    RAIZ."view/admin/inicio.php"
                 ),
                 "clientes"=>array(
-                    "/pnyees/view/admin/usuarios_lista.php",
-                    "/pnyees/view/admin/usuarios_detalles.php"
+                    RAIZ."view/admin/usuarios_lista.php",
+                    RAIZ."view/admin/usuarios_detalles.php"
                 ),
                 "productos"=>array(
-                    "/pnyees/view/admin/productos_lista.php"
+                    RAIZ."view/admin/productos_lista.php"
                 ),
                 "administracion"=>array(
-                    "/pnyees/view/admin/config_medios_pago.php",
-                    "/pnyees/view/admin/config_general.php",
-                    "/pnyees/view/admin/config_importar.php"
+                    RAIZ."view/admin/config_medios_pago.php",
+                    RAIZ."view/admin/config_general.php",
+                    RAIZ."view/admin/config_diseno.php",
+                    RAIZ."view/admin/config_importar.php"
                 ),
                 "ordenes"=>array(
-                    "/pnyees/view/admin/orden_compra_lista.php",
-                    "/pnyees/view/admin/orden_compra_detalle.php",
-                    "/pnyees/view/admin/reporte_orden_compra.php"
+                    RAIZ."view/admin/orden_compra_lista.php",
+                    RAIZ."view/admin/orden_compra_detalle.php",
+                    RAIZ."view/admin/reporte_orden_compra.php"
                 ),
                 "compras"=>array(
-                    "/pnyees/view/admin/compra_lista.php",
-                    "/pnyees/view/admin/compra_detalle.php",
-                    "/pnyees/view/admin/generar_pdf_envio.php",
-                    "/pnyees/view/admin/reporte_compra.php"
+                    RAIZ."view/admin/compra_lista.php",
+                    RAIZ."view/admin/compra_detalle.php",
+                    RAIZ."view/admin/generar_pdf_envio.php",
+                    RAIZ."view/admin/reporte_compra.php"
                 ),
             );
             if (in_array($_SERVER["PHP_SELF"], $archivosRegistrados["inicio"])) {

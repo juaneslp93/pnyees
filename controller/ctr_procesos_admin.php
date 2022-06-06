@@ -33,7 +33,10 @@ if($administracionPermisos["ver"]){
 		"cargarDatosEditBanco",
 		"editarBanco",
 		"eliminarBanco",
-		"cargarDatosGlobales"
+		"cargarDatosGlobales",
+		"editarConfigGeneral",
+		"cargarDiseno",
+		"editarDiseno"
 	);
 }else{
 	$casos = array();
@@ -641,35 +644,112 @@ switch ($caso) {
 		}
 		break;
 	case 'editarFactData':
-		$nombre = $_POST["nombre_empresa"];
-		$nit = $_POST["nit_empresa"];
-		$contacto = $_POST["contacto"];
-		$direccion = $_POST["direccion"];
-		$correo = $_POST["correo"];
-		$continue = true;
-		if(empty($nombre) || empty($nit) || empty($contacto) || empty($direccion) || empty($correo)){
-			$continue = false;
-			$mensaje = "Todos los campos son obligatorios";
-		}
+		if($administracionPermisos["editar"]){
+			$nombre = $_POST["nombre_empresa"];
+			$nit = $_POST["nit_empresa"];
+			$contacto = $_POST["contacto"];
+			$direccion = $_POST["direccion"];
+			$correo = $_POST["correo"];
+			$continue = true;
+			if(empty($nombre) || empty($nit) || empty($contacto) || empty($direccion) || empty($correo)){
+				$continue = false;
+				$mensaje = "Todos los campos son obligatorios";
+			}
 
-		if($continue){
-			$result = Conexion::editSystem("valor", $nombre, 'nombre', "nombre empresa");
-			if($result["estado"]){
-				$result = Conexion::editSystem("valor", $nit, 'nombre', "nit empresa");
+			if($continue){
+				$result = Conexion::editSystem("valor", $nombre, 'nombre', "nombre empresa");
+				if($result["estado"]){
+					$result = Conexion::editSystem("valor", $nit, 'nombre', "nit empresa");
+				}
+				if($result["estado"]){
+					$result = Conexion::editSystem("valor", $contacto, 'nombre', "contacto");
+				}
+				if($result["estado"]){
+					$result = Conexion::editSystem("valor", $direccion, 'nombre', "direccion");
+				}
+				$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
 			}
-			if($result["estado"]){
-				$result = Conexion::editSystem("valor", $contacto, 'nombre', "contacto");
-			}
-			if($result["estado"]){
-				$result = Conexion::editSystem("valor", $direccion, 'nombre', "direccion");
-			}
-			$result = array("continue" => $result["estado"], "mensaje"=>$result["mensaje"]);
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
 		}
 		break;
 	case 'cargarDatosGlobales':
 		$datos = ProcesosAdmin::datos_grafico_global();
 
 		$result = array("continue" => true, "datos"=>$datos);
+		break;
+	case 'editarConfigGeneral':
+		if($administracionPermisos["editar"]){
+			$datos = Conexion::consultaSystem("relacion", "config_general");
+			$continue = true;
+			$mensaje = 'Proceso exitoso';
+			if ($datos["estado"]) {
+				for ($i=0; $i <count($datos["datos"]) ; $i++) {
+					$continue = true;
+					$mensaje = '';
+					$nombre = $datos["datos"][$i]["nombre"];
+					$id = $datos["datos"][$i]["id"];
+					$nombreCampo = str_replace(' ', '_', $datos["datos"][$i]["nombre"]);
+					$valor = $_POST[$nombreCampo];
+					if(!is_numeric($valor)){
+						if(empty($_POST[$nombreCampo])){
+							$continue = false;
+							$mensaje .= "el campo $nombre es obligatorio";
+							break;
+						}
+					}
+
+					if($continue){
+						$result = Conexion::editSystem("valor", $valor, 'id', $id);
+						$continue = $result["estado"];
+						$mensaje = $result["mensaje"];
+					}
+				}
+				$result = array("continue" => $continue, "mensaje"=>$mensaje);
+			}
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}
+		break;
+	case 'cargarDiseno':
+		$data = ProcesosAdmin::cargar_datos_diseno();
+		$continue = $data["result"];
+		$mensaje = $data["mensaje"];
+		$html = $data["html"];
+		$result = array("continue" => $continue, "mensaje"=>$mensaje, "html"=>$html);
+		break;
+	case 'editarDiseno':
+		if($administracionPermisos["editar"]){
+			$menu = @$_POST["menu"];
+			$topbar = @$_POST["topbar"];
+			$text = @$_POST["texto"];
+			$continue = true;
+			if(empty($menu) || empty($topbar) || empty($text)){
+				$continue = false;
+				$mensaje = "Seleccione una opción";
+			}
+
+			if($continue){
+				$result = Conexion::editSystem("valor", $menu, 'id', 20);
+				if($result["estado"]){
+					$result = Conexion::editSystem("valor", $topbar, 'id', 21);
+				}
+				if($result["estado"]){
+					$result = Conexion::editSystem("valor", $text, 'id', 22);
+				}
+				$continue = $result["estado"];
+				$mensaje = $result["mensaje"];
+			}
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}else{
+			$continue = false;
+			$mensaje = "Permisos insuficientes";
+			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}
 		break;
 	default:
 		$result = array("continue" => false, "mensaje"=>"Metodo erróneo");
