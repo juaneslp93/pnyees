@@ -32,6 +32,7 @@ CREATE TABLE `admin` (
   `estado` enum('0','1') NOT NULL DEFAULT '0',
   `fecha` datetime NOT NULL,
   `roles_id` int(11) NOT NULL,
+  `clave_prov` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,7 +43,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'root','$2y$10$ZwJIPtUyfn4yefA1hKlI3.r.rBegXb3ZCfacQroBlz3miqpBtpQcK','system',12345,'system@mail.com','1','0000-00-00 00:00:00',1),(2,'prueba','','pureba sistema',2332323,'1','0','2021-09-02 10:10:24',0),(3,'asdf','','usuario pitch',777,'333','1','2021-09-02 10:14:21',1),(4,'user','','userr sadfa',0,'bba@mail.com','0','2021-09-02 10:14:59',0),(5,'user2','','userr sadfa2',0,'b2ba@mail.com','1','2021-09-02 10:15:21',0),(6,'moderador','','moderar sistema',2787364,'moderar@mail.com','1','2021-09-02 10:16:58',2),(7,'ortroUsuario','','asdfa',0,'asdfa','1','2021-09-02 10:18:26',6),(8,'Sub Admin','','dfasdf asdf',3243242,'as@mail.com','0','2021-09-02 10:26:10',0),(9,'otronuevousuario','','Otro usuario',2983873,'otro@mail.com','1','2021-09-02 10:37:27',0);
+INSERT INTO `admin` VALUES (1,'root','$2y$10$ZwJIPtUyfn4yefA1hKlI3.r.rBegXb3ZCfacQroBlz3miqpBtpQcK','system',12345,'system@mail.com','1','0000-00-00 00:00:00',1,NULL),(2,'prueba','','pureba sistema',2332323,'1','0','2021-09-02 10:10:24',0,NULL),(3,'asdf','','usuario pitch',777,'333','1','2021-09-02 10:14:21',1,NULL),(4,'user','','userr sadfa',0,'bba@mail.com','0','2021-09-02 10:14:59',0,NULL),(5,'user2','','userr sadfa2',0,'b2ba@mail.com','1','2021-09-02 10:15:21',0,NULL),(6,'moderador','','moderar sistema',2787364,'moderar@mail.com','1','2021-09-02 10:16:58',2,NULL),(7,'ortroUsuario','','asdfa',0,'asdfa','1','2021-09-02 10:18:26',6,NULL),(8,'Sub Admin','','dfasdf asdf',3243242,'as@mail.com','0','2021-09-02 10:26:10',0,NULL),(9,'otronuevousuario','','Otro usuario',2983873,'otro@mail.com','1','2021-09-02 10:37:27',0,NULL);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +100,7 @@ CREATE TABLE `compras` (
   `datos_facturacion` text NOT NULL,
   `orden_asociada` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +109,7 @@ CREATE TABLE `compras` (
 
 LOCK TABLES `compras` WRITE;
 /*!40000 ALTER TABLE `compras` DISABLE KEYS */;
-INSERT INTO `compras` VALUES (1,'1',1592696.00,0.00,38.00,'1','2021-08-12 12:25:58','1','1','1','sdsgdgfsg',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','202108121221131l'),(2,'2',1567998.74,0.00,247.00,'1','2021-08-12 16:07:39','1','1','1','aaadasa',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20210812160708pN'),(3,'3',2261.00,0.00,19.00,'1','2022-05-11 19:47:36','1','1','1','22',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20220510205555Wh'),(4,'4',18088.00,0.00,38.00,'1','2022-05-11 20:20:20','1','1','1','2222',0,'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}','a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}','20220511194544Jm');
+INSERT INTO `compras` VALUES (1,'1',1592696.00,0.00,38.00,'1','2021-08-12 12:25:58','1','1','1','sdsgdgfsg',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','202108121221131l'),(2,'2',1567998.74,0.00,247.00,'1','2021-08-12 16:07:39','1','1','1','aaadasa',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20210812160708pN'),(3,'3',2261.00,0.00,19.00,'1','2022-05-11 19:47:36','1','1','1','22',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20220510205555Wh'),(4,'4',18088.00,0.00,38.00,'1','2022-05-11 20:20:20','1','1','1','2222',0,'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}','a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}','20220511194544Jm'),(5,'5',271320.00,0.00,19.00,'1','2022-05-27 20:18:09','0','1','1','<>~{}<',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"3\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"ABRIAQUI\";}}}','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"3\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"ABRIAQUI\";}}}','20220527201535eE'),(6,'6',1427203.89,0.00,247.00,'1','2022-06-01 09:50:52','0','1','1','322323232',0,'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:6:\"Prueba\";s:8:\"telefono\";s:4:\"2323\";s:6:\"correo\";s:9:\"a@mail.co\";s:9:\"direccion\";s:3:\"232\";s:14:\"identificacion\";s:4:\"2342\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}','a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:6:\"Prueba\";s:8:\"telefono\";s:4:\"2323\";s:6:\"correo\";s:9:\"a@mail.co\";s:9:\"direccion\";s:3:\"232\";s:14:\"identificacion\";s:4:\"2342\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}','20220601072241oA');
 /*!40000 ALTER TABLE `compras` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +132,7 @@ CREATE TABLE `compras_detalles` (
   `id_compra` int(11) NOT NULL,
   `precio_calculado` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +141,7 @@ CREATE TABLE `compras_detalles` (
 
 LOCK TABLES `compras_detalles` WRITE;
 /*!40000 ALTER TABLE `compras_detalles` DISABLE KEYS */;
-INSERT INTO `compras_detalles` VALUES (1,'Prueba2',1900.00,300,19.00,0.00,'2021-08-12 12:25:58',4,1,678300.00),(2,'prueba1',1921.00,400,19.00,0.00,'2021-08-12 12:25:58',3,1,914396.00),(3,'Prjju767u',1900.00,10,19.00,0.00,'2021-08-12 16:07:39',13,2,22610.00),(4,'moli76ba212',1900.00,23,19.00,0.00,'2021-08-12 16:07:39',12,2,52003.00),(5,'Pru09oi832',1900.00,43,19.00,0.00,'2021-08-12 16:07:39',11,2,97223.00),(6,'Pr8i94212',1900.00,98,19.00,0.00,'2021-08-12 16:07:39',10,2,221578.00),(7,'Prueba3433',1900.00,12,19.00,0.00,'2021-08-12 16:07:39',9,2,27132.00),(8,'Pru22a',1900.00,78,19.00,0.00,'2021-08-12 16:07:39',8,2,176358.00),(9,'Prueba212asdas',1900.00,65,19.00,0.00,'2021-08-12 16:07:39',7,2,146965.00),(10,'Prueba12s',1900.00,15,19.00,0.00,'2021-08-12 16:07:39',6,2,33915.00),(11,'Prueba23',1900.00,34,19.00,0.00,'2021-08-12 16:07:39',5,2,76874.00),(12,'Prueba2',1900.00,87,19.00,0.00,'2021-08-12 16:07:39',4,2,196707.00),(13,'prueba1',1921.00,100,19.00,0.00,'2021-08-12 16:07:39',3,2,228599.00),(14,'prueba34',1921.00,50,19.00,0.00,'2021-08-12 16:07:39',2,2,114299.50),(15,'prueba9',1921.00,76,19.00,0.00,'2021-08-12 16:07:39',1,2,173735.24),(16,'Prjju767u',1900.00,1,19.00,0.00,'2022-05-11 19:47:36',13,3,2261.00),(17,'moli76ba212',1900.00,4,19.00,0.00,'2022-05-11 20:20:20',12,4,9044.00),(18,'Pru09oi832',1900.00,4,19.00,0.00,'2022-05-11 20:20:20',11,4,9044.00);
+INSERT INTO `compras_detalles` VALUES (1,'Prueba2',1900.00,300,19.00,0.00,'2021-08-12 12:25:58',4,1,678300.00),(2,'prueba1',1921.00,400,19.00,0.00,'2021-08-12 12:25:58',3,1,914396.00),(3,'Prjju767u',1900.00,10,19.00,0.00,'2021-08-12 16:07:39',13,2,22610.00),(4,'moli76ba212',1900.00,23,19.00,0.00,'2021-08-12 16:07:39',12,2,52003.00),(5,'Pru09oi832',1900.00,43,19.00,0.00,'2021-08-12 16:07:39',11,2,97223.00),(6,'Pr8i94212',1900.00,98,19.00,0.00,'2021-08-12 16:07:39',10,2,221578.00),(7,'Prueba3433',1900.00,12,19.00,0.00,'2021-08-12 16:07:39',9,2,27132.00),(8,'Pru22a',1900.00,78,19.00,0.00,'2021-08-12 16:07:39',8,2,176358.00),(9,'Prueba212asdas',1900.00,65,19.00,0.00,'2021-08-12 16:07:39',7,2,146965.00),(10,'Prueba12s',1900.00,15,19.00,0.00,'2021-08-12 16:07:39',6,2,33915.00),(11,'Prueba23',1900.00,34,19.00,0.00,'2021-08-12 16:07:39',5,2,76874.00),(12,'Prueba2',1900.00,87,19.00,0.00,'2021-08-12 16:07:39',4,2,196707.00),(13,'prueba1',1921.00,100,19.00,0.00,'2021-08-12 16:07:39',3,2,228599.00),(14,'prueba34',1921.00,50,19.00,0.00,'2021-08-12 16:07:39',2,2,114299.50),(15,'prueba9',1921.00,76,19.00,0.00,'2021-08-12 16:07:39',1,2,173735.24),(16,'Prjju767u',1900.00,1,19.00,0.00,'2022-05-11 19:47:36',13,3,2261.00),(17,'moli76ba212',1900.00,4,19.00,0.00,'2022-05-11 20:20:20',12,4,9044.00),(18,'Pru09oi832',1900.00,4,19.00,0.00,'2022-05-11 20:20:20',11,4,9044.00),(19,'Prjju767u',1900.00,120,19.00,0.00,'2022-05-27 20:18:09',13,5,271320.00),(20,'Pr8i94212',1900.00,223,19.00,0.00,'2022-06-01 09:50:52',10,6,504203.00),(21,'Prjju767u',1900.00,34,19.00,0.00,'2022-06-01 09:50:52',13,6,76874.00),(22,'prdodutcot',1900.00,12,19.00,0.00,'2022-06-01 09:50:52',12,6,27132.00),(23,'Pru09oi832',1900.00,32,19.00,0.00,'2022-06-01 09:50:52',11,6,72352.00),(24,'Prueba3433',1900.00,23,19.00,0.00,'2022-06-01 09:50:52',9,6,52003.00),(25,'Prueba212asdas',1900.00,43,19.00,0.00,'2022-06-01 09:50:52',7,6,97223.00),(26,'Pru22a',1900.00,43,19.00,0.00,'2022-06-01 09:50:52',8,6,97223.00),(27,'Prueba12s',1900.00,54,19.00,0.00,'2022-06-01 09:50:52',6,6,122094.00),(28,'Prueba23',1900.00,12,19.00,0.00,'2022-06-01 09:50:52',5,6,27132.00),(29,'Prueba2',1900.00,43,19.00,0.00,'2022-06-01 09:50:52',4,6,97223.00),(30,'prueba1',1921.00,34,19.00,0.00,'2022-06-01 09:50:52',3,6,77723.66),(31,'prueba34',1921.00,54,19.00,0.00,'2022-06-01 09:50:52',2,6,123443.46),(32,'prueba9',1921.00,23,19.00,0.00,'2022-06-01 09:50:52',1,6,52577.77);
 /*!40000 ALTER TABLE `compras_detalles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +243,7 @@ CREATE TABLE `ordenes_compras` (
   `id_usuario` int(11) NOT NULL,
   `datos_facturacion` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -251,7 +252,7 @@ CREATE TABLE `ordenes_compras` (
 
 LOCK TABLES `ordenes_compras` WRITE;
 /*!40000 ALTER TABLE `ordenes_compras` DISABLE KEYS */;
-INSERT INTO `ordenes_compras` VALUES (1,1592696.00,0.00,38.00,1,'2021-08-12 12:21:13','1','1','sdsgdgfsg','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','202108121221131l',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),(2,1567998.74,0.00,247.00,1,'2021-08-12 16:07:08','1','1','aaadasa','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20210812160708pN',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),(3,2261.00,0.00,19.00,1,'2022-05-10 20:55:55','1','1','22','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20220510205555Wh',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),(4,18088.00,0.00,38.00,1,'2022-05-11 19:45:44','1','1','2222','a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}','20220511194544Jm',0,'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}');
+INSERT INTO `ordenes_compras` VALUES (1,1592696.00,0.00,38.00,1,'2021-08-12 12:21:13','1','1','sdsgdgfsg','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','202108121221131l',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),(2,1567998.74,0.00,247.00,1,'2021-08-12 16:07:08','1','1','aaadasa','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20210812160708pN',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),(3,2261.00,0.00,19.00,1,'2022-05-10 20:55:55','1','1','22','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}','20220510205555Wh',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"1\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"MEDELLIN\";}}}'),(4,18088.00,0.00,38.00,1,'2022-05-11 19:45:44','1','1','2222','a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}','20220511194544Jm',0,'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:7:\"asdfasf\";s:8:\"telefono\";s:5:\"23423\";s:6:\"correo\";s:11:\"2@gmail.com\";s:9:\"direccion\";s:4:\"asdf\";s:14:\"identificacion\";s:4:\"asdf\";s:12:\"departamento\";s:2:\"15\";s:9:\"municipio\";s:3:\"131\";}'),(5,271320.00,0.00,19.00,1,'2022-05-27 20:15:35','1','1','<>~{}<','a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"3\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"ABRIAQUI\";}}}','20220527201535eE',1,'a:2:{s:6:\"result\";b:1;s:5:\"datos\";a:1:{i:0;a:9:{s:6:\"result\";b:1;s:2:\"id\";s:1:\"3\";s:6:\"nombre\";s:6:\"puebla\";s:8:\"telefono\";s:4:\"2334\";s:6:\"correo\";s:6:\"a@m.co\";s:9:\"direccion\";s:15:\"lejos muy lejos\";s:14:\"identificacion\";s:0:\"\";s:12:\"departamento\";s:9:\"ANTIOQUIA\";s:9:\"municipio\";s:8:\"ABRIAQUI\";}}}'),(6,1427203.89,0.00,247.00,1,'2022-06-01 07:22:41','1','1','322323232','a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:6:\"Prueba\";s:8:\"telefono\";s:4:\"2323\";s:6:\"correo\";s:9:\"a@mail.co\";s:9:\"direccion\";s:3:\"232\";s:14:\"identificacion\";s:4:\"2342\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}','20220601072241oA',0,'a:9:{s:6:\"result\";b:1;s:2:\"id\";i:0;s:6:\"nombre\";s:6:\"Prueba\";s:8:\"telefono\";s:4:\"2323\";s:6:\"correo\";s:9:\"a@mail.co\";s:9:\"direccion\";s:3:\"232\";s:14:\"identificacion\";s:4:\"2342\";s:12:\"departamento\";s:1:\"5\";s:9:\"municipio\";s:2:\"30\";}');
 /*!40000 ALTER TABLE `ordenes_compras` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +276,7 @@ CREATE TABLE `ordenes_compras_detalles` (
   `precio_calculado` decimal(10,2) NOT NULL,
   `orden_asociada` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +285,7 @@ CREATE TABLE `ordenes_compras_detalles` (
 
 LOCK TABLES `ordenes_compras_detalles` WRITE;
 /*!40000 ALTER TABLE `ordenes_compras_detalles` DISABLE KEYS */;
-INSERT INTO `ordenes_compras_detalles` VALUES (1,'Prueba2',1900.00,19.00,0.00,300,'2021-08-12 12:21:13',4,1,678300.00,'202108121221131l'),(2,'prueba1',1921.00,19.00,0.00,400,'2021-08-12 12:21:13',3,1,914396.00,'202108121221131l'),(3,'Prjju767u',1900.00,19.00,0.00,10,'2021-08-12 16:07:08',13,2,22610.00,'20210812160708pN'),(4,'moli76ba212',1900.00,19.00,0.00,23,'2021-08-12 16:07:08',12,2,52003.00,'20210812160708pN'),(5,'Pru09oi832',1900.00,19.00,0.00,43,'2021-08-12 16:07:08',11,2,97223.00,'20210812160708pN'),(6,'Pr8i94212',1900.00,19.00,0.00,98,'2021-08-12 16:07:08',10,2,221578.00,'20210812160708pN'),(7,'Prueba3433',1900.00,19.00,0.00,12,'2021-08-12 16:07:08',9,2,27132.00,'20210812160708pN'),(8,'Pru22a',1900.00,19.00,0.00,78,'2021-08-12 16:07:08',8,2,176358.00,'20210812160708pN'),(9,'Prueba212asdas',1900.00,19.00,0.00,65,'2021-08-12 16:07:08',7,2,146965.00,'20210812160708pN'),(10,'Prueba12s',1900.00,19.00,0.00,15,'2021-08-12 16:07:08',6,2,33915.00,'20210812160708pN'),(11,'Prueba23',1900.00,19.00,0.00,34,'2021-08-12 16:07:08',5,2,76874.00,'20210812160708pN'),(12,'Prueba2',1900.00,19.00,0.00,87,'2021-08-12 16:07:08',4,2,196707.00,'20210812160708pN'),(13,'prueba1',1921.00,19.00,0.00,100,'2021-08-12 16:07:08',3,2,228599.00,'20210812160708pN'),(14,'prueba34',1921.00,19.00,0.00,50,'2021-08-12 16:07:08',2,2,114299.50,'20210812160708pN'),(15,'prueba9',1921.00,19.00,0.00,76,'2021-08-12 16:07:08',1,2,173735.24,'20210812160708pN'),(16,'Prjju767u',1900.00,19.00,0.00,1,'2022-05-10 20:55:55',13,3,2261.00,'20220510205555Wh'),(17,'moli76ba212',1900.00,19.00,0.00,4,'2022-05-11 19:45:44',12,4,9044.00,'20220511194544Jm'),(18,'Pru09oi832',1900.00,19.00,0.00,4,'2022-05-11 19:45:44',11,4,9044.00,'20220511194544Jm');
+INSERT INTO `ordenes_compras_detalles` VALUES (1,'Prueba2',1900.00,19.00,0.00,300,'2021-08-12 12:21:13',4,1,678300.00,'202108121221131l'),(2,'prueba1',1921.00,19.00,0.00,400,'2021-08-12 12:21:13',3,1,914396.00,'202108121221131l'),(3,'Prjju767u',1900.00,19.00,0.00,10,'2021-08-12 16:07:08',13,2,22610.00,'20210812160708pN'),(4,'moli76ba212',1900.00,19.00,0.00,23,'2021-08-12 16:07:08',12,2,52003.00,'20210812160708pN'),(5,'Pru09oi832',1900.00,19.00,0.00,43,'2021-08-12 16:07:08',11,2,97223.00,'20210812160708pN'),(6,'Pr8i94212',1900.00,19.00,0.00,98,'2021-08-12 16:07:08',10,2,221578.00,'20210812160708pN'),(7,'Prueba3433',1900.00,19.00,0.00,12,'2021-08-12 16:07:08',9,2,27132.00,'20210812160708pN'),(8,'Pru22a',1900.00,19.00,0.00,78,'2021-08-12 16:07:08',8,2,176358.00,'20210812160708pN'),(9,'Prueba212asdas',1900.00,19.00,0.00,65,'2021-08-12 16:07:08',7,2,146965.00,'20210812160708pN'),(10,'Prueba12s',1900.00,19.00,0.00,15,'2021-08-12 16:07:08',6,2,33915.00,'20210812160708pN'),(11,'Prueba23',1900.00,19.00,0.00,34,'2021-08-12 16:07:08',5,2,76874.00,'20210812160708pN'),(12,'Prueba2',1900.00,19.00,0.00,87,'2021-08-12 16:07:08',4,2,196707.00,'20210812160708pN'),(13,'prueba1',1921.00,19.00,0.00,100,'2021-08-12 16:07:08',3,2,228599.00,'20210812160708pN'),(14,'prueba34',1921.00,19.00,0.00,50,'2021-08-12 16:07:08',2,2,114299.50,'20210812160708pN'),(15,'prueba9',1921.00,19.00,0.00,76,'2021-08-12 16:07:08',1,2,173735.24,'20210812160708pN'),(16,'Prjju767u',1900.00,19.00,0.00,1,'2022-05-10 20:55:55',13,3,2261.00,'20220510205555Wh'),(17,'moli76ba212',1900.00,19.00,0.00,4,'2022-05-11 19:45:44',12,4,9044.00,'20220511194544Jm'),(18,'Pru09oi832',1900.00,19.00,0.00,4,'2022-05-11 19:45:44',11,4,9044.00,'20220511194544Jm'),(19,'Prjju767u',1900.00,19.00,0.00,120,'2022-05-27 20:15:35',13,5,271320.00,'20220527201535eE'),(20,'Pr8i94212',1900.00,19.00,0.00,223,'2022-06-01 07:22:41',10,6,504203.00,'20220601072241oA'),(21,'Prjju767u',1900.00,19.00,0.00,34,'2022-06-01 07:22:41',13,6,76874.00,'20220601072241oA'),(22,'prdodutcot',1900.00,19.00,0.00,12,'2022-06-01 07:22:41',12,6,27132.00,'20220601072241oA'),(23,'Pru09oi832',1900.00,19.00,0.00,32,'2022-06-01 07:22:41',11,6,72352.00,'20220601072241oA'),(24,'Prueba3433',1900.00,19.00,0.00,23,'2022-06-01 07:22:41',9,6,52003.00,'20220601072241oA'),(25,'Prueba212asdas',1900.00,19.00,0.00,43,'2022-06-01 07:22:41',7,6,97223.00,'20220601072241oA'),(26,'Pru22a',1900.00,19.00,0.00,43,'2022-06-01 07:22:41',8,6,97223.00,'20220601072241oA'),(27,'Prueba12s',1900.00,19.00,0.00,54,'2022-06-01 07:22:41',6,6,122094.00,'20220601072241oA'),(28,'Prueba23',1900.00,19.00,0.00,12,'2022-06-01 07:22:41',5,6,27132.00,'20220601072241oA'),(29,'Prueba2',1900.00,19.00,0.00,43,'2022-06-01 07:22:41',4,6,97223.00,'20220601072241oA'),(30,'prueba1',1921.00,19.00,0.00,34,'2022-06-01 07:22:41',3,6,77723.66,'20220601072241oA'),(31,'prueba34',1921.00,19.00,0.00,54,'2022-06-01 07:22:41',2,6,123443.46,'20220601072241oA'),(32,'prueba9',1921.00,19.00,0.00,23,'2022-06-01 07:22:41',1,6,52577.77,'20220601072241oA');
 /*!40000 ALTER TABLE `ordenes_compras_detalles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,12 +415,12 @@ DROP TABLE IF EXISTS `sistema`;
 CREATE TABLE `sistema` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `valor` varchar(45) NOT NULL,
-  `defecto` varchar(45) NOT NULL,
+  `valor` text NOT NULL,
+  `defecto` text NOT NULL,
   `relacion` varchar(45) NOT NULL,
   `estado` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,7 +429,7 @@ CREATE TABLE `sistema` (
 
 LOCK TABLES `sistema` WRITE;
 /*!40000 ALTER TABLE `sistema` DISABLE KEYS */;
-INSERT INTO `sistema` VALUES (1,'nombre empresa','Piedras Naturales y enchapes el sur','Sykeyns','config_facturacion','1'),(2,'nit empresa','0123422229','0','config_facturacion','1'),(3,'contacto','+57 3007262311','0','config_facturacion','1'),(4,'direccion','Km 60, Caldas, Antioquia, Colombia America','lejos','config_facturacion','1'),(5,'correo','coreo@mail.com','','config_facturacion','1'),(101,'formato decimal','0','2','config_general','1'),(102,'deposito bancario','a:0:{}','1','metodo_pago','1'),(103,'Otra pasarela','a:0:{}','1','metodo_pago','0');
+INSERT INTO `sistema` VALUES (1,'nombre empresa','Piedras Naturales y enchapes el sur','Sykeyns','config_facturacion','1'),(2,'nit empresa','0123422229','0','config_facturacion','1'),(3,'contacto','+57 3007262311','0','config_facturacion','1'),(4,'direccion','Km 60, Caldas, Antioquia, Colombia America','lejos','config_facturacion','1'),(5,'correo','coreo@mail.com','','config_facturacion','1'),(10,'simbolo moneda','$','$','config_general','1'),(11,'simbolo cantidad','㎡','Cant','config_general','1'),(20,'menu','navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion','navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion','config_diseno','1'),(21,'topbar','navbar navbar-expand navbar-light bg-white text-black-50 topbar mb-4 static-top shadow','navbar navbar-expand navbar-light bg-white  topbar mb-4 static-top shadow','config_diseno','1'),(22,'texto','text-black-50','text-white','config_diseno','1'),(101,'formato decimal','0','2','config_general','1'),(102,'deposito bancario','a:0:{}','1','metodo_pago','1'),(103,'Otra pasarela','a:0:{}','1','metodo_pago','0');
 /*!40000 ALTER TABLE `sistema` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,6 +450,7 @@ CREATE TABLE `usuarios` (
   `correo` varchar(45) NOT NULL,
   `estado` enum('0','1') NOT NULL DEFAULT '0',
   `fecha_registro` datetime NOT NULL,
+  `clave_prov` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -459,7 +461,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Usuario3','$2y$10$j7YtRcRKSAjpj9oBKkeFiOPI/8DxYDO2n.3EyzG3vzlGi/Rj0mOi6','Usuario3','Prueba1',8768378,'Usuario1@mail.com','1','2021-06-21 15:06:50'),(2,'usuario1','$2y$10$laXdlcSBdnqt5VBSsGGT2ul4J0Of/HhK/WqNc5zc9nYB4ThxNRtEi','juanes','lopez',2147483647,'j@lop.o','1','2022-05-11 20:05:32');
+INSERT INTO `usuarios` VALUES (1,'Usuario3','$2y$10$QtN8HQx4Z0x/D2vRZTrViO/MWKkol8Tt8FRD.mkbgd9FguvkAzgiK','Usuario3 npeliso','Prueba1',8768378,'Usuario1@mail.com','1','2021-06-21 15:06:50',NULL),(2,'usuarioEdit','$2y$10$laXdlcSBdnqt5VBSsGGT2ul4J0Of/HhK/WqNc5zc9nYB4ThxNRtEi','juanes','lopez',2147483647,'j@lop.o','1','2022-05-11 20:05:32',NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -495,6 +497,45 @@ LOCK TABLES `usuarios_direcciones` WRITE;
 INSERT INTO `usuarios_direcciones` VALUES (1,'puebla',2334,'a@m.co','lejos muy lejos',1,'2021-06-29 15:34:47','1','',5,1),(2,'camargo',2434,'g@m.co','otro lejos muy lejos',1,'2021-06-29 15:35:47','1','',5,2),(3,'puebla',2334,'a@m.co','lejos muy lejos',1,'2021-06-29 15:34:47','1','',5,4),(4,'Dirección',2342,'23@kao.co','asdf',1,'2021-07-27 19:18:29','1','Asdfa',91,263),(5,'Dirección',2342,'23@kao.co','asdf',1,'2021-07-27 19:27:15','1','Asdfa',91,263),(6,'asfasdf',2342,'2344@mail.c','asdfa',2,'2022-05-25 15:12:18','1','asdfas',27,245);
 /*!40000 ALTER TABLE `usuarios_direcciones` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `vista_detalles_usuarios`
+--
+
+DROP TABLE IF EXISTS `vista_detalles_usuarios`;
+/*!50001 DROP VIEW IF EXISTS `vista_detalles_usuarios`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `vista_detalles_usuarios` (
+  `id_usuario` tinyint NOT NULL,
+  `nommbre_completo` tinyint NOT NULL,
+  `usuario` tinyint NOT NULL,
+  `correo` tinyint NOT NULL,
+  `estado` tinyint NOT NULL,
+  `fecha_registro` tinyint NOT NULL,
+  `total_comprado` tinyint NOT NULL,
+  `total_cantidad` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `vista_detalles_usuarios`
+--
+
+/*!50001 DROP TABLE IF EXISTS `vista_detalles_usuarios`*/;
+/*!50001 DROP VIEW IF EXISTS `vista_detalles_usuarios`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vista_detalles_usuarios` AS select `u`.`id` AS `id_usuario`,concat(`u`.`nombre`,' ',`u`.`apellido`) AS `nommbre_completo`,`u`.`usuario` AS `usuario`,`u`.`correo` AS `correo`,`u`.`estado` AS `estado`,`u`.`fecha_registro` AS `fecha_registro`,(select sum(`cd`.`precio` * `cd`.`cantidad` + `cd`.`impuesto` * `cd`.`precio` / 100 * `cd`.`cantidad` - (`cd`.`descuento` * `cd`.`precio` + `cd`.`impuesto` * `cd`.`precio` / 100) / 100 * `cd`.`cantidad`) from (`compras_detalles` `cd` left join `compras` `c` on(`c`.`id` = `cd`.`id_compra`)) where `u`.`id` = `c`.`id_usuario`) AS `total_comprado`,(select sum(`cd`.`cantidad`) from (`compras_detalles` `cd` left join `compras` `c` on(`c`.`id` = `cd`.`id_compra`)) where `u`.`id` = `c`.`id_usuario`) AS `total_cantidad` from `usuarios` `u` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -505,4 +546,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-26 16:58:08
+-- Dump completed on 2022-06-06 16:59:00
