@@ -49,7 +49,8 @@ RewriteRule ^user/lista-orden-compras$ view/user/ordenes.php [L]
 RewriteRule ^user/compra-detalle-(.+)$ view/user/compra_detalle.php?id=$1 [L]
 RewriteRule ^user/reporte-general$ view/user/reporte-general.php [L]
 RewriteRule ^user/generar-pdf-envio$ view/user/generar_pdf_envio.php [L]
-
+RewriteRule ^user/detalles-usuarios-(.+)$ view/user/usuarios_detalles.php?id=$1 [L]
+RewriteRule ^user/editar-perfil$ view/user/usuarios_editar.php [L]
 #tienda
 RewriteRule ^tienda-(.+)&(.+)$ view/tienda/catalogo.php?id=$1&pagina=$2 [QSA,L]
 RewriteRule ^resumen$ view/tienda/resumen.php [L]

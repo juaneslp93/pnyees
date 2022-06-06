@@ -2,7 +2,7 @@
 /**
  * 
  */
-class ProcesosAdmin Extends Conexion
+class ProcesosUser Extends Conexion
 {
 	
 	function __construct()	{
@@ -10,18 +10,18 @@ class ProcesosAdmin Extends Conexion
 	}
 
 	public static function datos_dashboard($value='')	{
-		if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"|| $_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
+		if ($_SESSION["SYSTEM"]["TIPO"]==="USER") {
 			$conexion = self::iniciar();
-			
+			$idCliente = self::desencriptar($_SESSION["SYSTEM"]["ID"], "Tbl1");
 			# total compras
-			$sql = "SELECT sum(total_compra) as total_compra FROM compras WHERE estado_aprobacion='1' AND estado_proceso='1' ";
+			$sql = "SELECT sum(total_compra) as total_compra FROM compras WHERE estado_aprobacion='1' AND estado_proceso='1' AND id_usuario = $idCliente ";
 			$consu = $conexion->query($sql);
 			$rConsu = $consu->fetch_assoc();
 			$total_compra = (($rConsu["total_compra"]>0)?$rConsu["total_compra"]:0);
 
 
 			# envíos realizados
-			$sql = "SELECT id, estado_envio FROM compras WHERE estado_aprobacion='1' AND estado_proceso='1' ";
+			$sql = "SELECT id, estado_envio FROM compras WHERE estado_aprobacion='1' AND estado_proceso='1' AND id_usuario = $idCliente ";
 			$consu = $conexion->query($sql);
 			$enviadas = 0;
 			$total_envio = 0;
@@ -47,31 +47,31 @@ class ProcesosAdmin Extends Conexion
                 </div>
             </div>';
 
-			# total usuarios
-			$sql = "SELECT count(id) as total_usuarios FROM usuarios WHERE estado='1'";
+			# total cotizaciones
+			$sql = "SELECT count(id) as total_cotizaciones FROM ordenes_compras WHERE id_usuario=$idCliente ";
 			$consu = $conexion->query($sql);
 			$rConsu = $consu->fetch_assoc();
-			$total_usuarios = (($rConsu["total_usuarios"]>0)?$rConsu["total_usuarios"]:0);
+			$total_cotizaciones = (($rConsu["total_cotizaciones"]>0)?$rConsu["total_cotizaciones"]:0);
 
-			# total productos
-			$sql = "SELECT count(id) as total_productos FROM productos WHERE estado='1'";
+			# total envios
+			$sql = "SELECT count(id) as total_envios FROM compras WHERE estado_aprobacion='1' AND estado_proceso='1' AND estado_envio='1' AND id_usuario=$idCliente ";
 			$consu = $conexion->query($sql);
 			$rConsu = $consu->fetch_assoc();
-			$total_productos = (($rConsu["total_productos"]>0)?$rConsu["total_productos"]:0);
+			$total_envios = (($rConsu["total_envios"]>0)?$rConsu["total_envios"]:0);
 			
 			$conexion->close();
 
-			$result = array('total_compra' => $total_compra, 'envios_realizados'=>$enviadas_porcentaje, 'total_usuarios'=>$total_usuarios, 'total_productos'=>$total_productos, 'mensaje'=>'Consulta realizada');
+			$result = array('total_compra' => self::formato_decimal($total_compra), 'envios_realizados'=>$enviadas_porcentaje, 'total_cotizaciones'=>$total_cotizaciones, 'total_envios'=>$total_envios, 'mensaje'=>'Consulta realizada');
 
 			return $result;
 		}else{
-			$result = array('total_compra' => 0, 'envios_realizados'=>0.00, 'total_usuarios'=>0, 'total_productos'=>0, 'mensaje'=>'No tiene permisos para visualizar esta información');
+			$result = array('total_compra' => 0, 'envios_realizados'=>0.00, 'total_cotizaciones'=>0, 'total_envios'=>0, 'mensaje'=>'No tiene permisos para visualizar esta información');
 			return $result;
 		}
 	}
 
 	public static function datos_notificaciones($value='')	{
-		if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"|| $_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
+		if ($_SESSION["SYSTEM"]["TIPO"]==="USER") {
 			$conexion = self::iniciar();
 			
 			# campana
@@ -1477,23 +1477,24 @@ class ProcesosAdmin Extends Conexion
 		return array("estado"=>$result, "mensaje"=>$mensaje);
 	}
 
-	public static function datos_grafico_global()	{		
+	public static function datos_grafico_global()	{
+		$idCliente = self::desencriptar($_SESSION["SYSTEM"]["ID"], "Tbl1");	
 		$grafica = array();
 		$conexion = self::iniciar();
-		#consultamos la cantidad de usuarios registrados no eliminados
-		$sql = "SELECT count(id) AS cant_usuarios FROM usuarios WHERE estado='1' ";
+		#consultamos la cantidad de cotizaciones
+		$sql = "SELECT count(id) AS cant_cotizaciones FROM ordenes_compras WHERE id_usuario=$idCliente ";
 		$consu = $conexion->query($sql);
 		$rConsu = $consu->fetch_assoc();
-		$cantUser = $rConsu["cant_usuarios"];
-		$grafica["usuarios"] = $cantUser;
+		$cantCotizaciones = $rConsu["cant_cotizaciones"];
+		$grafica["cotizaciones"] = $cantCotizaciones;
 		# consultamos la cantidad de compras aprobadas
-		$sql = "SELECT count(id) AS cant_compras FROM compras WHERE estado_proceso='1' AND estado_aprobacion='1' ";
+		$sql = "SELECT count(id) AS cant_compras FROM compras WHERE estado_proceso='1' AND estado_aprobacion='1' AND id_usuario=$idCliente";
 		$consu = $conexion->query($sql);
 		$rConsu = $consu->fetch_assoc();
 		$cantCompras = $rConsu["cant_compras"];
 		$grafica["compras"] = $cantCompras;
 		# consultamos las compras con envíos aprobados
-		$sql = "SELECT count(id) AS cant_envio FROM compras WHERE estado_proceso='1' AND estado_aprobacion='1' AND estado_envio='1'";
+		$sql = "SELECT count(id) AS cant_envio FROM compras WHERE estado_proceso='1' AND estado_aprobacion='1' AND estado_envio='1' AND id_usuario=$idCliente";
 		$consu = $conexion->query($sql);
 		$rConsu = $consu->fetch_assoc();
 		$cantEnvio = $rConsu["cant_envio"];
@@ -1501,6 +1502,111 @@ class ProcesosAdmin Extends Conexion
 		$conexion->close();
 
 		return $grafica;
+	}
+
+	private static function datos_cliente($idCliente=0){
+		$conexion = self::iniciar();
+		$sql = "SELECT usuario, nombre, apellido, telefono, correo, fecha_registro FROM usuarios WHERE id = $idCliente";
+		$consu = $conexion->query($sql);
+		if($consu->num_rows>0){
+			$datos = $consu->fetch_array();
+		}
+		$conexion->close();
+		return $datos;
+	}
+
+	public static function cargar_datos_perfil_editar(){
+		$html = '<i class="fa fa-close text-danger"></i> SIN DATOS';
+		if(!empty($_SESSION["SYSTEM"]["TIPO"]==="USER")){
+			$idCliente = self::desencriptar($_SESSION["SYSTEM"]["ID"], "Tbl1");	
+			$datos = self::datos_cliente($idCliente);
+			$html = '
+				<div class="row">
+					<div class="col-lg-6" col-md-6>
+						<legend> Editar <b>'.$datos["usuario"].'</b></legend> Activo desde <b>'.$datos["fecha_registro"].'</b>
+						<hr>
+						<form class="form-horizontal was-validated" id="formEditDatos">
+							<div class="form-group">
+								<input name="nombre" type="text" class="form-control" value="'.$datos["nombre"].'" required>
+							</div>
+							<div class="form-group">
+								<input name="apellido" type="text" class="form-control" value="'.$datos["apellido"].'" required>
+							</div>
+							<div class="form-group">
+								<input name="telefono" type="text" class="form-control" value="'.$datos["telefono"].'" required>
+							</div>
+							<div class="form-group">
+								<input name="correo" type="email" class="form-control" value="'.$datos["correo"].'" required>
+							</div>
+							<div class="form-group">
+								<input type="hidden" name="entrada" value="editarDatosUser">
+								<button type="submit" class="btn btn-warning"><i class="fa fa-refresh"></i> Actualizar datos</button>
+							</div>
+						</form>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<legend> Cambiar clave </legend>
+						<hr>
+						<form class="form-horizontal was-validated" id="formEditPass">
+							<div class="form-group">
+								<input name="clave" id="claveEdit" type="password" class="form-control" placeholder="Ingrese su nueva clave" required>
+							</div>
+							<div class="form-group">
+								<input name="rpt_clave" type="password" class="form-control" placeholder="Repita su nueva clave" required>
+							</div>
+							<div class="form-group">
+								<input type="hidden" name="entrada" value="cambiarClave">
+								<button type="submit" class="btn btn-warning"><i class="fa fa-refresh"></i> Cambiar contraseña</button>
+								<input type="button" class="btn btn-success" value="Generar sistematicamente" id="btn-al-pass">
+							</div>
+						</form>
+					</div>
+				</div>
+			';
+		}
+
+		return $html;
+	}
+
+	private static function actualizar_clave($idCliente=0, $clave=''){
+		$conexion = self::iniciar();
+		$clave = $conexion->real_escape_string($clave);
+		$sql = "UPDATE usuarios SET clave='$clave' WHERE id = $idCliente ";
+		$consu = $conexion->query($sql);
+		$result = false;
+		$mensaje= "No fue posible actualizar la clave";
+		if($consu){
+			$result = true;
+			$mensaje= "Clave actualizada";
+		}
+		$conexion->close();
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function cambiar_clave($clave){
+		$idCliente = (int)self::desencriptar($_SESSION["SYSTEM"]["ID"], 'Tbl1');
+		$datos = self::actualizar_clave($idCliente, $clave);
+		return $datos;
+	}
+
+	private static function actualizar_datos_cliente($idCliente=0, $nombre, $apellido, $telefono, $correo){
+		$conexion = self::iniciar();
+		$sql = "UPDATE usuarios SET nombre='$nombre', apellido='$apellido', telefono='$telefono', correo='$correo' WHERE id=$idCliente ";
+		$consu = $conexion->query($sql);
+		$result = false;
+		$mensaje= "No fue posible actualizar los datos";
+		if($consu){
+			$result = true;
+			$mensaje= "Datos actualizados";
+		}
+		$conexion->close();
+		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	public static function cambiar_datos_user($nombre='', $apellido='', $telefono='', $correo=''){
+		$idCliente = (int)self::desencriptar($_SESSION["SYSTEM"]["ID"], 'Tbl1');
+		$datos = self::actualizar_datos_cliente($idCliente, $nombre, $apellido, $telefono, $correo);
+		return $datos;
 	}
 }
 ?>

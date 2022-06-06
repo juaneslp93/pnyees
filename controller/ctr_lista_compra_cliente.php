@@ -41,7 +41,9 @@ switch ($caso) {
 				$usuario = Compras::saber_nombre_usuario($fila["id_usuario"]);
 				return $usuario;
 			}),
-			array('db' => 'total_compra', 'dt'=>2),
+			array('db' => 'total_compra', 'dt'=>2, 'formatter'=>function($val, $fila){
+				return Conexion::formato_decimal($fila["total_compra"]);
+			}),
 			array('db' => 'total_descuento', 'dt'=>3),
 			array('db' => 'total_impuesto', 'dt'=>4),
 			array('db' => 'metodo_pago', 'dt'=>5, 'formatter'=>function($val, $fila){

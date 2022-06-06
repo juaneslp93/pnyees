@@ -44,7 +44,7 @@ switch ($caso) {
 		}
 
 		if ($continue) {
-			$clave_segura = Registro::validador_clave_segura($clave);
+			$clave_segura = Conexion::validador_clave_segura($clave);
 			if ($clave!==$repita_clave) {
 				$continue = false;
 				$mensaje = '<span class="text text-warning"><h1 class="h4 text-gray-900 mb-4">¡Las contraseñas no coinciden!</h1></span>';
@@ -72,7 +72,7 @@ switch ($caso) {
 
 	case 'claveSeguraValidar':
 		$clave = $_POST["clave"];
-		$clave_segura = Registro::validador_clave_segura($clave);
+		$clave_segura = Conexion::validador_clave_segura($clave);
 		$continue = $clave_segura[0];
 		if(!$continue){
 			$continue = false;

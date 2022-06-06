@@ -414,9 +414,9 @@ class OrdenesCompra extends Conexion
 				$mensaje = '';
 				$tablaH .= '				
 				<div class="table-responsive">
-					<table class="table table-bordered" width="100%" cellspacing="0">
+					<table class="table table-striped table-condensed" width="100%" cellspacing="0">
 						<thead>
-							<tr>
+							<tr class="bg-gradient-light">
 								<th>Item</th>
 								<th>Nombre producto</th>
 								<th>Precio Unitario $ </th>
@@ -439,17 +439,17 @@ class OrdenesCompra extends Conexion
 					<table class="table table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
-								<th>Total Precio Unitario $ </th>
+								<th class="bg-gradient-light">Total Precio Unitario $ </th>
 								<td>'.self::formato_decimal($totalPrecioUni).'</td>
 							</tr>
 							<tr>
-								<th>Total Descuento % </th>
+								<th class="bg-gradient-light">Total Descuento % </th>
 								<td>'.self::formato_decimal($totalDescuento).'</td>
 							</tr>
-								<th>Total Impuesto % </th>	
+								<th class="bg-gradient-light">Total Impuesto % </th>	
 								<td>'.self::formato_decimal($totalImpuesto).'</td>
 							<tr>
-								<th>Total Orden Compra $ </th>
+								<th class="bg-gradient-light">Total Orden Compra $ </th>
 								<td>'.self::formato_decimal($total).'</td>
 							</tr>
 						</thead>

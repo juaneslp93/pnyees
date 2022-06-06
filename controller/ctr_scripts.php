@@ -59,6 +59,7 @@ class Scripts
 			"bootstrap"=>'<script src="'.$ruta.'assets/vendor/bootstrap/js/bootstrap.bundle.min.js?'.self::keyCache(2).'"></script>
 						<script src="'.$ruta.'assets/vendor/bootstrap/js/sweetalert2.all.min.js?'.self::keyCache(2).'"></script>',
 			"sb-admin-2"=>'<script src="'.$ruta.'assets/js/sb-admin-2.min.js?'.self::keyCache(2).'"></script>',
+			/* El siguiente chart es solo demostrativo */
 			"chart"=>'<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js?'.self::keyCache(2).'"></script>
 					<script src="'.$ruta.'assets/js/demo/chart-area-demo.js?'.self::keyCache(2).'"></script>
     				<script src="'.$ruta.'assets/js/demo/chart-pie-demo.js?'.self::keyCache(2).'"></script>',
@@ -69,8 +70,12 @@ class Scripts
 			"charts"=>'<!-- Page level plugins -->
     				<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js?'.self::keyCache(2).'"></script>,
     				<script src="'.$ruta.'assets/js_pnyees/chart.js?'.self::keyCache(2).'"></script>',
+			"charts-clientes"=>'<!-- Page level plugins -->
+				<script src="'.$ruta.'assets/vendor/chart.js/Chart.min.js?'.self::keyCache(2).'"></script>,
+				<script src="'.$ruta.'assets/js_pnyees/chart_clientes.js?'.self::keyCache(2).'"></script>',
     		"productos_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_productos.js?'.self::keyCache(2).'"  ></script>',
     		"usuarios_detalles"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles.js?'.self::keyCache(2).'" ></script>',
+    		"usuarios_detalles_clientes"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_detalles_clientes.js?'.self::keyCache(2).'" ></script>',
     		"usuarios_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_usuarios.js?'.self::keyCache(2).'"  ></script>',
     		"login"=>'<script src="'.$ruta.'assets/js_pnyees/login.js?'.self::keyCache(2).'"></script>',
     		"registro"=>'<script src="'.$ruta.'assets/js_pnyees/registro.js?'.self::keyCache(2).'" ></script>',
@@ -90,6 +95,7 @@ class Scripts
 			"compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra_cliente.js?'.self::keyCache(2).'"></script>',
     		"orden_compra_lista_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra_cliente.js?'.self::keyCache(2).'"></script>',
     		"forgot"=>'<script src="'.$ruta.'assets/js_pnyees/forgot.js?'.self::keyCache(2).'"></script>',
+			"usuarios-editar"=>'<script src="'.$ruta.'assets/js_pnyees/usuarios_editar_clientes.js?'.self::keyCache(2).'"></script>',
 		);
 
 		$contenido = '
