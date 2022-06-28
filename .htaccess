@@ -1,0 +1,78 @@
+Options +FollowSymLinks
+RewriteEngine On
+Options All -Indexes
+RewriteBase /pnyees/
+RewriteCond %{REQUEST_URI} ^/pnyees
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ index.php [L]
+
+#ERRORES
+ErrorDocument 400 /pnyees/view/400.php
+ErrorDocument 401 /pnyees/view/401.php
+RewriteRule   ^denegado /pnyees/view/403.php
+ErrorDocument 404 /pnyees/view/404.php
+ErrorDocument 500 /pnyees/view/500.php
+
+#RewriteRule .*\.(jpg|gif|bmp|png)$ 404 [L]
+
+# Registro
+RewriteRule ^registro$ view/register.php [L]
+RewriteRule ^recuperar(.+)$ view/forgot.php?user=$1 [L]
+
+# Admin
+RewriteRule ^admin/inicio$ view/admin/inicio.php [L]
+RewriteRule ^admin/cerrar$ view/admin/logout.php [L]
+RewriteRule ^admin/lista-usuarios$ view/admin/usuarios_lista.php [L]
+RewriteRule ^admin/detalles-usuarios-(.+)$ view/admin/usuarios_detalles.php?id=$1 [L]
+RewriteRule ^admin/lista-productos$ view/admin/productos_lista.php [L]
+RewriteRule ^admin/medios-pago$ view/admin/config_medios_pago.php [L]
+RewriteRule ^admin/config-general$ view/admin/config_general.php [L]
+
+RewriteRule ^admin/lista-orden-compras$ view/admin/orden_compra_lista.php [L]
+RewriteRule ^admin/orden-compra-detalle-(.+)$ view/admin/orden_compra_detalle.php?id=$1 [L]
+RewriteRule ^admin/reporte-orden-compras$ view/admin/reporte_orden_compra.php [L]
+
+RewriteRule ^admin/lista-compras$ view/admin/compra_lista.php [L]
+RewriteRule ^admin/compra-detalle-(.+)$ view/admin/compra_detalle.php?id=$1 [L]
+RewriteRule ^admin/generar-pdf-envio$ view/admin/generar_pdf_envio.php [L]
+RewriteRule ^admin/reporte-compras$ view/admin/reporte_compra.php [L]
+
+RewriteRule ^admin/importar$ view/admin/config_importar.php [L]
+RewriteRule ^admin/config-diseno$ view/admin/config_diseno.php [L]
+
+#User
+RewriteRule ^user/inicio$ view/user/inicio.php [L]
+RewriteRule ^user/cerrar$ view/user/logout.php [L]
+RewriteRule ^user/lista-compras$ view/user/compras.php [L]
+RewriteRule ^user/orden-compra-detalle-(.+)$ view/user/orden_compra_detalle.php?id=$1 [L]
+RewriteRule ^user/lista-orden-compras$ view/user/ordenes.php [L]
+RewriteRule ^user/compra-detalle-(.+)$ view/user/compra_detalle.php?id=$1 [L]
+RewriteRule ^user/reporte-general$ view/user/reporte-general.php [L]
+RewriteRule ^user/generar-pdf-envio$ view/user/generar_pdf_envio.php [L]
+RewriteRule ^user/detalles-usuarios-(.+)$ view/user/usuarios_detalles.php?id=$1 [L]
+RewriteRule ^user/editar-perfil$ view/user/usuarios_editar.php [L]
+#tienda
+RewriteRule ^tienda-(.+)&(.+)$ view/tienda/catalogo.php?id=$1&pagina=$2 [QSA,L]
+RewriteRule ^resumen$ view/tienda/resumen.php [L]
+RewriteRule ^pagos$ view/tienda/pagos.php [L]
+RewriteRule ^detalle-(.+)$ view/tienda/detalle_producto.php?id=$1 [L]
+RewriteRule ^cerrar$ view/tienda/logout.php [L]
+
+#contacto
+RewriteRule ^user/category/(.+)$ /user/contacto.html?id=1 [R=301,L]
+
+# Restricted access to files
+#<FilesMatch "((\.(lock|cache|db))|CHANGELOG.md|README.md|^(.*\.config|.*\.example)(.*?))$">
+#	# Apache < 2.3
+#	<IfModule !mod_authz_core.c>
+#		Order allow,deny
+#		Deny from all
+#		Satisfy All
+#	</IfModule>
+#
+#	# Apache ≥ 2.3
+#	<IfModule mod_authz_core.c>
+#		Require all denied
+#	</IfModule>
+#</FilesMatch>
