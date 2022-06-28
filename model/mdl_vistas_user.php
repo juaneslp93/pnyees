@@ -2,7 +2,7 @@
 /**
  * MODELO VISTAS
  */
-class Vistas
+class Vistas extends Conexion
 {
 	
 	function __construct(){

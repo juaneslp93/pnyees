@@ -13,12 +13,20 @@ class Conexion
 	}
 
 	public static function iniciar(){
-		// $conexion = new mysqli($server, $user, $pass, $db);
 		try {
-			$server = "localhost";
-			$db		= "pnyees";//id17442900_pnyeesdb
-			$user	= "root";//pnyeeuser
-			$pass	= "";//gl4z6vn$\h7&Oi%F
+
+			if(ES_PRODUCCION){
+				$server = "localhost";
+				$db		= "id17442900_pnyeesdb";
+				$user	= "pnyeeuser";
+				$pass	= '75p}87@}?6@$uhIf';
+			}else{
+				$server = "localhost";
+				$db		= "pnyees";
+				$user	= "root";
+				$pass	= '';
+			}
+			
 			$key 	= KEYGEN_DATATBLE;
 			$conexion = new mysqli($server, $user, $pass, $db);	
 

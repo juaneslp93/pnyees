@@ -158,13 +158,13 @@ class ProcesosUser Extends Conexion
 		}
 	}
 
-	public static function datos_grafico($value='')	{
-
+	public static function datos_grafico()	{
+		$idCliente = self::desencriptar($_SESSION["SYSTEM"]["ID"], "Tbl1");
 		$totalMes  = array(0,0,0,0,0,0,0,0,0,0,0,0);
 		$grafica = array();
 		$conexion = self::iniciar();
 		$maximoVal = 0;
-		$sql = "SELECT id, MONTH(fecha_compra) as mes FROM compras WHERE year(fecha_compra)='".date("Y")."'";
+		$sql = "SELECT id, MONTH(fecha_compra) as mes FROM compras WHERE year(fecha_compra)='".date("Y")."' AND id_usuario= $idCliente ";
 		$consu = $conexion->query($sql);
 		while ($rConsu = $consu->fetch_assoc()) {
 			$id = $rConsu["id"];
