@@ -1,0 +1,8 @@
+# ignoramos archivos todos los arhivos de imagen menos los que están por defecto
+*.jpg
+*.png
+*.gif
+!default.png
+
+# igonaramos los cambios en los index
+index.php

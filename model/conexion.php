@@ -17,8 +17,8 @@ class Conexion
 
 			if(ES_PRODUCCION){
 				$server = "localhost";
-				$db		= "id17442900_pnyeesdb";
-				$user	= "pnyeeuser";
+				$db		= "id17442900_id17442900_pnyeesdb";
+				$user	= "id17442900_pnyeeuser";
 				$pass	= '75p}87@}?6@$uhIf';
 			}else{
 				$server = "localhost";
