@@ -502,7 +502,7 @@ UNLOCK TABLES;
 -- Temporary table structure for view `vista_detalles_usuarios`
 --
 
-DROP TABLE IF EXISTS `vista_detalles_usuarios`;
+-- DROP TABLE IF EXISTS `vista_detalles_usuarios`;
 /*!50001 DROP VIEW IF EXISTS `vista_detalles_usuarios`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;

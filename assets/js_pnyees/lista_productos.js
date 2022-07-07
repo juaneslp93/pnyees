@@ -20,29 +20,29 @@ procesosListaProductos = {
       	"rowReorder":false,
       	"select":false
       });
-
+		
       return table.on('draw', function(){      	
-      	$(".eliminar_producto").on('click', function(){
-      		var el = $(this).attr('data-control');
-      		self.eliminar_Producto(table, el, this);      		
-      	})
-      	$(".productoEditar").on('dblclick', function(){
+		$("body").on('click', ".eliminar_producto", function(){
+			var el = $(this).attr('data-control');
+			self.eliminar_Producto(table, el, this);      		
+		})
+      	$("body").on('dblclick', ".productoEditar", function(){
       		var el = $(this).attr('data-control');
       		self.editarProducto(table, el, this);      		
       	})
-      	$(".descripcionEditar").on('dblclick', function(){
+      	$("body").on('dblclick', ".descripcionEditar", function(){
       		var el = $(this).attr('data-control');
       		self.editarDescripcion(table, el, this);      		
       	})
-      	$(".precioEditar").on('dblclick', function(){
+      	$("body").on('dblclick', ".precioEditar", function(){
       		var el = $(this).attr('data-control');
       		self.editarPrecio(table, el, this);      		
       	})
-      	$(".impuestoEditar").on('dblclick', function(){
+      	$("body").on('dblclick', ".impuestoEditar", function(){
       		var el = $(this).attr('data-control');
       		self.editarImpuesto(table, el, this);      		
       	})
-      	$(".imagenEditar").on('dblclick', function(){
+      	$("body").on('dblclick', ".imagenEditar", function(){
       		var el = $(this).attr('data-control');
       		self.editarImagen(table, el, this);      		
       	})
@@ -331,22 +331,19 @@ procesosListaProductos = {
 		  	showCancelButton: false,
 		  	confirmButtonText: 'Si, deseo hacerlo',
 		  	denyButtonText: 'No, cancela esta acción',
-		}).then((promised)=> {
-			
-			if (promised.isConfirmed) {			
-				$(ele).html('');
+		}).then((promised)=> {			
+			if (promised.isConfirmed) {
 				$("#M"+el).html('<form id="MForm'+el+'" enctype="multipart/form-data" method="post">\
 					<input type="hidden" value="editar_producto" name="entrada"/>\
 					<input type="hidden" value="url_imagen" name="caso"/>\
 					<input type="hidden" value="'+el+'" name="id"/>\
 					<input name="'+el+'" type="file" class="form-control-file" value="'+$(ele).html().trim()+'" accept="image/*"/>\
 					</form>');
+				$(ele).html($("#M"+el));
 				$('input[name='+el+']').on('change',function(event){
 					var newVal = $(this).val();
 					$("#MForm"+el).append('<input type="hidden" value="'+newVal+'" name="valor"/>')
 					event.preventDefault();
-					console.log(document.getElementById("M"+el));
-					console.log($("#M"+el));
 					var formData = new FormData(document.getElementById("MForm"+el));
 					formData.append("dato", "valor");
 					$.ajax({
