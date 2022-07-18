@@ -55,7 +55,7 @@ procesosListaProductos = {
 			formData.append("dato", "valor");
 
 			$.ajax({
-				url: '../controller/ctr_lista_Productos.php',
+				url: '../controller/ctr_lista_productos.php',
 				type: 'POST',
 				dataType: 'json',
 				data: formData,
@@ -147,7 +147,7 @@ procesosListaProductos = {
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_Productos.php',
+						url: '../controller/ctr_lista_productos.php',
 						type: 'POST',
 						dataType: 'json',
 						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'nombre', 'id':el},
@@ -196,7 +196,7 @@ procesosListaProductos = {
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_Productos.php',
+						url: '../controller/ctr_lista_productos.php',
 						type: 'POST',
 						dataType: 'json',
 						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'descripcion', 'id':el},
@@ -244,7 +244,7 @@ procesosListaProductos = {
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_Productos.php',
+						url: '../controller/ctr_lista_productos.php',
 						type: 'POST',
 						dataType: 'json',
 						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'precio', 'id':el},
@@ -292,7 +292,7 @@ procesosListaProductos = {
 					event.preventDefault();
 					var newVal = $(this).val();
 					$.ajax({
-						url: '../controller/ctr_lista_Productos.php',
+						url: '../controller/ctr_lista_productos.php',
 						type: 'POST',
 						dataType: 'json',
 						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'impuesto', 'id':el},
@@ -347,7 +347,7 @@ procesosListaProductos = {
 					var formData = new FormData(document.getElementById("MForm"+el));
 					formData.append("dato", "valor");
 					$.ajax({
-						url: '../controller/ctr_lista_Productos.php',
+						url: '../controller/ctr_lista_productos.php',
 						type: 'POST',
 						dataType: 'json',
 						data: formData,
