@@ -57,11 +57,11 @@ class Productos extends Conexion
 		return $result;
 	}
 
-	public static function registrar_producto($nombre, $precio, $impuesto, $stock = 0, $descripcion, $url){
+	public static function registrar_producto($nombre, $precio, $impuesto, $stock = 0, $stock_minimo = 0, $descripcion, $url){
 		$conexion = self::iniciar();
-		$sql = "INSERT INTO productos (nombre, descripcion, precio, impuesto, stock, url_imagen, estado, fecha_registro) VALUES (?,?,?,?,?,?,?,?)";
+		$sql = "INSERT INTO productos (nombre, descripcion, precio, impuesto, stock, stock_minimo, url_imagen, estado, fecha_registro) VALUES (?,?,?,?,?,?,?,?,?)";
 		$sentencia = $conexion->prepare($sql);
-		$sentencia->bind_param('ssidisss', $nombre, $descripcion, $precio, $impuesto, $stock, $url, $estado, $fecha_registro);
+		$sentencia->bind_param('ssidiisss', $nombre, $descripcion, $precio, $impuesto, $stock, $stock_minimo, $url, $estado, $fecha_registro);
 		$estado = '1';
 		$fecha_registro = date('Y-m-d H:i:s');
 

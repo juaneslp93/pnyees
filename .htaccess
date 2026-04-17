@@ -31,6 +31,8 @@ RewriteRule ^admin/config-general$ view/admin/config_general.php [L]
 
 RewriteRule ^admin/lista-orden-compras$ view/admin/orden_compra_lista.php [L]
 RewriteRule ^admin/orden-compra-detalle-(.+)$ view/admin/orden_compra_detalle.php?id=$1 [L]
+RewriteRule ^admin/lista-ordenes-proveedor$ view/admin/orden_proveedor_lista.php [L]
+RewriteRule ^admin/orden-proveedor-detalle-(.+)$ view/admin/orden_proveedor_detalle.php?id=$1 [L]
 RewriteRule ^admin/reporte-orden-compras$ view/admin/reporte_orden_compra.php [L]
 
 RewriteRule ^admin/lista-compras$ view/admin/compra_lista.php [L]

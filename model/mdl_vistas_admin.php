@@ -98,7 +98,8 @@ class VistasAdmin Extends Conexion
                             <div id="ordenesCompras" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                                 <div class="bg-white py-2 collapse-inner rounded">
                                     <h6 class="collapse-header">Gestión de ordenes de compras:</h6>
-                                    <a class="collapse-item" href="lista-orden-compras">Listar ordenes de compra</a>
+                                    <a class="collapse-item" href="lista-orden-compras">Órdenes de clientes</a>
+                                    <a class="collapse-item" href="lista-ordenes-proveedor">Órdenes a proveedores</a>
                                     <a class="collapse-item" href="reporte-orden-compras">Reporte de ordenes</a>
                                 </div>
                             </div>

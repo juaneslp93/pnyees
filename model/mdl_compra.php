@@ -1,7 +1,6 @@
-<?php 
-/**
- * 
- */
+<?php
+require_once __DIR__ . '/mdl_inventario.php';
+
 class Compras extends Conexion
 {
 	
@@ -89,11 +88,15 @@ class Compras extends Conexion
 	private static function anular_compra($idCompra){
 		$result = false;
 		if (!empty($idCompra)) {
-			$sql = "UPDATE compras SET estado_aprobacion = '0' WHERE id = $idCompra";
 			$conexion = self::iniciar();
-			if ($conexion->query($sql)) 
+			$sql = "UPDATE compras SET estado_aprobacion = '0' WHERE id = $idCompra";
+			if ($conexion->query($sql)) {
 				$result = true;
-			
+				// Solo restaura stock si la compra ya había sido enviada
+				if (self::validar_compra_enviada($idCompra)) {
+					self::restaurar_stock_compra($idCompra);
+				}
+			}
 			$conexion->close();
 		}
 
@@ -101,13 +104,13 @@ class Compras extends Conexion
 	}
 
 	private static function aprobar_compra_envio($idCompra, $idEncrip){
-		
 		if (!empty($idCompra)) {
-			$sql = "UPDATE compras SET estado_envio = '1' WHERE id = $idCompra";
 			$conexion = self::iniciar();
+			$sql = "UPDATE compras SET estado_envio = '1' WHERE id = $idCompra";
 			if ($conexion->query($sql)) {
 				$result = true;
-				$mensaje = "Estado de envío actualizado ";
+				$mensaje = "Estado de envío actualizado";
+				self::descontar_stock_compra($idCompra);
 				self::consultar_datos_envio_activo($idEncrip);
 			}else{
 				$result = false;
@@ -117,6 +120,59 @@ class Compras extends Conexion
 		}
 
 		return array("result"=>$result, "mensaje"=>$mensaje);
+	}
+
+	private static function descontar_stock_compra($idCompra): void
+	{
+		$conexion = self::iniciar();
+		$ref      = self::obtener_nro_compra($idCompra);
+		$stmt     = $conexion->prepare(
+			"SELECT id_producto, cantidad FROM compras_detalles WHERE id_compra = ?"
+		);
+		$stmt->bind_param('i', $idCompra);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$conexion->query(
+				"UPDATE productos SET stock = GREATEST(0, stock - {$row['cantidad']}) WHERE id = {$row['id_producto']}"
+			);
+			Inventario::registrar_movimiento(
+				$row['id_producto'], 'salida', $row['cantidad'],
+				$ref, 'Venta aprobada'
+			);
+		}
+		$conexion->close();
+	}
+
+	private static function restaurar_stock_compra($idCompra): void
+	{
+		$conexion = self::iniciar();
+		$ref      = self::obtener_nro_compra($idCompra);
+		$stmt     = $conexion->prepare(
+			"SELECT id_producto, cantidad FROM compras_detalles WHERE id_compra = ?"
+		);
+		$stmt->bind_param('i', $idCompra);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$conexion->query(
+				"UPDATE productos SET stock = stock + {$row['cantidad']} WHERE id = {$row['id_producto']}"
+			);
+			Inventario::registrar_movimiento(
+				$row['id_producto'], 'entrada', $row['cantidad'],
+				$ref, 'Venta anulada — stock restaurado'
+			);
+		}
+		$conexion->close();
+	}
+
+	private static function obtener_nro_compra($idCompra): string
+	{
+		$conexion = self::iniciar();
+		$res      = $conexion->query("SELECT nro_compra FROM compras WHERE id = $idCompra");
+		$nro      = ($res->num_rows > 0) ? (string)$res->fetch_assoc()['nro_compra'] : '';
+		$conexion->close();
+		return $nro;
 	}
 
 	private static function consultar_datos_envio_activo($idEncrip){

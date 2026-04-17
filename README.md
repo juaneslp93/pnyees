@@ -101,10 +101,10 @@ pnyees/
 
 #### 1.1 Control de inventario real
 - [x] Agregar campo `stock` a la tabla `productos`
-- [ ] Descontar stock automáticamente al aprobar una venta
-- [ ] Registro de movimientos de inventario (entradas / salidas / ajustes)
-- [ ] Alertas de stock mínimo
-- [ ] Recepción de mercancía vinculada a orden de compra
+- [x] Descontar stock automáticamente al aprobar una venta
+- [x] Registro de movimientos de inventario (entradas / salidas / ajustes)
+- [x] Alertas de stock mínimo
+- [x] Recepción de mercancía vinculada a orden de compra
 
 #### 1.2 Pasarela de pagos
 - [ ] Integrar PSE o Wompi (más común en Colombia para PYMES)

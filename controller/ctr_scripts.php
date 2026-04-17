@@ -86,6 +86,7 @@ class Scripts
     		"proceso_pagos"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_pagos.js?'.self::keyCache(2).'" ></script>',
     		"proceso_medios_pago"=>'<script src="'.$ruta.'assets/js_pnyees/proceso_medios_pago.js?'.self::keyCache(2).'"></script>',
     		"orden_compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_orden_compra.js?'.self::keyCache(2).'"></script>',
+			"orden_proveedor"=>'<script src="'.$ruta.'assets/js_pnyees/orden_proveedor.js?'.self::keyCache(2).'"></script>',
 			"orden_compra_detalle"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra.js?'.self::keyCache(2).'"></script>',
 			"orden_compra_detalle_cliente"=>'<script src="'.$ruta.'assets/js_pnyees/detalle_orden_compra_cliente.js?'.self::keyCache(2).'"></script>',
 			"compra_lista"=>'<script src="'.$ruta.'assets/js_pnyees/lista_compra.js?'.self::keyCache(2).'"></script>',

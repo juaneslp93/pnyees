@@ -73,7 +73,7 @@ class ProcesosAdmin Extends Conexion
 	public static function datos_notificaciones($value='')	{
 		if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"|| $_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
 			$conexion = self::iniciar();
-			
+
 			# campana
 			$sql = "SELECT count(id) as compras FROM compras WHERE estado_proceso='0' ";
 			$consu = $conexion->query($sql);
@@ -84,6 +84,12 @@ class ProcesosAdmin Extends Conexion
 			$consu = $conexion->query($sql);
 			$rConsu = $consu->fetch_assoc();
 			$ordenes = (($rConsu["ordenes"]>0)?$rConsu["ordenes"]:0);
+
+			# stock mínimo
+			$sql = "SELECT count(id) as bajo_stock FROM productos WHERE estado='1' AND stock_minimo > 0 AND stock <= stock_minimo";
+			$consu = $conexion->query($sql);
+			$rConsu = $consu->fetch_assoc();
+			$bajoStock = (($rConsu["bajo_stock"]>0)?$rConsu["bajo_stock"]:0);
 			
 			#contenido compras
 			$contenido = '<h6 class="dropdown-header">
@@ -140,15 +146,45 @@ class ProcesosAdmin Extends Conexion
 			}else if($ordenes>0 && $compras==0){
 				$existe = true;
 				$contenido .= '<a class="dropdown-item text-center small text-gray-500" href="lista-orden-compras">Ver todos</a>';
+			}else if($compras>0 && $ordenes>0){
+				$existe = true;
+				$contenido .= '<a class="dropdown-item text-center small text-gray-500" href="lista-compras">Ver todos</a>';
 			}
-            
+
+			# contenido stock mínimo
+			if($bajoStock>0){
+				$existe = true;
+				$contenido .= '<div class="dropdown-divider"></div>
+                        <h6 class="dropdown-header">
+                            Alertas de stock mínimo
+                        </h6>';
+				$sql = "SELECT id, nombre, stock, stock_minimo FROM productos WHERE estado='1' AND stock_minimo > 0 AND stock <= stock_minimo ORDER BY stock ASC LIMIT 10";
+				$consu = $conexion->query($sql);
+				while ($rConsu = $consu->fetch_assoc()) {
+					$idEncrip = Conexion::encriptTable($rConsu["id"]);
+					$idEncrip = Conexion::formato_encript($idEncrip, "con");
+					$contenido .= '<a class="dropdown-item d-flex align-items-center" href="lista-productos">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Stock: '.$rConsu["stock"].' / Mín: '.$rConsu["stock_minimo"].'</div>
+                                        <span class="font-weight-bold">'.htmlspecialchars($rConsu["nombre"]).'</span>
+                                    </div>
+                                </a>';
+				}
+				$contenido .= '<a class="dropdown-item text-center small text-gray-500" href="lista-productos">Ver todos los productos</a>';
+			}
+
 			$html = '';
 			if($existe){
 				$html .= $contenido;
 			}
-			
+
 			$conexion->close();
-			$totalBell = $compras+$ordenes;
+			$totalBell = $compras+$ordenes+$bajoStock;
 			$result = array('bell' => $totalBell, "notif_content"=>$html);
 
 			return $result;

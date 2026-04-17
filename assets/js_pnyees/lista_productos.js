@@ -42,9 +42,13 @@ procesosListaProductos = {
       		var el = $(this).attr('data-control');
       		self.editarImpuesto(table, el, this);      		
       	})
+      	$("body").on('dblclick', ".stockMinimoEditar", function(){
+      		var el = $(this).attr('data-control');
+      		self.editarStockMinimo(table, el, this);
+      	})
       	$("body").on('dblclick', ".imagenEditar", function(){
       		var el = $(this).attr('data-control');
-      		self.editarImagen(table, el, this);      		
+      		self.editarImagen(table, el, this);
       	})
       })
 	},
@@ -319,6 +323,41 @@ procesosListaProductos = {
 						table.ajax.reload();
 					});			
 				})	
+			}else if(promised.isDenied){
+				table.ajax.reload();
+			}
+		})
+	},
+	editarStockMinimo: function(table, el, ele){
+		Swal.fire({
+			title: '¿Desea modificar este campo?',
+		  	showDenyButton: true,
+		  	showCancelButton: false,
+		  	confirmButtonText: 'Si, deseo hacerlo',
+		  	denyButtonText: 'No, cancela esta acción',
+		}).then((promised)=> {
+			if (promised.isConfirmed) {
+				$("#Sm"+el).html('<input name="'+el+'" type="number" min="0" class="form-control" value="'+$(ele).html().trim()+'"/>')
+				$(ele).html('');
+				$('input[name='+el+']').on('change',function(event){
+					event.preventDefault();
+					var newVal = $(this).val();
+					$.ajax({
+						url: '../controller/ctr_lista_productos.php',
+						type: 'POST',
+						dataType: 'json',
+						data: {'entrada': 'editar_producto', 'valor':newVal, "caso":'stock_minimo', 'id':el},
+					})
+					.done(function(result) {
+						if (result.continue) {
+							Swal.fire({ icon: 'success', title: '¡Proceso exitoso!', text: result.mensaje })
+						}else{
+							Swal.fire({ icon: 'warning', title: '¡Proceso detenido!', text: result.mensaje })
+						}
+					})
+					.fail(function() { console.log("error"); })
+					.always(function() { table.ajax.reload(); });
+				})
 			}else if(promised.isDenied){
 				table.ajax.reload();
 			}
