@@ -59,6 +59,7 @@ $productosPermiso      = Conexion::saber_permiso_asociado(5);
                                             <th>Descripción</th>
                                             <th>Precio</th>
                                             <th>Impuesto</th>
+                                            <th>Stock</th>
                                             <th>Archivo</th>
                                             <th>Estado</th>
                                             <th>Opciones</th>
@@ -111,6 +112,9 @@ $productosPermiso      = Conexion::saber_permiso_asociado(5);
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="number" step="any" class="form-control form-control-user" name="impuesto" id="impuesto" placeholder="Impuesto %" required>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" min="0" class="form-control form-control-user" name="stock" id="stock" placeholder="Stock inicial" value="0" required>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">

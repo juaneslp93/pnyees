@@ -91,7 +91,21 @@ switch ($caso) {
 				}
 				return $res;
 			}),
-			array('db' => 'url_imagen', 'dt'=>4, 'formatter'=>function($val, $fila){
+			array('db' => 'stock', 'dt'=>4, 'formatter'=>function($val, $fila){
+				$idEncrip = Conexion::encriptTable($fila["id"]);
+				$idEncrip = Conexion::formato_encript($idEncrip, "con");
+				$productos      = Conexion::saber_permiso_asociado(5);
+				if($productos["editar"]){
+					$res = '<div class="stockEditar" style="cursor:pointer;" data-control="'.$idEncrip.'">
+							'.((isset($val))?$val:'0').'
+					</div>
+					<div id="St'.$idEncrip.'"></div>';
+				}else{
+					$res = (int)$val;
+				}
+				return $res;
+			}),
+			array('db' => 'url_imagen', 'dt'=>5, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptTable($fila["id"]);
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				$productos      = Conexion::saber_permiso_asociado(5);
@@ -105,7 +119,7 @@ switch ($caso) {
 				}
 				return $res;
 			}),
-			array('db' => 'estado', 'dt'=>5, 'formatter'=>function($val, $fila){
+			array('db' => 'estado', 'dt'=>6, 'formatter'=>function($val, $fila){
 				return (($val)?'
 					<i class="btn btn-success btn-circle btn-lg">
                         <i class="fa fa-check"></i>
@@ -114,7 +128,7 @@ switch ($caso) {
                     	<i class="fa fa-close"></i>
                     </i>');
 			}),
-			array('db' => 'id', 'dt'=>6, 'formatter'=>function($val, $fila){
+			array('db' => 'id', 'dt'=>7, 'formatter'=>function($val, $fila){
 				$idEncrip = Conexion::encriptar($val, "Pro1");
 				$idEncrip = Conexion::formato_encript($idEncrip, "con");
 				$productos      = Conexion::saber_permiso_asociado(5);
@@ -168,7 +182,7 @@ switch ($caso) {
 			$id = Conexion::decriptTable($idEncrip);
 			$caso = $_POST["caso"];
 			$valor = $_POST["valor"];
-			$casos = array("nombre","descripcion","impuesto","precio","url_imagen");
+			$casos = array("nombre","descripcion","impuesto","precio","stock","url_imagen");
 
 			if (in_array($caso, $casos)) {
 				if ($caso==="url_imagen") {
@@ -200,6 +214,7 @@ switch ($caso) {
 			$nombre = $_POST["nombre"];
   			$precio = $_POST["precio"];
   			$impuesto = $_POST["impuesto"];
+  			$stock = (int)($_POST["stock"] ?? 0);
   			$descripcion = $_POST["descripcion"];
   			$ruta = '';
   			$continue = true;
@@ -218,7 +233,7 @@ switch ($caso) {
   			}
 
   			if ($continue) {
-  				$reg = Productos::registrar_producto($nombre, $precio, $impuesto, $descripcion, (($imagen["existe"])?$imagen["url"]:''));
+  				$reg = Productos::registrar_producto($nombre, $precio, $impuesto, $stock, $descripcion, (($imagen["existe"])?$imagen["url"]:''));
   				$continue = $reg["estado"];
   				if ($reg["estado"]) {
   					$mensaje = '<span class="text text-success"><h1 class="h4 text-gray-900 mb-4">¡Registro exitoso!</h1></span> ['.$imagen["mensaje"].']';
