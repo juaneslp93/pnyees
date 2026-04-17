@@ -4,7 +4,7 @@
 ini_set("display_errors", 0);
 define("RAIZ", "/pnyees/");
 define("KEYGEN_DATATBLE", random(16));
-define("ES_PRODUCCION", true);# definimos si la plataforma está en producción
+define("ES_PRODUCCION", false);# definimos si la plataforma está en producción
 date_default_timezone_set('America/Bogota');
 $rutaSystem = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].RAIZ;
 define("URL_ABSOLUTA", $rutaSystem);
