@@ -4,7 +4,7 @@ include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
 require "../../model/mdl_ordenes_proveedor.php";
 
-$permiso  = Conexion::saber_permiso_asociado(4);
+$permiso  = Conexion::saber_permiso_asociado(8);
 $idEncrip = $_GET["id"] ?? '';
 $idOrden  = (int)Conexion::decriptTable(Conexion::formato_encript($idEncrip, "des"));
 $orden    = ($idOrden > 0) ? OrdenesProveedor::obtener_orden($idOrden) : ['ok' => false];

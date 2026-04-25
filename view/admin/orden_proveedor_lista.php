@@ -2,7 +2,7 @@
 include "../../controller/ctr_validacionesIn.php";
 include "../../controller/ctr_vistas_admin.php";
 include "../../controller/ctr_scripts.php";
-$permiso = Conexion::saber_permiso_asociado(4);
+$permiso = Conexion::saber_permiso_asociado(8);
 ?>
 <!DOCTYPE html>
 <html lang="es">

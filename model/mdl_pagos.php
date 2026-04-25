@@ -122,6 +122,76 @@ class Pagos Extends Conexion
 		return $html;
 	}
 
+	public static function iniciar_pago_wompi(): array
+	{
+		if (empty($_SESSION["CARRITO"])) {
+			return ['result' => false, 'mensaje' => 'No hay productos en el carrito'];
+		}
+		if (empty($_SESSION["TIENDA"])) {
+			return ['result' => false, 'mensaje' => 'No hay comprador reconocible'];
+		}
+		if (empty($_SESSION["DATOS_FACTURACION"])) {
+			return ['result' => false, 'mensaje' => 'No hay datos de facturación'];
+		}
+
+		$orden    = self::generar_numero_orden();
+		$fecha    = self::fecha_sistema();
+		$idComprador = self::desencriptar($_SESSION["TIENDA"]["ID"], "Tbl1");
+
+		$totales         = self::totales_compra();
+		$totalCompra     = $totales["totalCompra"];
+		$totalImpuesto   = $totales["totalImpuesto"];
+		$totalDescuento  = $totales["totalDescuento"];
+
+		$registroOrden = self::registrar_orden_compra(
+			$idComprador, $orden, '', '', '', $totalCompra, $totalDescuento, $totalImpuesto, 2, $fecha
+		);
+
+		$error = false;
+		$mensaje = 'Orden creada';
+
+		if ($registroOrden["id"] > 0) {
+			for ($i = 0; $i < count($_SESSION["CARRITO"]); $i++) {
+				if (!empty($_SESSION["CARRITO"][$i]["id_producto"])) {
+					$idProductoEncrip  = self::formato_encript($_SESSION["CARRITO"][$i]["id_producto"], "des");
+					$idProducto        = self::desencriptar($idProductoEncrip, "Det1");
+					$registroDetalle   = self::registrar_orden_detalle_compra(
+						$registroOrden["id"],
+						$idProducto,
+						$_SESSION["CARRITO"][$i]["nombre"],
+						$_SESSION["CARRITO"][$i]["precio"],
+						$_SESSION["CARRITO"][$i]["impuesto"],
+						$_SESSION["CARRITO"][$i]["descuento"],
+						$_SESSION["CARRITO"][$i]["cantidad"],
+						$_SESSION["CARRITO"][$i]["descripcion"],
+						$_SESSION["CARRITO"][$i]["imagen"],
+						$_SESSION["CARRITO"][$i]["precio_calculado"],
+						$fecha,
+						$orden
+					);
+					if ($registroDetalle["error"]) {
+						$error   = true;
+						$mensaje = "Error al insertar detalle (" . $registroDetalle["mensaje"] . ")";
+						break;
+					}
+				}
+			}
+			if (!$error) {
+				unset($_SESSION["CARRITO"]);
+			}
+		} else {
+			$error   = true;
+			$mensaje = "Error al insertar la orden";
+		}
+
+		return [
+			'result'         => !$error,
+			'mensaje'        => $mensaje,
+			'numero_orden'   => $orden,
+			'total_centavos' => (int)round($totalCompra * 100),
+		];
+	}
+
 	public static function generar_orden_deposito_bancario($cuenta='', $soporte='', $fechaSoporte=''){
 		
 		$orden = self::generar_numero_orden();

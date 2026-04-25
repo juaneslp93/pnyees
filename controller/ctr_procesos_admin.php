@@ -36,7 +36,8 @@ if($administracionPermisos["ver"]){
 		"cargarDatosGlobales",
 		"editarConfigGeneral",
 		"cargarDiseno",
-		"editarDiseno"
+		"editarDiseno",
+		"guardarConfigWompi"
 	);
 }else{
 	$casos = array();
@@ -749,6 +750,20 @@ switch ($caso) {
 			$continue = false;
 			$mensaje = "Permisos insuficientes";
 			$result = array("continue" => $continue, "mensaje"=>$mensaje);
+		}
+		break;
+	case 'guardarConfigWompi':
+		if ($administracionPermisos["editar"]) {
+			require_once '../model/mdl_wompi.php';
+			$publicKey  = trim(@$_POST["wompi_public_key"]);
+			$privateKey = trim(@$_POST["wompi_private_key"]);
+			$eventsKey  = trim(@$_POST["wompi_events_key"]);
+			$modo       = in_array(@$_POST["wompi_modo"], ['sandbox', 'production']) ? $_POST["wompi_modo"] : 'sandbox';
+			$activo     = (!empty($_POST["wompi_activo"]) && $_POST["wompi_activo"] === '1') ? '1' : '0';
+			$data    = Wompi::guardar_config($publicKey, $privateKey, $eventsKey, $modo, $activo);
+			$result  = array("continue" => $data["result"], "mensaje" => $data["mensaje"]);
+		} else {
+			$result = array("continue" => false, "mensaje" => "Permisos insuficientes");
 		}
 		break;
 	default:

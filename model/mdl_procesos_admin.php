@@ -540,13 +540,68 @@ class ProcesosAdmin Extends Conexion
 			}
 		}
 
-		$contenido .= '	
+		$contenido .= '
 						</div>
 				    </div>
 				</div>
 			</div>
         ';
-		
+
+		# Sección Wompi
+		require_once __DIR__ . '/mdl_wompi.php';
+		$cfgWompi = Wompi::config();
+		$contenido .= '
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">
+					<i class="fas fa-credit-card"></i> Wompi — Pasarela de pago
+				</h6>
+			</div>
+			<div class="card-body">
+				<form id="formWompiConfig">
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label>Llave pública (<code>pub_</code>...)</label>
+							<input type="text" class="form-control" name="wompi_public_key"
+								value="' . htmlspecialchars($cfgWompi['public_key']) . '">
+						</div>
+						<div class="form-group col-md-6">
+							<label>Llave privada (<code>prv_</code>...)</label>
+							<input type="password" class="form-control" name="wompi_private_key"
+								value="' . htmlspecialchars($cfgWompi['private_key']) . '">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label>Llave de eventos (<em>Events key</em>)</label>
+							<input type="password" class="form-control" name="wompi_events_key"
+								value="' . htmlspecialchars($cfgWompi['events_key']) . '">
+						</div>
+						<div class="form-group col-md-3">
+							<label>Modo</label>
+							<select class="form-control" name="wompi_modo">
+								<option value="sandbox" ' . ($cfgWompi['modo'] === 'sandbox' ? 'selected' : '') . '>Sandbox (pruebas)</option>
+								<option value="production" ' . ($cfgWompi['modo'] === 'production' ? 'selected' : '') . '>Producción</option>
+							</select>
+						</div>
+						<div class="form-group col-md-3 d-flex align-items-end">
+							<label class="switch">
+								<input type="checkbox" name="wompi_activo" value="1"
+									' . ($cfgWompi['activo'] === '1' ? 'checked' : '') . '>
+								<span class="slider round"></span>
+							</label>
+							<span class="ml-2">Activar Wompi</span>
+						</div>
+					</div>
+					<input type="hidden" name="entrada" value="guardarConfigWompi">
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-save"></i> Guardar configuración
+					</button>
+				</form>
+			</div>
+		</div>
+		';
+
 		return $contenido;
 	}
 

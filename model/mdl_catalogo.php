@@ -297,6 +297,9 @@ class Catalogo extends Conexion
 		';
 		$contenido = '<div class="card shadow mb-4">';
 		
+		# botones pasarelas electrónicas (Wompi, etc.)
+		$html .= $htmlPendiente;
+
 		# se carga el botón de DB si existe
 		$pasarela = self::consultaSystem("id", "102");//Activación pagos por Deposito Bancario
 		if ($pasarela["estado"]) {
@@ -307,7 +310,7 @@ class Catalogo extends Conexion
 			$html .= self::cargarBancos();
 		}
 		$contenido .= '</div>';
-		$html .= '		
+		$html .= '
 			</div>
 		</div>';
 		return $html;
@@ -407,13 +410,15 @@ class Catalogo extends Conexion
 	}
 
 	private static function cargar_botones_pago(){
-		$contenido = '<div class="card shadow mb-4">';
-		$pasarela = self::consultaSystem("relacion", "metodo_pago");
-		$contenido .= '<div class="card-body">
-						<button class="btn btn-success" name="metodo_pago" id="PAYU"><i class="fa fa-bank"></i> PAYU </button>
-					</div>';
-		$contenido .= '</div>';
-		return $contenido;
+		require_once __DIR__ . '/mdl_wompi.php';
+		if (!Wompi::activo()) {
+			return '';
+		}
+		return '<div class="card-body">
+			<button type="button" class="btn btn-primary btn-lg" id="wompiBtn">
+				<i class="fas fa-credit-card fa-lg"></i> Pagar con Wompi
+			</button>
+		</div>';
 	}
 
 	private static function consulta_datos_config(){

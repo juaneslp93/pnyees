@@ -283,6 +283,31 @@ class OrdenesCompra extends Conexion
 		return array("result"=>$result, "mensaje"=>$mensaje);
 	}
 
+	public static function aprobar_por_referencia_wompi(string $referencia): array
+	{
+		$conexion = self::iniciar();
+		$stmt = $conexion->prepare(
+			"SELECT id FROM ordenes_compras WHERE numero_orden = ? AND estado_aprobacion = '0' LIMIT 1"
+		);
+		$stmt->bind_param('s', $referencia);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		$conexion->close();
+
+		if ($res->num_rows === 0) {
+			return ['result' => false, 'mensaje' => 'Orden no encontrada o ya procesada'];
+		}
+
+		$fila    = $res->fetch_assoc();
+		$idOrden = $fila['id'];
+
+		$result  = self::aprobar_orden_compra($idOrden);
+		$mensaje = is_array($result) ? ($result['mensaje'] ?? '') : '';
+		$ok      = is_array($result) ? ($result['result'] ?? false) : (bool)$result;
+
+		return ['result' => $ok, 'mensaje' => $ok ? 'Orden aprobada' : $mensaje];
+	}
+
 	public static function cargar_detalle_orden_compra($idOrden){
 		$idEncrip = $idOrden;
 		$idOrden = Conexion::formato_encript($idOrden, "des");

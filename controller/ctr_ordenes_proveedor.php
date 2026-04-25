@@ -4,7 +4,7 @@ require "../model/conexion.php";
 require "../model/ssp.php";
 require '../model/mdl_ordenes_proveedor.php';
 
-$permiso = Conexion::saber_permiso_asociado(4);
+$permiso = Conexion::saber_permiso_asociado(8);
 if ($permiso["ver"]) {
     $casos = [
         "lista_ordenes_proveedor",

@@ -107,9 +107,9 @@ pnyees/
 - [x] Recepción de mercancía vinculada a orden de compra
 
 #### 1.2 Pasarela de pagos
-- [ ] Integrar PSE o Wompi (más común en Colombia para PYMES)
-- [ ] Webhook de confirmación automática de pago
-- [ ] Eliminar dependencia del comprobante manual como única vía
+- [x] Integrar PSE o Wompi (más común en Colombia para PYMES)
+- [x] Webhook de confirmación automática de pago
+- [x] Eliminar dependencia del comprobante manual como única vía
 
 #### 1.3 Gestión de proveedores
 - [ ] Tabla `proveedores` con NIT, contacto, plazos de pago

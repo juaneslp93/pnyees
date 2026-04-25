@@ -61,6 +61,10 @@ RewriteRule ^pagos$ view/tienda/pagos.php [L]
 RewriteRule ^detalle-(.+)$ view/tienda/detalle_producto.php?id=$1 [L]
 RewriteRule ^cerrar$ view/tienda/logout.php [L]
 
+#Wompi
+RewriteRule ^wompi/webhook$ controller/ctr_wompi_webhook.php [L]
+RewriteRule ^confirmacion-pago$ view/tienda/confirmacion_pago.php [L]
+
 #contacto
 RewriteRule ^user/category/(.+)$ /user/contacto.html?id=1 [R=301,L]
 

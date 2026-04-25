@@ -2,6 +2,7 @@ procesoMediosPagos = {
 	iniciar: function(){
 		this.cagar_medios_pago();
 		this.guardar_banco();
+		this.guardarWompi();
 	},
 	cagar_medios_pago: function(){
 		$("#contenido").html('<i class="fa fa-spinner fa-spin"></i> Cargando...');
@@ -153,6 +154,32 @@ procesoMediosPagos = {
 					return false;
 				}
 			})
+		});
+	},
+	guardarWompi: function() {
+		$("body").on("submit", "#formWompiConfig", function(e) {
+			e.preventDefault();
+			var data = $(this).serialize();
+			$("button[type=submit]", this).attr("disabled", "disabled").html('<i class="fa fa-spinner fa-spin"></i>');
+			$.ajax({
+				url: '../controller/ctr_procesos_admin.php',
+				type: 'POST',
+				dataType: 'json',
+				data: data
+			})
+			.done(function(result) {
+				if (result.continue) {
+					Swal.fire({ icon: 'success', title: '¡Guardado!', text: result.mensaje });
+				} else {
+					Swal.fire({ icon: 'warning', title: 'Error', text: result.mensaje });
+				}
+			})
+			.fail(function() {
+				Swal.fire({ icon: 'error', title: 'Error', text: 'Error de comunicación' });
+			})
+			.always(function() {
+				$("button[type=submit]", "#formWompiConfig").removeAttr("disabled").html('<i class="fas fa-save"></i> Guardar configuración');
+			});
 		});
 	},
 	eliminarBanco: function(param){

@@ -22,13 +22,14 @@ class VistasAdmin Extends Conexion
                     }
                 }
             }
-            $inicio         = Self::saber_permiso_asociado(1);
-            // $moderadores    = Self::saber_permiso_asociado(2);
-            $ordenes        = Self::saber_permiso_asociado(3);
-            $compras        = Self::saber_permiso_asociado(4);
-            $productos      = Self::saber_permiso_asociado(5);
-            $administracion = Self::saber_permiso_asociado(6);
-            $clientes       = Self::saber_permiso_asociado(7);
+            $inicio           = Self::saber_permiso_asociado(1);
+            // $moderadores   = Self::saber_permiso_asociado(2);
+            $ordenes          = Self::saber_permiso_asociado(3);
+            $compras          = Self::saber_permiso_asociado(4);
+            $productos        = Self::saber_permiso_asociado(5);
+            $administracion   = Self::saber_permiso_asociado(6);
+            $clientes         = Self::saber_permiso_asociado(7);
+            $ordenesProveedor = Self::saber_permiso_asociado(8);
 			$result = '
 		        <ul class="'.$clase.'" id="accordionSidebar">
 
@@ -99,7 +100,7 @@ class VistasAdmin Extends Conexion
                                 <div class="bg-white py-2 collapse-inner rounded">
                                     <h6 class="collapse-header">Gestión de ordenes de compras:</h6>
                                     <a class="collapse-item" href="lista-orden-compras">Órdenes de clientes</a>
-                                    <a class="collapse-item" href="lista-ordenes-proveedor">Órdenes a proveedores</a>
+                                    '.(($ordenesProveedor["ver"])?'<a class="collapse-item" href="lista-ordenes-proveedor">Órdenes a proveedores</a>':'').'
                                     <a class="collapse-item" href="reporte-orden-compras">Reporte de ordenes</a>
                                 </div>
                             </div>
@@ -283,14 +284,15 @@ class VistasAdmin Extends Conexion
 
     public static function permiso_pagina(){
         if ($_SESSION["SYSTEM"]["TIPO"]==="MASTER"||$_SESSION["SYSTEM"]["TIPO"]==="ADMIN") {
-            $inicio         = Self::saber_permiso_asociado(1);
-            // $moderadores    = Self::saber_permiso_asociado(2);
-            $ordenes        = Self::saber_permiso_asociado(3);
-            $compras        = Self::saber_permiso_asociado(4);
-            $productos      = Self::saber_permiso_asociado(5);
-            $administracion = Self::saber_permiso_asociado(6);
-            $clientes       = Self::saber_permiso_asociado(7);
-            $continuar      = false;
+            $inicio           = Self::saber_permiso_asociado(1);
+            // $moderadores   = Self::saber_permiso_asociado(2);
+            $ordenes          = Self::saber_permiso_asociado(3);
+            $compras          = Self::saber_permiso_asociado(4);
+            $productos        = Self::saber_permiso_asociado(5);
+            $administracion   = Self::saber_permiso_asociado(6);
+            $clientes         = Self::saber_permiso_asociado(7);
+            $ordenesProveedor = Self::saber_permiso_asociado(8);
+            $continuar        = false;
             $archivosRegistrados = array(
                 "inicio"=>array(
                     RAIZ."view/admin/inicio.php"
@@ -319,6 +321,10 @@ class VistasAdmin Extends Conexion
                     RAIZ."view/admin/generar_pdf_envio.php",
                     RAIZ."view/admin/reporte_compra.php"
                 ),
+                "ordenes_proveedor"=>array(
+                    RAIZ."view/admin/orden_proveedor_lista.php",
+                    RAIZ."view/admin/orden_proveedor_detalle.php"
+                ),
             );
             if (in_array($_SERVER["PHP_SELF"], $archivosRegistrados["inicio"])) {
                 if($inicio["ver"]){
@@ -342,6 +348,10 @@ class VistasAdmin Extends Conexion
                 }
             }else if(in_array($_SERVER["PHP_SELF"], $archivosRegistrados["compras"])){
                 if($compras["ver"]){
+                    $continuar = true;
+                }
+            }else if(in_array($_SERVER["PHP_SELF"], $archivosRegistrados["ordenes_proveedor"])){
+                if($ordenesProveedor["ver"]){
                     $continuar = true;
                 }
             }

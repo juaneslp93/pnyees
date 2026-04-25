@@ -17,6 +17,7 @@ procesoPagos = {
 			$("#botones").html(result.html);
 			self.cargarDatosBancarios();
 			self.finalizarDeposito();
+			self.iniciarWompi();
 		})
 		.fail(function() {
 			console.log("error");
@@ -110,6 +111,37 @@ procesoPagos = {
 				console.log("error");
 			});
 			
+		});
+	},
+	iniciarWompi: function() {
+		$(document).off('click', '#wompiBtn').on('click', '#wompiBtn', function() {
+			Swal.fire({
+				title: 'Pagar con Wompi',
+				text: 'Serás redirigido al checkout seguro de Wompi para completar tu pago.',
+				icon: 'info',
+				showCancelButton: true,
+				confirmButtonText: 'Continuar',
+				cancelButtonText: 'Cancelar'
+			}).then(function(result) {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: 'controller/ctr_pagos.php',
+						type: 'POST',
+						dataType: 'json',
+						data: { entrada: 'iniciarPagoWompi' }
+					})
+					.done(function(res) {
+						if (res.continue && res.url) {
+							window.location.href = res.url;
+						} else {
+							Swal.fire({ icon: 'warning', title: 'Error', text: res.mensaje });
+						}
+					})
+					.fail(function() {
+						Swal.fire({ icon: 'error', title: 'Error', text: 'Error de comunicación' });
+					});
+				}
+			});
 		});
 	},
 	editDirSel:function () {

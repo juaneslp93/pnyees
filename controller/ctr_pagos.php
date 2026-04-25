@@ -2,6 +2,7 @@
 @session_start();
 require '../model/conexion.php';
 require '../model/mdl_pagos.php';
+require '../model/mdl_wompi.php';
 #Definición de entradas
 $casos = array(
 	"compraDepoBanc",
@@ -9,7 +10,8 @@ $casos = array(
 	"selectDireccionFact",
 	"cambiarDirSel",
 	"cargarMunicipios",
-	"registrarDireccion"
+	"registrarDireccion",
+	"iniciarPagoWompi"
 );
 // entrada
 
@@ -128,6 +130,43 @@ switch ($caso) {
 		}
 		
 		$result = array("continue" => $continue, "mensaje"=> $mensaje, "html"=>'');
+		break;
+
+	case 'iniciarPagoWompi':
+		$continuar = true;
+		$urlPago   = '';
+		if (empty($_SESSION["CARRITO"])) {
+			$continuar = false;
+			$mensaje = "No hay productos para procesar";
+		}
+		if (empty($_SESSION["TIENDA"])) {
+			$continuar = false;
+			$mensaje = "No hay comprador reconocible";
+		}
+		if (empty($_SESSION["DATOS_FACTURACION"])) {
+			$continuar = false;
+			$mensaje = "No hay datos de facturación";
+		}
+		if (!Wompi::activo()) {
+			$continuar = false;
+			$mensaje = "Wompi no está habilitado";
+		}
+		if ($continuar) {
+			$datos = Pagos::iniciar_pago_wompi();
+			if ($datos["result"]) {
+				$redirectUrl = URL_ABSOLUTA . 'confirmacion-pago';
+				$urlPago = Wompi::generar_url_pago(
+					$datos["numero_orden"],
+					$datos["total_centavos"],
+					$redirectUrl
+				);
+				$mensaje = "Redirigiendo a Wompi";
+			} else {
+				$continuar = false;
+				$mensaje = $datos["mensaje"];
+			}
+		}
+		$result = array("continue" => $continuar, "mensaje" => $mensaje, "url" => $urlPago);
 		break;
 
 	default:
